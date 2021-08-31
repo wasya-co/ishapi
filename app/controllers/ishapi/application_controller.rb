@@ -134,7 +134,6 @@ module Ishapi
         decoded = decode(params[:jwt_token])
         @current_user = User.find decoded['user_id']
       else
-        puts! 'check_multiprofile(): no access token'
         raise "ww1 - not implemented"
       end
 
@@ -161,8 +160,6 @@ module Ishapi
 
     # this doesn't generate long-lived token, doesn't update user_profile
     def check_profile
-      puts! params, 'params'
-
       # return check_multiprofile 'google'
       # return check_multiprofile 'facebook'
       return check_multiprofile 'jwt'
@@ -183,7 +180,6 @@ module Ishapi
 
       ## for sedux
       sign_in( @current_user )
-      # puts! @current_user, '@current_user 222'
     end
 
     def set_profile
@@ -252,7 +248,6 @@ module Ishapi
     def check_jwt
       begin
         decoded = decode(params[:jwt_token])
-        puts! decoded, 'decoded'
         @current_user = User.find decoded['user_id']
       rescue JWT::ExpiredSignature
         Rails.logger.info("JWT::ExpiredSignature")

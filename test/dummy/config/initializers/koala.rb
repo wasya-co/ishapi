@@ -1,1 +1,0 @@
-/Users/piousbox/projects/ruby/microsites3/config/initializers/koala.rb

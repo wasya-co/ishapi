@@ -1,0 +1,10 @@
+
+# it's actually a link to microsites3/config/initializers/01_FB.rb but here is the structure:
+
+::FB ||= {
+  'tgm.piousbox.com' => {
+    :app => "",
+    :secret => "",
+  }
+}
+
