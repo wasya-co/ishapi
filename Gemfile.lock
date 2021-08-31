@@ -14,7 +14,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.140)
+    ishapi (0.1.8.141)
       cancancan (~> 2.0)
       fb_graph
       googleauth (~> 0.8.0)
