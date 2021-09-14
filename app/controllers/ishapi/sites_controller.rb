@@ -3,7 +3,7 @@ require_dependency "ishapi/application_controller"
 module Ishapi
   class SitesController < ApplicationController
 
-    before_action :check_profile_optionally, only: %i| show |
+    # before_action :check_profile_optionally, only: %i| show |
 
     def index
       authorize! :index, ::Site
@@ -11,13 +11,22 @@ module Ishapi
     end
 
     def show
+
+      decoded = decode(params[:jwt_token])
+      @current_user = User.find decoded['user_id']
+      # sign_in @current_user, scope: :user
+      # current_ability
+
+
       if params[:domain].include?(".json")
         domain = params[:domain][0...-5]
       else
         domain = params[:domain]
       end
       @site = ::Site.find_by(domain: domain, lang: :en)
-      authorize! :show, @site
+      # authorize! :show, @site
+
+      puts! @current_user, 'showz'
 
       if @site.is_private
         if !params[:accessToken]
@@ -32,15 +41,25 @@ module Ishapi
         else
           render :json => { :status => :unauthorized}, :status => :unauthorized
           render :status => :unauthorized
+          return
         end
       end
 
-      @galleries    = @site.galleries.limit( 10 )
-      @newsitems    = @site.newsitems.limit( @site.newsitems_per_page )
-      @reports      = @site.reports.limit( 10 )
+      @galleries    = @site.galleries.limit( 10 ) # @TODO: paginate
+      @newsitems    = @site.newsitems.limit( @site.newsitems_per_page ) # @TODO: paginate
+      @reports      = @site.reports.limit( 10 ) # @TODO: paginate
       @langs        = ::Site.where( :domain => domain ).map( &:lang )
       @feature_tags = @site.tags.where( :is_feature => true )
 
+      puts! 'did it render?'
+    end
+
+    private
+
+    # jwt
+    def decode(token)
+      decoded = JWT.decode(token, Rails.application.secrets.secret_key_base.to_s)[0]
+      HashWithIndifferentAccess.new decoded
     end
 
   end

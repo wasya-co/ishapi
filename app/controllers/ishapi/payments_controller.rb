@@ -96,6 +96,8 @@ module Ishapi
       authorize! :unlock, ::Ish::Payment
       item = Object::const_get(params['kind']).find params['id']
 
+      puts! params, 'unlocking...'
+
       existing = Purchase.where( user_profile: @current_user.profile, item: item ).first
       if existing
         render status: 200, json: { status: :ok, message: 'already purchased' }
