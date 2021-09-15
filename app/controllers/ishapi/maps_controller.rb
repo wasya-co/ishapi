@@ -2,8 +2,8 @@ require_dependency "ishapi/application_controller"
 module Ishapi
   class MapsController < ApplicationController
 
-    before_action :soft_check_long_term_token, only: [ :show ]
-    
+    before_action :check_profile, only: [ :show ]
+
     def index
       authorize! :index, ::Gameui::Map
       @maps = ::Gameui::Map.all
@@ -12,6 +12,7 @@ module Ishapi
     def show
       @map = ::Gameui::Map.find_by slug: params[:slug]
       @markers = @map.markers.where( is_active: true )
+      @newsitems = @map.newsitems
 
       case @map.ordering_type
       when ::Gameui::Map::ORDERING_TYPE_ALPHABETIC

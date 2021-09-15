@@ -1,6 +1,7 @@
 module Ishapi
   class ApplicationController < ActionController::Base
 
+    ## POST /api/users/long_term_token , a FB login flow
     def long_term_token
       accessToken   = request.headers[:accessToken]
       accessToken ||= params[:accessToken]
@@ -28,6 +29,11 @@ module Ishapi
     end
 
     private
+
+    def check_profile
+      decoded = decode(params[:jwt_token])
+      @current_user = User.find decoded['user_id']
+    end
 
     # jwt
     def check_jwt

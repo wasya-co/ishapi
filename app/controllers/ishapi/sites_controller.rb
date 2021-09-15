@@ -3,7 +3,7 @@ require_dependency "ishapi/application_controller"
 module Ishapi
   class SitesController < ApplicationController
 
-    # before_action :check_profile_optionally, only: %i| show |
+    before_action :check_profile, only: %i| show |
 
     def index
       authorize! :index, ::Site
@@ -11,13 +11,6 @@ module Ishapi
     end
 
     def show
-
-      decoded = decode(params[:jwt_token])
-      @current_user = User.find decoded['user_id']
-      # sign_in @current_user, scope: :user
-      # current_ability
-
-
       if params[:domain].include?(".json")
         domain = params[:domain][0...-5]
       else
@@ -50,17 +43,15 @@ module Ishapi
       @reports      = @site.reports.limit( 10 ) # @TODO: paginate
       @langs        = ::Site.where( :domain => domain ).map( &:lang )
       @feature_tags = @site.tags.where( :is_feature => true )
-
-      puts! 'did it render?'
     end
 
     private
 
-    # jwt
-    def decode(token)
-      decoded = JWT.decode(token, Rails.application.secrets.secret_key_base.to_s)[0]
-      HashWithIndifferentAccess.new decoded
-    end
+    # # jwt
+    # def decode(token)
+    #   decoded = JWT.decode(token, Rails.application.secrets.secret_key_base.to_s)[0]
+    #   HashWithIndifferentAccess.new decoded
+    # end
 
   end
 end
