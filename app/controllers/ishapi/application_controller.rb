@@ -34,7 +34,7 @@ module Ishapi
       begin
         decoded = decode(params[:jwt_token])
         @current_user = User.find decoded['user_id']
-      rescue JWT::ExpiredSignature => e
+      rescue JWT::ExpiredSignature, JWT::DecodeError => e
         puts! e, 'ee1'
         flash[:notice] = 'You arent logged in, or you have been logged out.'
         @current_user = User.new
