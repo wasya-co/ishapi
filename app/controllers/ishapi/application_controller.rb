@@ -31,8 +31,14 @@ module Ishapi
     private
 
     def check_profile
-      decoded = decode(params[:jwt_token])
-      @current_user = User.find decoded['user_id']
+      begin
+        decoded = decode(params[:jwt_token])
+        @current_user = User.find decoded['user_id']
+      rescue JWT::ExpiredSignature => e
+        puts! e, 'ee1'
+        flash[:notice] = 'You arent logged in, or you have been logged out.'
+        @current_user = User.new
+      end
     end
 
     # jwt

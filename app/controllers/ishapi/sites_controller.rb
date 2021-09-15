@@ -17,9 +17,7 @@ module Ishapi
         domain = params[:domain]
       end
       @site = ::Site.find_by(domain: domain, lang: :en)
-      # authorize! :show, @site
-
-      puts! @current_user, 'showz'
+      authorize! :show, @site
 
       if @site.is_private
         if !params[:accessToken]
