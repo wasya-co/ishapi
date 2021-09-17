@@ -13,8 +13,6 @@ json.cache! key do
   json.subhead     @site.subhead
   json.description @site.description
 
-  json.email @current_user.email
-
   json.is_ads_enabled         @site.is_ads_enabled
   json.play_videos_in_preview @site.play_videos_in_preview
   json.newsitems_per_page     @site.newsitems_per_page
