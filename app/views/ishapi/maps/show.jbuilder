@@ -14,6 +14,10 @@ json.cache! this_key do
     json.img_path    @map.img_path
     json.updated_at  @map.updated_at
 
+    if @map.map
+      json.partial! 'ishapi/maps/show', map: @map.map
+    end
+
     json.breadcrumbs do
       json.array! @map.breadcrumbs do |b|
         json.name b[:name]
