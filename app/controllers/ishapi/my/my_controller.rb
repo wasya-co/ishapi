@@ -8,8 +8,12 @@ module Ishapi
       before_action :check_profile
 
       def account
-        @profile = current_user.profile
+        @profile = current_user&.profile
         authorize! :show, @profile
+      rescue CanCan::AccessDenied
+        render json: {
+          status: :not_ok,
+        }, status: 401
       end
 
       private

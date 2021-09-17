@@ -37,7 +37,7 @@ module Ishapi
       rescue JWT::ExpiredSignature, JWT::DecodeError => e
         puts! e, 'ee1'
         flash[:notice] = 'You arent logged in, or you have been logged out.'
-        @current_user = User.new
+        # @current_user = User.new
       end
     end
 
