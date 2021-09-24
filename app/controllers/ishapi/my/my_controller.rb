@@ -7,6 +7,7 @@ module Ishapi
       # before_action :do_login
       before_action :check_profile
 
+      # @TODO: move to users_controller
       def account
         @profile = current_user&.profile
         authorize! :show, @profile
