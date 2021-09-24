@@ -11,7 +11,7 @@ test/dummy/vendor
 test/dummy/config/initializers/01_FB.rb
 
 *~
-*.trash
+*trash
 \#*
 .#*
 

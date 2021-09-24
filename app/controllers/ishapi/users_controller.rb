@@ -5,6 +5,18 @@ module Ishapi
 
     skip_authorization_check only: %i| fb_sign_in login |
 
+    before_action :check_profile, only: %i| account |
+
+    def account
+      @profile = current_user&.profile
+      authorize! :show, @profile
+      render 'ishapi/users/account'
+    rescue CanCan::AccessDenied
+      render json: {
+        status: :not_ok,
+      }, status: 401
+    end
+
     def fb_sign_in
       authorize! :fb_sign_in, Ishapi
       # render :json => { :status => :ok }

@@ -1,7 +1,6 @@
 
-class Ishapi::My::GalleriesController < Ishapi::My::MyController
+class Ishapi::My::GalleriesController < Ishapi::ApplicationController
 
-  ## expects params[:jwt_token]
   def index
     authorize! :my_index, Gallery
     @galleries = @current_user.profile.galleries.unscoped.where( is_trash: false ).order_by( created_at: :desc ).limit(20)
