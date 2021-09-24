@@ -1,6 +1,6 @@
 
 json.name     @profile.name
-json.username @profile.username
+# json.username @profile.username
 json.email    @profile.email
 
 json.n_reports   @profile.reports.count
@@ -14,3 +14,7 @@ if @profile.current_city
   json.current_city @profile.current_city
 end
 
+json.bookmarks @profile.bookmarks do |b|
+  json.name b.name
+  json.slug b.slug
+end

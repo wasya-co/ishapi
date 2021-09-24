@@ -10,6 +10,7 @@ module Ishapi
       def account
         @profile = current_user&.profile
         authorize! :show, @profile
+        render 'ishapi/users/account'
       rescue CanCan::AccessDenied
         render json: {
           status: :not_ok,

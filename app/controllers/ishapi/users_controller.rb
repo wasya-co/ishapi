@@ -27,10 +27,13 @@ module Ishapi
 
         # send the jwt to client
         @jwt_token = encode(user_id: @current_user.id.to_s)
+
+        # @profile = @current_user.profile
+        # render 'ishapi/users/account'
+
         render json: {
           email: @current_user.email,
           jwt_token: @jwt_token,
-          long_term_token: @long_term_token,
           n_unlocks: @current_user.profile.n_unlocks,
         }
       end

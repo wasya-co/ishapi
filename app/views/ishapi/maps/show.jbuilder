@@ -11,7 +11,7 @@ json.cache! this_key do
     json.description @map.description
     json.w           @map.w
     json.h           @map.h
-    json.img_path    @map.img_path
+    json.img_path    @map.image.image.url(:original)
     json.updated_at  @map.updated_at
 
     if @map.map
@@ -32,11 +32,14 @@ json.cache! this_key do
         json.slug marker.slug
         json.x    marker.x
         json.y    marker.y
+        json.centerOffsetX marker.centerOffsetX
+        json.centerOffsetY marker.centerOffsetY
         json.w    marker.w
         json.h    marker.h
-        json.img_path marker.img_path
-        json.title_img_path marker.title_img_path
+        json.img_path marker.image.image.url(:original)
+        json.title_img_path marker.title_image.image.url(:original)
         json.item_type marker.item_type
+        json.url  marker.url
       end
     end
 
