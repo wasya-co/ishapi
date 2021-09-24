@@ -11,22 +11,10 @@ json.cache! this_key do
     json.description map.description
     json.w           map.w
     json.h           map.h
-    json.img_path    map.img_path
+    json.img_path    map.image.image.url(:original)
     json.updated_at  map.updated_at
 
-    json.markers do
-      json.array! map.markers do |marker|
-        json.name marker.name
-        json.slug marker.slug
-        json.x    marker.x
-        json.y    marker.y
-        json.w    marker.w
-        json.h    marker.h
-        json.img_path marker.img_path
-        json.title_img_path marker.title_img_path
-        json.item_type marker.item_type
-      end
-    end
+    json.partial! 'ishapi/markers/index', map: map
 
   end
 end

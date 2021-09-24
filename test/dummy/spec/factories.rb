@@ -13,6 +13,16 @@ FactoryBot.define do
     end
   end
 
+  factory :map, class: Gameui::Map do
+    slug { 'map-1' }
+    name { 'map 1' }
+    after :build do |m|
+      image = Ish::ImageAsset.create({ image: File.open( Rails.root.join( 'data', 'photo.png' ) ) })
+      m.image = image
+      m.save
+    end
+  end
+
   factory :order_item, :class => CoTailors::OrderItem do
     kind { CoTailors::OrderItem::KIND_PANTS }
     fabric { :white }

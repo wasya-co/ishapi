@@ -4,10 +4,12 @@ module Ishapi
 
     before_action :check_profile, only: [ :show ]
 
+=begin
     def index
       authorize! :index, ::Gameui::Map
       @maps = ::Gameui::Map.all
     end
+=end
 
     def show
       @map = ::Gameui::Map.find_by slug: params[:slug]
@@ -21,12 +23,16 @@ module Ishapi
         @markers = @markers.order_by( ordering: :asc )
       end
 
+      # @TODO: move to models
       if city = City.where( cityname: @map.slug ).first
         @newsitems = city.newsitems
         @galleries = city.galleries
         @reports = city.reports
         @videos = city.videos
       end
+
+      puts! @map, 'prod map'
+
       authorize! :show, @map
     end
 

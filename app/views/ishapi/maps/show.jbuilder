@@ -26,22 +26,7 @@ json.cache! this_key do
       end
     end
 
-    json.markers do
-      json.array! @markers do |marker|
-        json.name marker.name
-        json.slug marker.slug
-        json.x    marker.x
-        json.y    marker.y
-        json.centerOffsetX marker.centerOffsetX
-        json.centerOffsetY marker.centerOffsetY
-        json.w    marker.w
-        json.h    marker.h
-        json.img_path marker.image.image.url(:original)
-        json.title_img_path marker.title_image.image.url(:original)
-        json.item_type marker.item_type
-        json.url  marker.url
-      end
-    end
+    json.partial! 'ishapi/markers/index', map: @map
 
     if @newsitems
       json.partial! 'ishapi/newsitems/index', :newsitems => @newsitems
