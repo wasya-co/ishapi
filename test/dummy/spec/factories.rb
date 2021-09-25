@@ -47,6 +47,7 @@ FactoryBot.define do
   end
 
   factory :site do
+    domain { 'site.com' }
   end
 
   factory :tag do

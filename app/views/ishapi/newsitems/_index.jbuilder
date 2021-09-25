@@ -12,7 +12,7 @@ json.newsitems do
     json.updated_at  item.updated_at
 
     if item.gallery
-      json.item_type    'gallery'
+      json.item_type    item.gallery.class.name
       json.name         item.gallery.name
       json.galleryname  item.gallery.galleryname
       json.username     item.username || item.gallery.username || 'piousbox'
@@ -31,7 +31,7 @@ json.newsitems do
     end
 
     if item.report
-      json.item_type  'report'
+      json.item_type  item.report.class.name
       json.name       item.report.name
       json.reportname item.report.name_seo
       json.subhead    item.report.subhead
@@ -53,11 +53,14 @@ json.newsitems do
     end
 
     if item.video_id
-      json.partial! 'ishapi/videos/show', :video => Video.unscoped.find( item.video_id )
+      # @TODO: why this relation is so weird here?!
+      video = Video.unscoped.find( item.video_id )
+      json.item_type video.class.name
+      json.partial! 'ishapi/videos/show', :video => video
     end
 
     if item.photo
-      json.item_type 'photo'
+      json.item_type item.photo.class.name
       json.partial! 'ishapi/photos/index', :photos => [ item.photo ]
     end
 
