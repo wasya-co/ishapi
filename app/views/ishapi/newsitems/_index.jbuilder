@@ -15,7 +15,7 @@ json.newsitems do
       json.item_type    item.gallery.class.name
       json.name         item.gallery.name
       json.galleryname  item.gallery.galleryname
-      json.username     item.username || item.gallery.username || 'piousbox'
+      json.username     item.username || item.gallery.username || 'donor-default'
       json.n_photos     item.gallery.photos.length
       json.slug         item.gallery.galleryname
       json.subhead      item.gallery.subhead
@@ -26,7 +26,7 @@ json.newsitems do
         json.is_purchased current_user&.profile&.has_premium_purchase( item.gallery )
         json.partial!    'ishapi/photos/index',     :photos => [ item.gallery.photos[0] ]
       else
-        json.partial!    'ishapi/photos/index',     :photos => item.gallery.photos
+        json.partial!    'ishapi/photos/index',     :photos => item.gallery.photos[0...3]
       end
     end
 

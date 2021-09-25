@@ -35,6 +35,11 @@ FactoryBot.define do
   end
 
   factory :photo do
+    after :build do |f|
+      ph = Photo.create :photo => File.open( Rails.root.join( 'data', 'photo.png' ) )
+      f.photo = ph
+      f.save
+    end
   end
 
   factory :report do

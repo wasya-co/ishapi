@@ -11,8 +11,7 @@ json.description video.descr
 json.subhead     video.subhead
 json.x           video.x
 json.y           video.y
-json.url         video.video.url 
-json.item_type   'video'
+json.url         video.video.url
 
 if video.city
   json.cityname video.city.cityname
@@ -40,6 +39,6 @@ if video.is_premium
 end
 
 if video.thumb
-  json.photo_s169_url   video.thumb.url( :s169 ) 
+  json.photo_s169_url   video.thumb.url( :s169 )
   json.photo_thumb2_url video.thumb.url( :thumb2 )
 end

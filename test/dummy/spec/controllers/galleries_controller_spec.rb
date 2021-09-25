@@ -5,11 +5,10 @@ describe Ishapi::GalleriesController do
   routes { Ishapi::Engine.routes }
   before :each do
     do_setup
-    allow(controller).to receive(:current_user).and_return(UserStub.new({ :manager => false }))
   end
 
   it '#index' do
-    get :index, :format => :json
+    get :index
     response.should be_success
   end
 

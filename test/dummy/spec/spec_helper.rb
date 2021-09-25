@@ -45,19 +45,11 @@ def do_setup
   @fake_profile = IshModels::UserProfile.create! :email => 'test@gmail.com', :name => 'Profile Name', user: @user
   @user.profile = @fake_profile; @user.save
 
-=begin
-  @fake_measurements = CoTailors::ProfileMeasurement.create :neck_around => 22.2,
-                                                            :units => CoTailors::ProfileMeasurement::UNITS_INCHES,
-                                                            :profile => @fake_profile
-  @fake_address = CoTailors::Address.create :name => 'addr-name', :address_1 => 'addr-1', :profile => @fake_profile
-=end
-
   City.unscoped.destroy
   @city         = City.create( :name => 'xx-test-city', :cityname => 'text-cityname' )
-  # @feature_city = City.create( :name => 'feature city', :cityname => 'feature-city', :is_feature => true )
 
-  Gallery.unscoped.destroy
-  @gallery = FactoryBot.create :gallery
+  Gallery.unscoped.destroy_all
+  @gallery = FactoryBot.create :gallery, user_profile: @user.profile
 
   Report.unscoped.destroy
   @report = FactoryBot.create :report

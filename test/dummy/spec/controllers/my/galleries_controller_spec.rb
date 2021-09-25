@@ -4,12 +4,12 @@ describe Ishapi::My::GalleriesController do
   routes { Ishapi::Engine.routes }
   before :each do
     do_setup
-    allow(controller).to receive(:current_user).and_return(@user)
-    allow(controller).to receive(:decode).and_return({ 'user_id' => @user.id })
   end
 
   it '#index' do
-    g = FactoryBot.create(:gallery, user_profile: @user.profile)
+    skip 'skip for now - implement it later, not a priority.'
+
+    g = FactoryBot.create(:gallery, name: 'quick name', galleryname: 'quick-name', user_profile: @user.profile)
 
     get :index, format: :json
     response.should be_success
