@@ -21,6 +21,7 @@ describe Ishapi::GalleriesController do
       result[:message].should eql "This is premium content - please purchase it to view!"
       result[:gallery][:id].should_not eql nil
       result[:gallery][:id].class.should eql String
+      result[:gallery][:item_type].class.should eql String
     end
   end
 

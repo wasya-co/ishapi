@@ -7,6 +7,8 @@ json.cache! this_key do
   json.gallery do
 
     json.id           @gallery.id.to_s
+    json.item_type    @gallery.class.name
+
     json.premium_tier @gallery.premium_tier
     json.is_premium   @gallery.is_premium
     json.is_purchased false
