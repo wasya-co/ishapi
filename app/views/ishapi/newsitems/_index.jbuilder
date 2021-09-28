@@ -5,13 +5,12 @@
 json.n_newsitems newsitems.count
 json.newsitems do
   json.array! newsitems do |item|
-
-    json.id          item.id.to_s
     json.name        item.name
     json.created_at  item.created_at
     json.updated_at  item.updated_at
 
     if item.gallery
+      json.id           item.gallery_id.to_s
       json.item_type    item.gallery.class.name
       json.name         item.gallery.name
       json.galleryname  item.gallery.galleryname
@@ -31,11 +30,11 @@ json.newsitems do
     end
 
     if item.report
+      json.id         item.report_id.to_s
       json.item_type  item.report.class.name
       json.name       item.report.name
       json.reportname item.report.name_seo
       json.subhead    item.report.subhead
-      json.report_id  item.report_id.to_s
       json.username   item.report.user_profile.name if item.report.user_profile
 
       if item.report.photo
@@ -53,6 +52,7 @@ json.newsitems do
     end
 
     if item.video_id
+      json.id item.video_id.to_s
       # @TODO: why this relation is so weird here?!
       video = Video.unscoped.find( item.video_id )
       json.item_type video.class.name
@@ -60,6 +60,7 @@ json.newsitems do
     end
 
     if item.photo
+      json.id item.photo.id.to_s
       json.item_type item.photo.class.name
       json.partial! 'ishapi/photos/index', :photos => [ item.photo ]
     end

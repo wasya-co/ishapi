@@ -14,7 +14,7 @@ if item.city
     json.name item.city.name
     json.slug item.city.cityname
   end
-  json.cityname    item.city.cityname 
+  json.cityname    item.city.cityname
 end
 json.subhead     item.subhead
 json.description item.descr

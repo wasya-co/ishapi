@@ -1,8 +1,11 @@
 #
 # ishapi / galleries / _show
 #
+
+# @TODO: remove this file, this looks like a newsitem
+
 json.id           gallery.id.to_s
-json.item_type    'gallery'
+json.item_type    gallery.class.name
 json.name         gallery.name
 json.galleryname  gallery.galleryname
 json.description  gallery.description
