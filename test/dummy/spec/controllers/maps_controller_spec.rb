@@ -17,6 +17,13 @@ describe Ishapi::MapsController do
       get :show, format: :json, params: { slug: @map.slug }
       response.should be_success
     end
+
+    it 'newsitems is never nil, even if empty' do
+      get :show, format: :json, params: { slug: @map.slug }
+      response.should be_success
+      result = JSON.parse response.body
+      result['map']['newsitems'].should_not eql nil
+    end
   end
 
 end
