@@ -9,7 +9,7 @@ module Ishapi
       params['domain'] = 'tgm.piousbox.com'
 
       response = ::HTTParty.get "https://graph.facebook.com/v5.0/oauth/access_token?grant_type=fb_exchange_token&" +
-        "client_id=#{FB[params['domain']][:app]}&client_secret=#{FB[params['domain']][:secret]}&" +
+        "client_id=#{::FB[params['domain']][:app]}&client_secret=#{::FB[params['domain']][:secret]}&" +
         "fb_exchange_token=#{accessToken}"
       j = JSON.parse response.body
       @long_term_token  = j['access_token']

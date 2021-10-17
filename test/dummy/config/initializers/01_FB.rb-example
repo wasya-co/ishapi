@@ -3,8 +3,9 @@
 
 ::FB ||= {
   'tgm.piousbox.com' => {
-    :app => "",
-    :secret => "",
+    :app => ENV['FB_APP_TRAVIS'],
+    :secret => ENV['FB_SECRET_TRAVIS'],
   }
 }
+
 

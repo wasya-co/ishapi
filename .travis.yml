@@ -8,6 +8,7 @@ rvm:
 cache: bundler
 
 before_install:
+  - cp test/dummy/config/initializers/01_FB.rb-example test/dummy/config/initializers/01_FB.rb
   - gem update --system
   - bundle
 
