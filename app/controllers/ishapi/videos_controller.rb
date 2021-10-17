@@ -3,7 +3,7 @@ module Ishapi
   class VideosController < ApplicationController
 
     def show
-      @video = Video.unscoped.find_by :name_seo => params[:name_seo]
+      @video = Video.unscoped.find_by :slug => params[:slug]
       authorize! :show, @video
     end
 

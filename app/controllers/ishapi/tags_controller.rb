@@ -13,9 +13,9 @@ module Ishapi
 
     def show
       begin
-        @tag = Tag.find_by( :name_seo => params[:tagname] )
+        @tag = Tag.find_by( slug: params[:slug] )
       rescue Mongoid::Errors::DocumentNotFound
-        @tag = Tag.find params[:tagname]
+        @tag = Tag.find params[:slug]
       end
       authorize! :show, @tag
     end

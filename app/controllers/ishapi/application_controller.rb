@@ -61,7 +61,7 @@ module Ishapi
     end
 
     # jwt
-    def encode(payload, exp = 2.hours.from_now)
+    def encode(payload, exp = 48.hours.from_now) # @TODO: definitely change, right now I expire once in 2 days.
       payload[:exp] = exp.to_i
       JWT.encode(payload, Rails.application.secrets.secret_key_base.to_s)
     end

@@ -1,15 +1,7 @@
 require_dependency "ishapi/application_controller"
 module Ishapi
   class MapsController < ApplicationController
-
     before_action :check_profile, only: [ :show ]
-
-=begin
-    def index
-      authorize! :index, ::Gameui::Map
-      @maps = ::Gameui::Map.all
-    end
-=end
 
     def show
       @map = ::Gameui::Map.find_by slug: params[:slug]
@@ -23,9 +15,9 @@ module Ishapi
         @markers = @markers.order_by( ordering: :asc )
       end
 
-      # @TODO: move to models
+      ## @TODO: figure this out eventually
       if city = City.where( cityname: @map.slug ).first
-        @newsitems = city.newsitems
+        # @newsitems = city.newsitems
         @galleries = city.galleries
         @reports = city.reports
         @videos = city.videos

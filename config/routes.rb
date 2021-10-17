@@ -58,7 +58,7 @@ Ishapi::Engine.routes.draw do
 
   post 'stars/buy', to: 'gameui#buy_stars'
 
-  get 'tags/view/:tagname', :to => 'tags#show'
+  get 'tags/view/:slug', :to => 'tags#show'
   get 'test', to: 'application#test'
 
   post  'users/fb_sign_in',     :to => 'users#fb_sign_in'

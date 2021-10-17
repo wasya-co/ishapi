@@ -12,7 +12,7 @@ module Ishapi
     end
 
     def show
-      @venue = Venue.find_by :name_seo => params[:venuename]
+      @venue = Venue.find_by :slug => params[:venuename]
       authorize! :show, @venue
     end
 

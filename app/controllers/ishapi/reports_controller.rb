@@ -3,7 +3,7 @@ module Ishapi
   class ReportsController < ApplicationController
 
     def show
-      @report = Report.unscoped.find_by :name_seo => params[:name_seo]
+      @report = Report.unscoped.find_by :slug => params[:slug]
       authorize! :show, @report
     end
 

@@ -26,8 +26,18 @@ json.cache! this_key do
       end
     end
 
+    ## I removed json parsing from here! _vp_ 2021-10-14
+    if @map.parent_slug.present?
+      json.config @map.parent.config
+      json.labels @map.parent.labels
+    else
+      json.config @map.config
+      json.labels @map.labels
+    end
+
     json.partial! 'ishapi/markers/index', map: @map
 
+    puts! @newsitems, 'these first'
     if @newsitems
       json.partial! 'ishapi/newsitems/index', :newsitems => @newsitems
     end

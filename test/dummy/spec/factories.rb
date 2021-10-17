@@ -57,7 +57,7 @@ FactoryBot.define do
 
   factory :tag do
     name { 'tag-name' }
-    name_seo { 'tagname-seo' }
+    slug { 'tagname-seo' }
   end
 
   factory :user do

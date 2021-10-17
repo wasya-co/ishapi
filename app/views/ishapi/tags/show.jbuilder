@@ -5,8 +5,9 @@
 #
 
 json.name @tag.name
-json.slug @tag.tagname
+json.slug @tag.slug
 
+json.partial! 'ishapi/features/index',  :features  => @tag.features, :resource => @tag
 json.partial! 'ishapi/newsitems/index', :newsitems => @tag.newsitems.page( params[:newsitems_page] ).per( params[:newsitems_per] || 25 )
 json.partial! 'ishapi/reports/index',   :reports   => @tag.reports.page( params[:reports_page]     ).per( params[:reports_per] || 25 )
 json.partial! 'ishapi/galleries/index', :galleries => @tag.galleries.page( params[:galleries_page] ).per( params[:galleries_per] || 25 )
