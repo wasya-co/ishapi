@@ -6,6 +6,6 @@
 
 json.id      tag.id.to_s
 json.name    tag.name
-json.tagname tag.tagname
+json.slug    tag.slug
 
 json.partial! 'ishapi/newsitems/index', :newsitems => tag.newsitems.limit(1)
