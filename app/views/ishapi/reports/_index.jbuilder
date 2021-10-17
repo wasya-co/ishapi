@@ -9,7 +9,7 @@ json.reports do
     # json.id          report.id.to_s
     json.created_at  report.created_at
     json.name        report.name
-    json.slug        report.name_seo
+    json.slug        report.slug
     json.description report.descr
 
     if report.photo

@@ -47,7 +47,7 @@ Ishapi::Engine.routes.draw do
   get 'profiles/view/:username', :to => 'user_profiles#show'
 
   get 'reports', :to => 'reports#index'
-  get 'reports/view/:name_seo', :to => 'reports#show'
+  get 'reports/view/:slug', :to => 'reports#show'
 
   get 'sites/view/:domain',                            :to => 'sites#show',      :constraints => { :domain => /[^\/]+/ }
   post 'sites/view/:domain',                           :to => 'sites#show',      :constraints => { :domain => /[^\/]+/ }

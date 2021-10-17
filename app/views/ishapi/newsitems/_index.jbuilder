@@ -41,7 +41,7 @@ json.newsitems do
         json.id         item.report_id.to_s
         json.item_type  item.report.class.name
         json.name       item.report.name
-        json.reportname item.report.name_seo
+        json.reportname item.report.slug
         json.subhead    item.report.subhead
         json.username   item.report.user_profile.name if item.report.user_profile
 

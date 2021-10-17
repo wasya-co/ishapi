@@ -9,7 +9,7 @@ json.cache! key do
   json.report do
     json.id          @report.id.to_s
     json.name        @report.name
-    json.reportname  @report.name_seo
+    json.reportname  @report.slug
     if @report.photo
       json.photo_url   @report.photo.photo.url( :small ) 
       json.thumb_url   @report.photo.photo.url( :thumb )

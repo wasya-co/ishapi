@@ -21,7 +21,7 @@ json.features do
       r = feature.report
       json.name       r.name
       json.subhead    r.subhead
-      json.reportname r.name_seo
+      json.reportname r.slug
       if r.photo
         json.photo_url  r.photo.photo.url( :thumb )
       end

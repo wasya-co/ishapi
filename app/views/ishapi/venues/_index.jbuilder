@@ -10,7 +10,7 @@ json.venues do
 
     json.address     venue.address if venue.address.present?
     json.name        venue.name
-    json.name_seo    venue.name_seo
+    json.slug    venue.slug
     json.subhead     venue.subhead
     json.description venue.descr
     json.x           venue.x

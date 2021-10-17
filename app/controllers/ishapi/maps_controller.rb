@@ -23,8 +23,6 @@ module Ishapi
         @videos = city.videos
       end
 
-      puts! @map, 'prod map'
-
       authorize! :show, @map
     end
 

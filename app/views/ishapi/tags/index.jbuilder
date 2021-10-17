@@ -5,6 +5,6 @@
 
 json.array! @tags do |tag|
   json.name tag.name
-  json.slug tag.name_seo
+  json.slug tag.slug
 end
 
