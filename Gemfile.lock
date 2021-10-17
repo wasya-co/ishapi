@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: 275872ec4b9dab3f0583502828e08ed2acd5bfc4
+  revision: 468bbc807d11f202d3812ec5c7f7ee884ca2795f
   branch: master
   specs:
-    ish_models (0.0.33.135)
+    ish_models (0.0.33.136)
       aws-sdk
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -14,7 +14,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.153)
+    ishapi (0.1.8.154)
       cancancan (~> 2.0)
       fb_graph
       googleauth (~> 0.8.0)
@@ -824,12 +824,12 @@ GEM
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
-    json (2.5.1)
+    json (2.6.0)
     json-jwt (1.13.0)
       activesupport (>= 4.2)
       aes_key_wrap
       bindata
-    jwt (2.2.3)
+    jwt (2.3.0)
     kaminari-actionview (1.2.1)
       actionview
       kaminari-core (= 1.2.1)
@@ -856,10 +856,10 @@ GEM
     mimemagic (0.3.10)
       nokogiri (~> 1)
       rake
-    mini_mime (1.1.1)
+    mini_mime (1.1.2)
     mini_portile2 (2.6.1)
     minitest (5.14.4)
-    mongo (2.15.1)
+    mongo (2.16.0)
       bson (>= 4.8.2, < 5.0.0)
     mongoid (7.0.13)
       activemodel (>= 5.1, < 6.2)
