@@ -19,8 +19,8 @@ Ishapi::Engine.routes.draw do
 
   get  'galleries',                   :to => 'galleries#index'
   post 'galleries',                   :to => 'galleries#index'
-  get  'galleries/view/:galleryname', :to => 'galleries#show'
-  post 'galleries/view/:galleryname', :to => 'galleries#show'
+  get  'galleries/view/:slug', :to => 'galleries#show'
+  post 'galleries/view/:slug', :to => 'galleries#show'
 
   post 'invoices/search', :to => 'invoices#search'
 

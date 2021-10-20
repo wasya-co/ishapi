@@ -6,8 +6,8 @@
 json.array! @galleries do |gallery|
   json.id          gallery.id.to_s
   json.name        gallery.name
-  json.galleryname gallery.galleryname
-  json.slug        gallery.galleryname
+  json.slug gallery.galleryname
+  json.slug        gallery.slug
   json.subhead     gallery.subhead
   json.username    gallery.user_profile.name
   json.cityname    gallery.city.name    if gallery.city

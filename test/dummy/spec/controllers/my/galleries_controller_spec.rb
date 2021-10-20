@@ -9,7 +9,7 @@ describe Ishapi::My::GalleriesController do
   it '#index' do
     skip 'skip for now - implement it later, not a priority.'
 
-    g = FactoryBot.create(:gallery, name: 'quick name', galleryname: 'quick-name', user_profile: @user.profile)
+    g = FactoryBot.create(:gallery, name: 'quick name', slug: 'quick-name', user_profile: @user.profile)
 
     get :index, format: :json
     response.should be_success

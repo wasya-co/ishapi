@@ -31,7 +31,7 @@ json.features do
       r = feature.gallery
       json.name        r.name
       json.subhead     r.subhead
-      json.galleryname r.galleryname
+      json.slug r.galleryname
       if r.photos[0]
         json.photo_url r.photos[0].photo.url( :thumb )
       end

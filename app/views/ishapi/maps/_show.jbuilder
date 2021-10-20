@@ -2,6 +2,8 @@
 # ishapi / maps / _show
 #
 
+## @TODO: make sure that _show.jbuilder and show.jbuilder are reasonably deduped
+
 this_key = [ map, params.permit! ]
 json.cache! this_key do
   json.map do
@@ -15,6 +17,16 @@ json.cache! this_key do
     json.updated_at  map.updated_at
 
     json.partial! 'ishapi/markers/index', map: map
+
+    ## I removed json parsing from here! _vp_ 2021-10-14
+    ## I added json parsing here! _vo_ 2021-10-19
+    if map.parent_slug.present?
+      json.config JSON.parse @map.parent.config
+      json.labels JSON.parse @map.parent.labels
+    else
+      json.config JSON.parse @map.config
+      json.labels JSON.parse @map.labels
+    end
 
   end
 end
