@@ -17,7 +17,7 @@ json.newsitems do
       json.id           item.gallery_id.to_s
       json.item_type    item.gallery.class.name
       json.name         item.gallery.name
-      json.slug  item.gallery.galleryname
+      json.slug  item.gallery.slug
       json.username     item.username || item.gallery.username || 'donor-default'
       json.n_photos     item.gallery.photos.length
       json.slug         item.gallery.slug

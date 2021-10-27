@@ -21,7 +21,7 @@ module Ishapi
     end
 
     def show
-      @gallery = ::Gallery.unscoped.find_by :slug => params[:galleryname]
+      @gallery = ::Gallery.unscoped.find_by :slug => params[:slug]
       authorize! :show, @gallery
       if @gallery.premium?
         if current_user&.profile&.has_premium_purchase( @gallery )
