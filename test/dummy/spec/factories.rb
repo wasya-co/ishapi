@@ -1,6 +1,8 @@
 
 FactoryBot.define do
 
+  # alphabetic
+
   factory :city do
     name { 'City' }
     cityname { 'city' }
@@ -8,14 +10,17 @@ FactoryBot.define do
 
   factory :gallery do
     name { 'xxTestxx' }
+    slug { 'xxSlug' }
     after :build do |g|
       g.site ||= Site.new( :domain => 'xxDomainxx', :lang => 'xxLangxx' )
     end
   end
 
   factory :map, class: Gameui::Map do
-    slug { 'map-1' }
+    config { '{}' }
+    labels { '{}' }
     name { 'map 1' }
+    slug { 'map-1' }
     after :build do |m|
       image = Ish::ImageAsset.create({ image: File.open( Rails.root.join( 'data', 'photo.png' ) ) })
       m.image = image

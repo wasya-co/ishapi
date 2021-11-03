@@ -8,7 +8,9 @@ describe Ishapi::MapsController do
 
     Gameui::Map.destroy_all
     @map = FactoryBot.create :map
-    @map.image = Ish::ImageAsset.create({ image: File.open( Rails.root.join( 'data', 'photo.png' ) ) })
+    @map.image = Ish::ImageAsset.create({
+      image: File.open( Rails.root.join( 'data', 'photo.png' ) ),
+    })
     @map.save
   end
 
