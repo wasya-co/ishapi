@@ -26,15 +26,15 @@ json.cache! this_key do
       end
     end
 
+    ## Hmm with austin -> wasya_co , neither config nor labels can be used from parent.
+    # if @map.parent_slug.present?
+    #   json.config JSON.parse @map.parent.config
+    #   json.labels JSON.parse @map.parent.labels
+    # else
     ## I removed json parsing from here! _vp_ 2021-10-14
     ## I added json parsing here! _vo_ 2021-10-19
-    if @map.parent_slug.present?
-      json.config JSON.parse @map.parent.config
-      json.labels JSON.parse @map.parent.labels
-    else
-      json.config JSON.parse @map.config
-      json.labels JSON.parse @map.labels
-    end
+    json.config JSON.parse @map.config
+    json.labels JSON.parse @map.labels
 
     json.partial! 'ishapi/markers/index', map: @map
 
