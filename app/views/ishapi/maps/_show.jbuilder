@@ -4,7 +4,7 @@
 
 ## @TODO: make sure that _show.jbuilder and show.jbuilder are reasonably deduped
 
-this_key = [ map, params.permit! ]
+this_key = [ map.id, map.updated_at, params.permit! ]
 json.cache! this_key do
   json.map do
     json.id          map.id.to_s
