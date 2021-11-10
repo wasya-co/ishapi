@@ -28,17 +28,6 @@ FactoryBot.define do
     end
   end
 
-  factory :order_item, :class => CoTailors::OrderItem do
-    kind { CoTailors::OrderItem::KIND_PANTS }
-    fabric { :white }
-    quantity { 1 }
-    cost { 199 }
-    after :build do |i|
-      i.measurement = CoTailors::ProfileMeasurement.new
-      i.order = CoTailors::Order.all.first
-    end
-  end
-
   factory :photo do
     after :build do |f|
       ph = Photo.create :photo => File.open( Rails.root.join( 'data', 'photo.png' ) )

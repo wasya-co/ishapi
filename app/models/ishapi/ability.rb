@@ -8,14 +8,9 @@ class Ishapi::Ability
     #
     unless user.blank?
 
-      if user.profile && user.profile.sudoer?
-        can :manage, :all
-      end
-
-      can [ :update ], ::CoTailors::Address do |address|
-        puts [ user.inspect, address.inspect ], '+++ user in cancancan'
-        true
-      end
+      # if user.profile && user.profile.sudoer?
+      #   can :manage, :all
+      # end
 
       can [ :my_index ], Gallery
       can [ :show ], Gallery do |gallery|
@@ -25,7 +20,7 @@ class Ishapi::Ability
 
       can [ :create, :unlock ], ::Ish::Payment
 
-      can [ :buy_stars ], ::IshModels::UserProfile
+      can [ :buy_stars ], ::Ish::UserProfile
 
     end
     #
@@ -33,21 +28,11 @@ class Ishapi::Ability
     #
     user ||= User.new
 
-    can [ :show ], IshModels::UserProfile
+    can [ :show ], Ish::UserProfile
 
     can [ :index, :show ], City
 
-    can [ :update ], ::CoTailors::Address
-    can [ :add ], ::CoTailors::OrderItem
-    can [ :create, :update_measurements ], ::CoTailors::Order
-    can [ :show ], ::CoTailors::Product
-
     can [ :index, :show ], Event
-
-    #
-    # Ish::P
-    #
-
 
     #
     # G
@@ -56,18 +41,39 @@ class Ishapi::Ability
     can [ :show ], Gallery do |gallery|
       gallery.is_public && !gallery.is_trash
     end
-    can [ :index, :show ], ::Gameui::Map
-    can [ :show ], ::Gameui::Marker
 
+    #
+    # I
+    #
+    can [ :fb_sign_in, :long_term_token, :open_permission, :welcome_home ], Ishapi
+
+    #
+    # M
+    #
+    can [ :index ], ::Gameui::Map
+    can [ :show ], ::Gameui::Map do |map|
+      map.is_public || map.shared_profiles.include?( user.profile )
+    end
+    can [ :show ], ::Gameui::Marker do |m|
+      m.is_public
+    end
+
+    #
+    # R
+    #
     can [ :index ], Report
     can [ :my_index, :show ], Report do |report|
       report.is_public
     end
 
-    can [ :fb_sign_in, :long_term_token, :open_permission, :welcome_home ], Ishapi
-
+    #
+    # S
+    #
     can [ :index, :show ], Site
 
+    #
+    # T
+    #
     can [ :index ], Tag
     can [ :show ], Tag do |tag|
       tag.is_public
@@ -84,5 +90,6 @@ class Ishapi::Ability
     can [ :show ], Video do |video|
       video.is_public
     end
+
   end
 end
