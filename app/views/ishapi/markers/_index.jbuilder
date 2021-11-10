@@ -3,7 +3,7 @@
 #
 
 json.markers do
-  json.array! map.markers do |marker|
+  json.array! markers do |marker|
     json.name marker.name
     json.slug marker.slug
     json.x    marker.x

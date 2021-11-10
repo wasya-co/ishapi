@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment.rb", __FILE__)
 require 'rspec/rails'
 require 'devise'
+require 'factory_bot_rails'
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
@@ -18,11 +19,8 @@ end
 class UserStub
   def initialize args = {}
     user        = User.find_or_create_by!( email: 'test@gmail.com' )
-    @profile    = IshModels::UserProfile.find_or_create_by!( email: 'test@gmail.com', name: 'name', user: user )
+    @profile    = ::Ish::UserProfile.find_or_create_by!( email: 'test@gmail.com', name: 'name', user: user )
 
-    # address     = CoTailors::Address.find_or_create_by( :name => 'abba-addr', :address_1 => 'blahblah 1' )
-    # measurement = CoTailors::ProfileMeasurement.create :neck_around => 22.2
-    # order       = CoTailors::Order.create
     if args[:manager]
       @profile.email = 'manager@gmail.com'; @profile.save
     end
@@ -41,8 +39,8 @@ def do_setup
   User.unscoped.destroy
   @user = @fake_user = User.create! :email => 'test@gmail.com', :password => '123412341234'
 
-  IshModels::UserProfile.unscoped.destroy
-  @fake_profile = IshModels::UserProfile.create! :email => 'test@gmail.com', :name => 'Profile Name', user: @user
+  ::Ish::UserProfile.unscoped.destroy
+  @fake_profile = ::Ish::UserProfile.create! :email => 'test@gmail.com', :name => 'Profile Name', user: @user
   @user.profile = @fake_profile; @user.save
 
   City.unscoped.destroy

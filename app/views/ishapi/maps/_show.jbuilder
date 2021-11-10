@@ -15,6 +15,7 @@ json.cache! this_key do
     json.h           map.h
     json.img_path    map.image.image.url(:original)
     json.updated_at  map.updated_at
+    json.rated       map.rated
 
     json.partial! 'ishapi/markers/index', map: map
 

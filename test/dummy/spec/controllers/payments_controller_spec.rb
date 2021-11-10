@@ -4,7 +4,7 @@ describe Ishapi::PaymentsController do
   routes { Ishapi::Engine.routes }
   before :each do
     do_setup
-    allow(controller).to receive(:current_user).and_return( User.new({ profile: ::IshModels::UserProfile.new }) )
+    allow(controller).to receive(:current_user).and_return( User.new({ profile: ::Ish::UserProfile.new }) )
     allow(controller).to receive(:decode).and_return({ 'user_id' => @user.id })
 
     @user.reload

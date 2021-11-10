@@ -4,7 +4,7 @@ gem 'rails', '5.1.4'
 gem 'mongoid'
 gem 'mongoid-paperclip'
 
-gem 'ish_models',  :github => 'piousbox/ish_models',  :branch => :master
+gem 'ish_models',  :github => 'piousbox/ish_models',  :branch => '1.0.0'
 
 gem 'cancancan'
 gem 'kaminari'
@@ -22,7 +22,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'simplecov'
   gem 'byebug'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', require: false
 
   gem 'httparty'
   gem 'koala'
