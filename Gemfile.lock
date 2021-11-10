@@ -14,7 +14,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.162)
+    ishapi (0.1.8.164)
       cancancan (~> 2.0)
       fb_graph
       googleauth (~> 0.8.0)
@@ -928,6 +928,9 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rspec-core (3.10.1)
+      rspec-support (~> 3.10.0)
+    rspec-support (3.10.3)
     signet (0.12.0)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -964,6 +967,7 @@ DEPENDENCIES
   ish_models!
   ishapi!
   rack-throttle (~> 0.5)
+  rspec-core
   stripe
 
 BUNDLED WITH

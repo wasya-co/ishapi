@@ -8,4 +8,8 @@ gem 'rack-throttle', "~> 0.5"
 gem 'stripe'
 gem 'httparty'
 
+group :test do
+  gem 'rspec-core'
+end
+
 # gem 'google-api-client', '~> 0.4.3', :require => 'google/api_client'
