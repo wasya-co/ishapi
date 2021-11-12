@@ -8,7 +8,7 @@ class Ishapi::MapsController < Ishapi::ApplicationController
     @location = ::Gameui::Map.unscoped.find_by slug: params[:slug]
     @map = @location.map || @location
     authorize! :show, @map
-    @newsitems = @map.newsitems
+    @newsitems = @location.newsitems
 
     ##
     ## @TODO: absolutely change this!
