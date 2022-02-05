@@ -6,7 +6,7 @@ gem 'mongoid-paperclip'
 gem 'mongoid_paranoia'
 
 gem 'ish_models', github: 'wasyaco/ish_models', branch: '1.5.0'
-gem 'ishapi', github: 'wasyaco/ishapi', branch: '0.2.1'
+gem 'ishapi'
 
 gem 'cancancan'
 gem 'kaminari'

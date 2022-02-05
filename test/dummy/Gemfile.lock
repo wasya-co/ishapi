@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/piousbox/ish_models.git
+  remote: https://github.com/wasyaco/ish_models.git
   revision: 0e168078ad0d21ac13703d7226f93c2a32b784e8
   branch: 1.5.0
   specs:
@@ -12,67 +12,42 @@ GIT
       mongoid-paperclip
       mongoid_paranoia
 
-PATH
-  remote: .
-  specs:
-    ishapi (0.1.8.168)
-      aws-sdk
-      cancancan (~> 2.0)
-      fb_graph
-      googleauth (~> 0.8.0)
-      httparty
-      jbuilder (~> 2.7)
-      kaminari-actionview (~> 1.0)
-      kaminari-mongoid (~> 1.0)
-      koala (~> 3.0)
-      mongoid (~> 7.3.0)
-      mongoid-autoinc (~> 6.0)
-      mongoid-paperclip
-      mongoid_paranoia
-      rack-throttle (~> 0.5)
-      rails (~> 5.1)
-      stripe
-
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (5.2.6)
-      actionpack (= 5.2.6)
+    actioncable (5.1.7)
+      actionpack (= 5.1.7)
       nio4r (~> 2.0)
-      websocket-driver (>= 0.6.1)
-    actionmailer (5.2.6)
-      actionpack (= 5.2.6)
-      actionview (= 5.2.6)
-      activejob (= 5.2.6)
+      websocket-driver (~> 0.6.1)
+    actionmailer (5.1.7)
+      actionpack (= 5.1.7)
+      actionview (= 5.1.7)
+      activejob (= 5.1.7)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.2.6)
-      actionview (= 5.2.6)
-      activesupport (= 5.2.6)
-      rack (~> 2.0, >= 2.0.8)
+    actionpack (5.1.7)
+      actionview (= 5.1.7)
+      activesupport (= 5.1.7)
+      rack (~> 2.0)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.2.6)
-      activesupport (= 5.2.6)
+    actionview (5.1.7)
+      activesupport (= 5.1.7)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.2.6)
-      activesupport (= 5.2.6)
+    activejob (5.1.7)
+      activesupport (= 5.1.7)
       globalid (>= 0.3.6)
-    activemodel (5.2.6)
-      activesupport (= 5.2.6)
-    activerecord (5.2.6)
-      activemodel (= 5.2.6)
-      activesupport (= 5.2.6)
-      arel (>= 9.0)
-    activestorage (5.2.6)
-      actionpack (= 5.2.6)
-      activerecord (= 5.2.6)
-      marcel (~> 1.0.0)
-    activesupport (5.2.6)
+    activemodel (5.1.7)
+      activesupport (= 5.1.7)
+    activerecord (5.1.7)
+      activemodel (= 5.1.7)
+      activesupport (= 5.1.7)
+      arel (~> 8.0)
+    activesupport (5.1.7)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -80,7 +55,7 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
-    arel (9.0.0)
+    arel (8.0.0)
     attr_required (1.0.1)
     aws-eventstream (1.2.0)
     aws-partitions (1.553.0)
@@ -1296,6 +1271,7 @@ GEM
     bindata (2.4.10)
     bson (4.14.1)
     builder (3.2.4)
+    byebug (11.1.3)
     cancancan (2.3.0)
     climate_control (0.2.0)
     concurrent-ruby (1.1.9)
@@ -1306,7 +1282,14 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    diff-lcs (1.5.0)
+    docile (1.4.0)
     erubi (1.10.0)
+    factory_bot (6.2.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     faraday (0.17.4)
       multipart-post (>= 1.2, < 3)
     fb_graph (2.7.17)
@@ -1329,6 +1312,23 @@ GEM
     httpclient (2.8.3)
     i18n (1.9.1)
       concurrent-ruby (~> 1.0)
+    ishapi (0.1.8.168)
+      aws-sdk
+      cancancan (~> 2.0)
+      fb_graph
+      googleauth (~> 0.8.0)
+      httparty
+      jbuilder (~> 2.7)
+      kaminari-actionview (~> 1.0)
+      kaminari-mongoid (~> 1.0)
+      koala (~> 3.0)
+      mongoid (~> 7.3.0)
+      mongoid-autoinc (~> 6.0)
+      mongoid-paperclip
+      mongoid_paranoia
+      rack-throttle (~> 0.5)
+      rails (~> 5.1)
+      stripe
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -1339,8 +1339,16 @@ GEM
       aes_key_wrap
       bindata
     jwt (2.3.0)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
     kaminari-actionview (1.2.2)
       actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
     kaminari-mongoid (1.0.2)
@@ -1407,47 +1415,77 @@ GEM
     rack-throttle (0.7.0)
       bundler (>= 1.0.0)
       rack (>= 1.0.0)
-    rails (5.2.6)
-      actioncable (= 5.2.6)
-      actionmailer (= 5.2.6)
-      actionpack (= 5.2.6)
-      actionview (= 5.2.6)
-      activejob (= 5.2.6)
-      activemodel (= 5.2.6)
-      activerecord (= 5.2.6)
-      activestorage (= 5.2.6)
-      activesupport (= 5.2.6)
+    rails (5.1.7)
+      actioncable (= 5.1.7)
+      actionmailer (= 5.1.7)
+      actionpack (= 5.1.7)
+      actionview (= 5.1.7)
+      activejob (= 5.1.7)
+      activemodel (= 5.1.7)
+      activerecord (= 5.1.7)
+      activesupport (= 5.1.7)
       bundler (>= 1.3.0)
-      railties (= 5.2.6)
+      railties (= 5.1.7)
       sprockets-rails (>= 2.0.0)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
-    railties (5.2.6)
-      actionpack (= 5.2.6)
-      activesupport (= 5.2.6)
+    railties (5.1.7)
+      actionpack (= 5.1.7)
+      activesupport (= 5.1.7)
       method_source
       rake (>= 0.8.7)
-      thor (>= 0.19.0, < 2.0)
+      thor (>= 0.18.1, < 2.0)
     rake (13.0.6)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.5)
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
+    rspec-core (3.10.2)
+      rspec-support (~> 3.10.0)
+    rspec-expectations (3.10.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-mocks (3.10.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-rails (4.1.2)
+      actionpack (>= 4.2)
+      activesupport (>= 4.2)
+      railties (>= 4.2)
+      rspec-core (~> 3.10)
+      rspec-expectations (~> 3.10)
+      rspec-mocks (~> 3.10)
+      rspec-support (~> 3.10)
+    rspec-support (3.10.3)
     ruby2_keywords (0.0.5)
     signet (0.16.0)
       addressable (~> 2.8)
       faraday (>= 0.17.3, < 2.0)
       jwt (>= 1.5, < 3.0)
       multi_json (~> 1.10)
+    simplecov (0.21.2)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.3)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.4.2)
-      actionpack (>= 5.2)
-      activesupport (>= 5.2)
+    sprockets-rails (3.2.2)
+      actionpack (>= 4.0)
+      activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     stripe (5.43.0)
     terrapin (0.6.0)
@@ -1458,7 +1496,7 @@ GEM
       thread_safe (~> 0.1)
     warden (1.2.9)
       rack (>= 2.0.9)
-    websocket-driver (0.7.5)
+    websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
 
@@ -1466,8 +1504,30 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-sdk
+  aws-sdk-s3
+  byebug
+  cancancan
+  devise
+  factory_bot_rails
+  httparty
   ish_models!
-  ishapi!
+  ishapi
+  jbuilder
+  jwt
+  kaminari
+  kaminari-actionview
+  kaminari-mongoid
+  koala
+  mongoid (~> 7.3.0)
+  mongoid-paperclip
+  mongoid_paranoia
+  rack-throttle
+  rails (~> 5.1.0)
+  rails-controller-testing
+  rspec
+  rspec-rails
+  simplecov
 
 BUNDLED WITH
    2.1.4
