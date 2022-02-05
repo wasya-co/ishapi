@@ -2,3 +2,4 @@
 0.1.7 - cancancan, ability is in
 0.1.8 - work on testing. support TGM's list of galleries in a city
 0.1.9 - invoices, payments for Lambert
+0.2.0 - 2022-02-05 - rspec, jenkins

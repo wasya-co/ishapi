@@ -1,0 +1,6 @@
+#!/bin/bash
+
+version=`cat VERSION`
+cat ishapi.gemspec-template | \
+  sed -e "s/\$version/$version/g" > ishapi.gemspec
+

@@ -5,6 +5,7 @@ class Ishapi::MapsController < Ishapi::ApplicationController
   before_action :check_profile, only: [ :show ]
 
   def show
+    byebug
     @location = ::Gameui::Map.unscoped.find_by slug: params[:slug]
     @map = @location.map || @location
     authorize! :show, @map
