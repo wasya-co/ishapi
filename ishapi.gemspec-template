@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 5.1"
   s.add_dependency 'mongoid', "~> 7.3.0"
+  s.add_runtime_dependency 'mongoid-paperclip'
   s.add_runtime_dependency 'mongoid_paranoia'
   s.add_dependency 'cancancan', "~> 2.0"
   s.add_dependency "kaminari-mongoid", "~> 1.0"
