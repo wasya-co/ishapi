@@ -2,7 +2,6 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment.rb", __FILE__)
 require 'rspec/rails'
 require 'devise'
-require 'factory_bot_rails'
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
