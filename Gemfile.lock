@@ -27,6 +27,7 @@ PATH
       koala (~> 3.0)
       mongoid (~> 7.3.0)
       mongoid-autoinc (~> 6.0)
+      mongoid_paranoia
       rack-throttle (~> 0.5)
       rails (~> 5.1)
       stripe
@@ -1349,7 +1350,7 @@ GEM
       faraday (< 2)
       json (>= 1.8)
       rexml
-    kt-paperclip (7.0.1)
+    kt-paperclip (7.1.0)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
       marcel (~> 1.0.1)
