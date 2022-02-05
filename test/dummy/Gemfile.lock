@@ -1317,6 +1317,8 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.9.1)
       concurrent-ruby (~> 1.0)
+    ishapi (0.1.2)
+      rails (~> 5.1.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -1481,6 +1483,7 @@ DEPENDENCIES
   factory_bot_rails
   httparty
   ish_models!
+  ishapi
   jbuilder
   jwt
   kaminari
