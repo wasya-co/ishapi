@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.1.4'
-gem 'mongoid'
+gem 'rails', '~> 5.1.0'
+gem 'mongoid', '~> 7.3.0'
 gem 'mongoid-paperclip'
+gem 'mongoid_paranoia'
 
 gem 'ish_models', github: 'wasyaco/ish_models', branch: '1.5.0'
 gem 'ishapi', github: 'wasyaco/ishapi', branch: '0.2.1'
