@@ -16,9 +16,15 @@ class Ishapi::Ability
       can [ :show ], Gallery do |gallery|
         gallery.user_profile == user.profile
       end
+
       can [ :do_purchase ], ::Gameui
+      can [ :show ], ::Gameui::Map do |map|
+        map.creator_profile == user.profile
+      end
 
       can [ :create, :unlock ], ::Ish::Payment
+
+      can [ :index ], IronWarbler::StockWatch # @TODO: scope this to profile!
 
       can [ :buy_stars ], ::Ish::UserProfile
 

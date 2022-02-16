@@ -5,7 +5,7 @@ module Ishapi
 
     skip_authorization_check only: %i| fb_sign_in login |
 
-    before_action :check_profile, only: %i| account |
+    before_action :check_profile_hard, only: %i| account |
 
     def account
       @profile = current_user&.profile

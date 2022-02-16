@@ -5,20 +5,13 @@ class Ishapi::MapsController < Ishapi::ApplicationController
   before_action :check_profile, only: [ :show ]
 
   def show
-    @location = ::Gameui::Map.unscoped.find_by slug: params[:slug]
+    @location = ::Gameui::Map.find_by slug: params[:slug]
     @map = @location.map || @location
+
     authorize! :show, @map
     @newsitems = @location.newsitems
 
-    ##
-    ## @TODO: absolutely change this!
-    ##
-
-    @markers = @map.markers.where( is_active: true )
-    if @current_user
-      a = @current_user.profile.shared_markers.unscoped.where( is_active: true, map_id: @map.id ).to_a
-      @markers = @markers + a
-    end
+    @markers = @map.markers.permitted_to(current_user.profile)
 
     # case @map.ordering_type
     # when ::Gameui::Map::ORDERING_TYPE_ALPHABETIC

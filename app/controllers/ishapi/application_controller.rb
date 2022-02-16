@@ -1,6 +1,10 @@
 
 class Ishapi::ApplicationController < ActionController::Base
 
+  def home
+    render json: { status: :ok }, status: :ok
+  end
+
   ## POST /api/users/long_term_token , a FB login flow
   def long_term_token
     accessToken   = request.headers[:accessToken]
@@ -30,12 +34,25 @@ class Ishapi::ApplicationController < ActionController::Base
 
   private
 
+  ## This returns an empty user if not logged in!
   def check_profile
     begin
       decoded = decode(params[:jwt_token])
       @current_user = User.find decoded['user_id']
     rescue JWT::ExpiredSignature, JWT::DecodeError => e
-      flash[:notice] = 'You are not logged in, or you have been logged out.'
+      # flash[:notice] = 'You are not logged in, or you have been logged out.'
+      # puts! 'You are not logged in, or you have been logged out.'
+      @current_user = User.new
+    end
+  end
+
+  ## This errors out if not logged in!
+  def check_profile_hard
+    begin
+      decoded = decode(params[:jwt_token])
+      @current_user = User.find decoded['user_id']
+    rescue JWT::ExpiredSignature, JWT::DecodeError => e
+      # flash[:notice] = 'You are not logged in, or you have been logged out.'
       # puts! 'You are not logged in, or you have been logged out.'
     end
   end
