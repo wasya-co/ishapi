@@ -24,8 +24,6 @@ class Ishapi::Ability
 
       can [ :create, :unlock ], ::Ish::Payment
 
-      can [ :index ], IronWarbler::StockWatch # @TODO: scope this to profile!
-
       can [ :buy_stars ], ::Ish::UserProfile
 
     end

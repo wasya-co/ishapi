@@ -32,7 +32,7 @@ json.cache! this_key do
       json.partial! 'ishapi/markers/index', markers: @markers
     else
       ## I removed json parsing from here! _vp_ 2021-10-14
-      ## I added json parsing here! _vo_ 2021-10-19
+      ## I added json parsing here, and is seems right. _vp_ 2021-10-19
       json.config JSON.parse @map.config
       json.labels JSON.parse @map.labels
       json.partial! 'ishapi/markers/index', markers: @markers

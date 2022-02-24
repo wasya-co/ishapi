@@ -22,10 +22,13 @@ def puts! a, b=''
 end
 
 def do_setup
+  User.all.destroy_all
+  Profile.all.destroy_all
   @user = @fake_user = create(:user, :email => 'test@gmail.com')
 
   @city = City.create( :name => 'xx-test-city', :cityname => 'text-cityname' )
 
+  Gallery.all.destroy_all
   @gallery = create :gallery, user_profile: @user.profile
 
   @report = create :report

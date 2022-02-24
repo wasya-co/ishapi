@@ -16,5 +16,6 @@ json.markers do
     json.title_img_path marker.title_image.image.url(:thumb)
     json.item_type      marker.item_type
     json.url            marker.url
+    json.premium_tier   marker.destination.premium_tier
   end
 end
