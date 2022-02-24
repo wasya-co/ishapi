@@ -25,6 +25,7 @@ module Ishapi
 
     def login
       @current_user = User.where( email: params[:email] ).first
+
       if !@current_user
         render json: { status: :not_ok }, status: 401
         return
@@ -35,15 +36,6 @@ module Ishapi
         # send the jwt to client
         @jwt_token = encode(user_id: @current_user.id.to_s)
         @profile = @current_user.profile
-
-=begin
-        render json: {
-          email: @current_user.email,
-          jwt_token: @jwt_token,
-          n_unlocks: @current_user.profile.n_unlocks,
-        }
-=end
-
       end
     end
 

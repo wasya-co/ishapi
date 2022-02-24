@@ -1,7 +1,6 @@
 
-
+json.id                @profile.id
 json.name              @profile.name
-json.username          @profile.username
 json.email             @profile.email
 json.profile_photo_url @profile.profile_photo.photo.url( :thumb ) if @profile.profile_photo
 

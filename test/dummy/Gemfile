@@ -1,13 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.1.0'
+gem 'rails', '~> 6.0.0'
 gem 'mongoid', '~> 7.3.0'
 gem 'mongoid-paperclip'
 gem 'mongoid_paranoia'
-
-gem 'ish_models', github: 'wasyaco/ish_models', branch: '1.5.0'
-gem 'ishapi'
-
 gem 'cancancan'
 gem 'kaminari'
 gem 'kaminari-mongoid'
@@ -17,7 +13,14 @@ gem 'aws-sdk'
 gem 'aws-sdk-s3'
 gem 'rack-throttle'
 gem 'jbuilder'
-gem 'rails-controller-testing'
+gem 'httparty'
+gem 'koala'
+gem 'jwt'
+
+
+gem 'ish_models', github: 'wasyaco/ish_models', branch: '1.5.0'
+gem 'ishapi'
+
 
 group :development, :test do
   gem 'rspec'
@@ -25,8 +28,6 @@ group :development, :test do
   gem 'simplecov'
   gem 'byebug'
   gem 'factory_bot_rails'
-
-  gem 'httparty'
-  gem 'koala'
-  gem 'jwt'
+  gem 'database_cleaner-mongoid'
+  gem 'rails-controller-testing'
 end
