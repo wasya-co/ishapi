@@ -30,6 +30,7 @@ if video.user_profile
   json.username video.user_profile.name
 end
 
+## @TODO: this is copy-pasted and should be abstracted.
 if video.is_premium
   json.premium_tier video.premium_tier
   json.is_premium   video.premium_tier > 0

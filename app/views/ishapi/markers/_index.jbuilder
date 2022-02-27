@@ -16,7 +16,18 @@ json.markers do
     json.title_img_path marker.title_image ? marker.title_image.image.url(:thumb) : image_missing
     json.item_type      marker.item_type
     json.url            marker.url
-    json.premium_tier   marker.destination.premium_tier
-    json.id             marker.destination.id.to_s
+
+    ## @TODO: this is copy-pasted and should be abstracted.
+    destination = marker.destination
+    json.premium_tier destination.premium_tier
+    json.id           destination.id.to_s
+    if destination.is_premium
+      json.premium_tier destination.premium_tier
+      json.is_premium   destination.premium_tier > 0
+      if current_user && current_user.profile
+        json.is_purchased current_user.profile.has_premium_purchase( destination )
+      end
+    end
+
   end
 end

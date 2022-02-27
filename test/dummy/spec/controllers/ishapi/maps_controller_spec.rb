@@ -4,10 +4,6 @@ describe Ishapi::MapsController do
   render_views
   routes { Ishapi::Engine.routes }
   before :each do
-    # do_setup
-    # Gameui::Map.destroy_all
-    # Gameui::Marker.destroy_all
-
     @map = FactoryBot.create :map
     @map_2 = FactoryBot.create :map
     @map_3 = FactoryBot.create :map
@@ -62,6 +58,26 @@ describe Ishapi::MapsController do
       result['map']['markers'][0].should_not eql nil
       result['map']['markers'][0]['premium_tier'].should_not eql nil
       result['map']['markers'][0]['id'].should eql @marker.destination.id.to_s
+    end
+
+    it 'markers have is_purchased' do
+      get :show, format: :json, params: { slug: @map.slug }
+      result = JSON.parse response.body
+      result['map']['markers'][0]['id'].should eql @map_2.id.to_s
+      result['map']['markers'][0]['is_purchased'].should be_falsey
+
+      @map_2.update_attributes({ premium_tier: 1 })
+      get :show, format: :json, params: { slug: @map.slug }
+      result = JSON.parse response.body
+      result['map']['markers'][0]['is_purchased'].should be_falsey
+
+      user_2 = create(:user)
+      create(:premium_purchase, item: @map_2, user_profile: user_2.profile)
+      allow(controller).to receive(:current_user).and_return( user_2 )
+
+      get :show, format: :json, params: { slug: @map.slug }
+      result = JSON.parse response.body
+      result['map']['markers'][0]['is_purchased'].should be_truthy
     end
   end
 
