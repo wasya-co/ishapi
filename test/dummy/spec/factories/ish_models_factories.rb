@@ -1,1 +1,0 @@
-/Users/piousbox/projects/ruby/microsites3/ish_models/spec/factories/ish_models_factories.rb
