@@ -15,7 +15,7 @@ json.cache! this_key do
     json.description @map.description
     json.w           @map.w
     json.h           @map.h
-    json.img_path    @map.image.image.url(:original)
+    json.img_path    @map.image ? @map.image.image.url(:original) : image_missing
     json.updated_at  @map.updated_at
     json.rated       @map.rated
 

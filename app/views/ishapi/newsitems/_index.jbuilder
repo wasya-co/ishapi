@@ -2,8 +2,6 @@
 # ishapi / newsitems / _index
 #
 
-puts! newsitems, 'newsitems idx'
-
 json.n_newsitems newsitems.count
 json.newsitems do
   json.array! newsitems do |item|

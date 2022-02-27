@@ -4,6 +4,8 @@ module Ishapi
 
     before_action :check_profile, only: %i| create2 unlock |
 
+    # alphabetized : )
+
     ##
     ## this is for invoices on wasya.co, isn't it?
     ## 20200712
