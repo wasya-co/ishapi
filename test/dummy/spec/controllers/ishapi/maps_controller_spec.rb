@@ -4,10 +4,9 @@ describe Ishapi::MapsController do
   render_views
   routes { Ishapi::Engine.routes }
   before :each do
-    do_setup
-
-    Gameui::Map.destroy_all
-    Gameui::Marker.destroy_all
+    # do_setup
+    # Gameui::Map.destroy_all
+    # Gameui::Marker.destroy_all
 
     @map = FactoryBot.create :map
     @map_2 = FactoryBot.create :map

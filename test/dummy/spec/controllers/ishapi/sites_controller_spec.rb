@@ -4,8 +4,12 @@ require 'spec_helper'
 describe Ishapi::SitesController do
   render_views
   routes { Ishapi::Engine.routes }
-  before :each do
-    do_setup
+
+  before do
+    @user = create(:user)
+    @site = create(:site, domain: 'new-domain')
+    @gallery = create :gallery, user_profile: @user.profile
+    @site.newsitems << Newsitem.create({ gallery: @gallery })
   end
 
   context '#show' do
