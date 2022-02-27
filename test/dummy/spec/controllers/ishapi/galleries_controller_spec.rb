@@ -9,14 +9,14 @@ describe Ishapi::GalleriesController do
 
   it '#index' do
     get :index
-    response.should be_success
+    response.should be_successful
   end
 
   describe '#show' do
     it 'renders id of a premium gallery' do
       @gallery.update_attributes( premium_tier: 2 )
       get :show, params: { slug: @gallery.slug }
-      response.should be_success
+      response.should be_successful
       result = JSON.parse(response.body).deep_symbolize_keys!
       result[:message].should eql "This is premium content - please purchase it to view!"
       result[:gallery][:id].should_not eql nil

@@ -22,7 +22,7 @@ describe Ishapi::PaymentsController do
       @user.profile.n_unlocks.should eql 5
 
       post :unlock, params: { kind: 'Report', id: @report.id }, format: :json
-      response.should be_success
+      response.should be_successful
       ::Gameui::PremiumPurchase.all.count.should eql 1
 
       @user.reload

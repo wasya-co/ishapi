@@ -12,7 +12,7 @@ describe Ishapi::My::GalleriesController do
     g = FactoryBot.create(:gallery, name: 'quick name', slug: 'quick-name', user_profile: @user.profile)
 
     get :index, format: :json
-    response.should be_success
+    response.should be_successful
     response.should render_template('ishapi/galleries/index')
 
     json = JSON.parse response.body
