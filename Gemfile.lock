@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: d503d63268dfde8e96b467bb79f3e607d8c5f0a3
+  revision: 72788ae260ff9ec9d2d33270d4999f98dafe262c
   branch: master
   specs:
     ish_models (0.0.33.158)
@@ -15,7 +15,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.169)
+    ishapi (0.1.8.171)
       aws-sdk
       cancancan (~> 2.0)
       fb_graph
@@ -1382,7 +1382,6 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
     minitest (5.15.0)
     mongo (2.17.0)
       bson (>= 4.8.2, < 5.0.0)
@@ -1401,8 +1400,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nio4r (2.5.8)
-    nokogiri (1.13.3)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.13.3-x86_64-darwin)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     os (1.1.4)
