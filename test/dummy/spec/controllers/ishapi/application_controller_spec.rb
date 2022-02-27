@@ -23,7 +23,6 @@ describe Ishapi::ApplicationController do
     result = JSON.parse response.body
     result['email'].should_not be nil
     result['n_unlocks'].should_not be nil
-    puts! result, 'ze-result-1'
   end
 
 end
