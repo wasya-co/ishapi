@@ -1,2 +1,2 @@
 
-json.partial! 'account'
+json.partial! 'ishapi/users/account'

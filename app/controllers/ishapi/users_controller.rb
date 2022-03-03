@@ -10,6 +10,8 @@ module Ishapi
     def account
       @profile = current_user&.profile
       authorize! :show, @profile
+      puts! @profile, 'zeee profile'
+
       render 'ishapi/users/account'
     rescue CanCan::AccessDenied
       render json: {
