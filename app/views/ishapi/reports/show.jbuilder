@@ -8,10 +8,12 @@ key = [ @report, params ]
 json.cache! key do
   json.report do
     json.id          @report.id.to_s
+    json.item_type   @report.class.name
     json.name        @report.name
-    json.reportname  @report.slug
+    json.reportname  @report.slug # @TODO: @deprecated, remove
+    json.slug        @report.slug
     if @report.photo
-      json.photo_url   @report.photo.photo.url( :small ) 
+      json.photo_url   @report.photo.photo.url( :small )
       json.thumb_url   @report.photo.photo.url( :thumb )
     end
 
@@ -22,7 +24,7 @@ json.cache! key do
     json.cityname    @report.city.cityname if @report.city
     json.subhead     @report.subhead
     json.description @report.descr
-  
+
     if @report.photo
       json.photo do
         json.thumb_url @report.photo.photo.url :thumb
@@ -42,5 +44,5 @@ json.cache! key do
       json.large_url @report.photo.photo.url :large
     end
   end
-  
+
 end

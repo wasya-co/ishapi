@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/wasyaco/ish_models.git
-  revision: 72788ae260ff9ec9d2d33270d4999f98dafe262c
+  revision: 00e7e6d75723a906e7ebc1e7109e8cfe92736ec3
   branch: master
   specs:
     ish_models (0.0.33.158)

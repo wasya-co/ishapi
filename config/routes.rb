@@ -8,16 +8,6 @@ Ishapi::Engine.routes.draw do
   get 'cities/view/:cityname', :to => 'cities#show'
   get 'cities/features',       :to => 'cities#features'
 
-  ## @TODO: remove all co-tailors stuff
-=begin
-  post 'co_tailors/orders',                 :to => 'orders#create'
-  post 'co_tailors/order_items',            :to => 'order_items#create'
-  post 'co_tailors/measurements',           :to => 'measurements#update'
-  get  'co_tailors/products/by-kind/:kind', :to => 'products#show'
-  namespace :co_tailors do
-  end
-=end
-
   get 'events/view/:eventname',      :to => 'events#show'
 
   get  'galleries',                   :to => 'galleries#index'
@@ -73,6 +63,7 @@ Ishapi::Engine.routes.draw do
   get   'users/profile',         to: 'users#show' # @TODO: only for testing! accessToken must be hidden
   match 'users/long_term_token', to: 'application#long_term_token', via: [ :get, :post ]
   post  'users/login',           to: 'users#login'
+  post  'users',                 to: 'users#create'
 
   get 'venues', :to => 'venues#index'
   get 'venues/view/:venuename', :to => 'venues#show'

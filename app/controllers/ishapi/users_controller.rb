@@ -3,20 +3,32 @@ require_dependency "ishapi/application_controller"
 module Ishapi
   class UsersController < ApplicationController
 
-    skip_authorization_check only: %i| fb_sign_in login |
+    skip_authorization_check only: %i| create fb_sign_in login |
 
     before_action :check_profile_hard, only: %i| account |
 
     def account
       @profile = current_user&.profile
       authorize! :show, @profile
-      puts! @profile, 'zeee profile'
-
       render 'ishapi/users/account'
     rescue CanCan::AccessDenied
       render json: {
         status: :not_ok,
       }, status: 401
+    end
+
+    def create
+      @profile = Profile.new( email: params[:email] )
+      @user = User.new( email: params[:email], password: params[:password], profile: @profile )
+
+      if @profile.save && @user.save
+        @jwt_token = encode(user_id: @user.id.to_s)
+        render 'login'
+      else
+        render json: {
+          messages: [],
+        }, status: 401
+      end
     end
 
     def fb_sign_in

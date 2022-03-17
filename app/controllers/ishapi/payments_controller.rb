@@ -91,11 +91,9 @@ module Ishapi
 
       payment = Ish::Payment.where( payment_intent_id: payment_intent.id ).first
       if payment && payment_intent['status'] == 'succeeded'
-        puts! 'succeeded!'
 
         payment.update_attributes( status: :confirmed )
         n_unlocks = payment.profile.n_unlocks + 5
-        puts! n_unlocks, 'n_unlocks'
 
         payment.profile.update_attributes!( n_unlocks: n_unlocks, is_purchasing: false ) # @TODO: it's not always 5? adjust
       end
@@ -107,18 +105,17 @@ module Ishapi
       authorize! :unlock, ::Ish::Payment
       item = Object::const_get(params['kind']).find params['id']
 
-      puts! params, 'unlocking...'
-
-      existing = Purchase.where( user_profile: current_user.profile, item: item ).first
+      existing = Purchase.where( user_profile: @current_user.profile, item: item ).first
       if existing
         render status: 200, json: { status: :ok, message: 'already purchased' }
         return
       end
 
-      current_user.profile.update_attributes n_unlocks: current_user.profile.n_unlocks - 1 # @TODO: the number is variable
-      purchase = ::Gameui::PremiumPurchase.create!( item: item, user_profile: current_user.profile, )
+      @current_user.profile.inc( n_unlocks: -item.premium_tier )
 
-      @profile = current_user.profile
+      purchase = ::Gameui::PremiumPurchase.create!( item: item, user_profile: @current_user.profile, )
+
+      @profile = @current_user.profile
       render 'ishapi/users/account'
     end
 
