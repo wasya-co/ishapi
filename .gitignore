@@ -9,6 +9,7 @@ test/dummy/log/*.log
 test/dummy/tmp/
 test/dummy/vendor
 test/dummy/config/initializers/01_FB.rb
+test/dummy/spec/factories/ish_models_factories.rb
 
 *~
 *trash

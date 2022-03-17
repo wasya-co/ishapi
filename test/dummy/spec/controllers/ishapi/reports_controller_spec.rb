@@ -12,7 +12,7 @@ describe Ishapi::ReportsController do
   context '#index' do
     it 'renders' do
       get :index, :format => :json
-      response.should be_success
+      response.should be_successful
     end
 
     it 'shows all the images, not just thumb' do
@@ -27,7 +27,7 @@ describe Ishapi::ReportsController do
   context '#show' do
     it 'renders' do
       get :show, :params => { :slug => @report.slug }
-      response.should be_success
+      response.should be_successful
       response.should render_template 'show'
     end
 

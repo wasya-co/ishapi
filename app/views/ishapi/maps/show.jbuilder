@@ -15,7 +15,7 @@ json.cache! this_key do
     json.description @map.description
     json.w           @map.w
     json.h           @map.h
-    json.img_path    @map.image.image.url(:original)
+    json.img_path    @map.image ? @map.image.image.url(:original) : image_missing
     json.updated_at  @map.updated_at
     json.rated       @map.rated
 
@@ -32,7 +32,7 @@ json.cache! this_key do
       json.partial! 'ishapi/markers/index', markers: @markers
     else
       ## I removed json parsing from here! _vp_ 2021-10-14
-      ## I added json parsing here! _vo_ 2021-10-19
+      ## I added json parsing here, and is seems right. _vp_ 2021-10-19
       json.config JSON.parse @map.config
       json.labels JSON.parse @map.labels
       json.partial! 'ishapi/markers/index', markers: @markers

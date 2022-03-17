@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/wasyaco/ish_models.git
-  revision: 8067401e2788e4b07dc55a4bccfc332436911fa9
-  branch: 1.5.0
+  revision: 00e7e6d75723a906e7ebc1e7109e8cfe92736ec3
+  branch: master
   specs:
     ish_models (0.0.33.158)
       aws-sdk
@@ -1471,10 +1471,6 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.5)
-    rspec (3.11.0)
-      rspec-core (~> 3.11.0)
-      rspec-expectations (~> 3.11.0)
-      rspec-mocks (~> 3.11.0)
     rspec-core (3.11.0)
       rspec-support (~> 3.11.0)
     rspec-expectations (3.11.0)
@@ -1551,8 +1547,7 @@ DEPENDENCIES
   rack-throttle
   rails (~> 6.0.0)
   rails-controller-testing
-  rspec
-  rspec-rails
+  rspec-rails (~> 5.1.0)
   simplecov
 
 BUNDLED WITH

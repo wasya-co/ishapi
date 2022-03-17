@@ -10,12 +10,12 @@ describe Ishapi::CitiesController do
 
   it '#index' do
     get :index, format: :json
-    response.should be_success
+    response.should be_successful
   end
 
   it '#show' do
     get :show, params: { cityname: @city.cityname }
-    response.should be_success
+    response.should be_successful
     response.should render_template 'show'
   end
 

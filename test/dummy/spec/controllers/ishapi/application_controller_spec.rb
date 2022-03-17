@@ -19,11 +19,10 @@ describe Ishapi::ApplicationController do
 
   it '#long_term_token' do
     post :long_term_token
-    response.should be_success
+    response.should be_successful
     result = JSON.parse response.body
     result['email'].should_not be nil
     result['n_unlocks'].should_not be nil
-    puts! result, 'ze-result-1'
   end
 
 end

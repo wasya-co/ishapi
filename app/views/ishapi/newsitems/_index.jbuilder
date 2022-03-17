@@ -2,8 +2,6 @@
 # ishapi / newsitems / _index
 #
 
-puts! newsitems, 'newsitems idx'
-
 json.n_newsitems newsitems.count
 json.newsitems do
   json.array! newsitems do |item|
@@ -41,7 +39,8 @@ json.newsitems do
         json.id         item.report_id.to_s
         json.item_type  item.report.class.name
         json.name       item.report.name
-        json.reportname item.report.slug
+        json.reportname item.report.slug # @TODO: @deprecated, remove
+        json.slug       item.report.slug
         json.subhead    item.report.subhead
         json.username   item.report.user_profile.name if item.report.user_profile
 

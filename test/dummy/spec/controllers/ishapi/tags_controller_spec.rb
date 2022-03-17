@@ -12,7 +12,7 @@ describe Ishapi::TagsController do
   context '#show' do
     it 'all reports have a photo' do
       get :show, params: { slug: @tag.slug }
-      response.should be_success
+      response.should be_successful
       result = JSON.parse response.body
       result['reports'][0]['photo']['thumb_url'].should_not eql nil
     end

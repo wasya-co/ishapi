@@ -1,10 +1,10 @@
 require_dependency "ishapi/application_controller"
 
 module Ishapi
-  class CitiesController < UnrestrictedController
+  class CitiesController < Ishapi::ApplicationController
     protect_from_forgery :prepend => true, :with => :exception
     layout :false
-    
+
     check_authorization
     skip_before_action :verify_authenticity_token
     before_action :set_current_ability
