@@ -5,6 +5,7 @@
 json.n_newsitems newsitems.count
 json.newsitems do
   json.array! newsitems do |item|
+    json.id          item.id.to_s
     json.name        item.name
     json.created_at  item.created_at
     json.updated_at  item.updated_at
@@ -59,7 +60,7 @@ json.newsitems do
       end
     end
 
-    if item.video_id
+    if item.video
       json.id item.video_id.to_s
       # @TODO: why this relation is so weird here?!
       video = Video.unscoped.find( item.video_id )
