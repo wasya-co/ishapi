@@ -15,7 +15,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.175)
+    ishapi (0.1.8.176)
       aws-sdk
       cancancan (~> 2.0)
       fb_graph
@@ -1480,7 +1480,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    stripe (5.48.0)
+    stripe (5.49.0)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
     thor (1.2.1)
