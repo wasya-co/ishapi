@@ -58,8 +58,8 @@ Ishapi::Engine.routes.draw do
 
   post  'users/fb_sign_in',      to: 'users#fb_sign_in'
   get   'users/me',              to: 'users#account'
-  post  'users/profile',         to: 'users#show'
-  post  'users/profile/update',  to: 'users#update'
+  post  'users/profile',         to: 'users#show' ## @TODO: change, this makes no sense
+  post  'users/profile/update',  to: 'user_profiles#update'
   get   'users/profile',         to: 'users#show' # @TODO: only for testing! accessToken must be hidden
   match 'users/long_term_token', to: 'application#long_term_token', via: [ :get, :post ]
   post  'users/login',           to: 'users#login'

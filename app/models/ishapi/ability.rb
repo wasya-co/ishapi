@@ -33,6 +33,9 @@ class Ishapi::Ability
     user ||= User.new
 
     can [ :show ], Ish::UserProfile
+    can [ :update ], Ish::UserProfile do |p|
+      p.user.id.to_s == user.id.to_s
+    end
 
     can [ :index, :show ], City
 
