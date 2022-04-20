@@ -5,7 +5,7 @@
 json.n_newsitems newsitems.count
 json.newsitems do
   json.array! newsitems do |item|
-    json.id          item.id.to_s
+    json.newsitem_id item.id.to_s
     json.name        item.name
     json.created_at  item.created_at
     json.updated_at  item.updated_at

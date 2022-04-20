@@ -29,6 +29,9 @@ Ishapi::Engine.routes.draw do
     post 'videos',   to: 'videos#index'
   end
 
+  # N
+  delete 'newsitems/:id', to: 'newsitems#destroy'
+
   post 'do_purchase', to: 'gameui#do_purchase' # @TODO: rename to just purchase, or destroy endpoint
   post 'payments', :to => 'payments#create'
   post 'payments2', :to => 'payments#create2' # @TODO: change

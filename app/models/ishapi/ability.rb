@@ -6,7 +6,7 @@ class Ishapi::Ability
     #
     # signed in user
     #
-    unless user.blank?
+    if !user.blank?
 
       # if user.profile && user.profile.sudoer?
       #   can :manage, :all
@@ -14,12 +14,18 @@ class Ishapi::Ability
 
       can [ :my_index ], Gallery
       can [ :show ], Gallery do |gallery|
-        gallery.user_profile == user.profile
+        gallery.user_profile == user.profile || # my own
+        (!gallery.is_trash && gallery.is_public ) || # public
+        (!gallery.is_trash && gallery.shared_profiles.include?( user.profile ) ) # shared with me
       end
 
       can [ :do_purchase ], ::Gameui
       can [ :show ], ::Gameui::Map do |map|
         map.creator_profile == user.profile
+      end
+
+      can [ :destroy ], Newsitem do |n|
+        n.map.creator_profile.id == user.profile.id
       end
 
       can [ :create, :unlock ], ::Ish::Payment
