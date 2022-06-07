@@ -1353,7 +1353,7 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    jmespath (1.6.0)
+    jmespath (1.6.1)
     json (2.6.1)
     json-jwt (1.13.0)
       activesupport (>= 4.2)
