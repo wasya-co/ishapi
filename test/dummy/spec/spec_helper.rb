@@ -6,6 +6,7 @@ require 'devise'
 ## From: https://github.com/DatabaseCleaner/database_cleaner-mongoid
 DatabaseCleaner.clean
 
+
 RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
@@ -22,6 +23,8 @@ def puts! a, b=''
 end
 
 def do_setup
+  DatabaseCleaner.clean
+  
   User.all.destroy_all
   Profile.all.destroy_all
   @user = @fake_user = create(:user, :email => 'test@gmail.com')
