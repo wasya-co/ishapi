@@ -5,7 +5,8 @@ class Ishapi::MapsController < Ishapi::ApplicationController
   before_action :check_profile, only: [ :show ]
 
   def show
-    @location = ::Gameui::Map.find_by slug: params[:slug]
+    @location   = ::Gameui::Map.where( slug: params[:slug] ).first
+    @location ||= ::Gameui::Map.find params[:slug]
     @map = @location.map || @location
 
     authorize! :show, @map

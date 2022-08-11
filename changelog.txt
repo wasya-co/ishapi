@@ -5,4 +5,5 @@
 0.2.0 - 2022-02-05 - rspec, jenkins
 0.2.1 -              continue iterating
 0.3.0 - 2022-02-24 - fix: marker.destination is required, and also migrate data
+0.3.1 - 2022-08-10 - minor fixes
 
