@@ -54,6 +54,10 @@ json.cache! this_key do
       json.partial! 'ishapi/galleries/index', galleries: @galleries
     end
 
+    if @tags
+      json.partial! 'ishapi/tags/index', tags: @tags
+    end
+
   end
 end
 

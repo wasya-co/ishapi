@@ -13,6 +13,8 @@ class Ishapi::MapsController < Ishapi::ApplicationController
 
     @markers = @map.markers.permitted_to(current_user.profile)
 
+    @tags = @map.tags
+
     # case @map.ordering_type
     # when ::Gameui::Map::ORDERING_TYPE_ALPHABETIC
     #   @markers = @markers.order_by( name: :asc )

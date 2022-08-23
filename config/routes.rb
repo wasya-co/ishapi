@@ -29,6 +29,9 @@ Ishapi::Engine.routes.draw do
     post 'videos',   to: 'videos#index'
   end
 
+  # N
+  delete 'newsitems/:id', to: 'newsitems#destroy'
+
   post 'do_purchase', to: 'gameui#do_purchase' # @TODO: rename to just purchase, or destroy endpoint
   post 'payments', :to => 'payments#create'
   post 'payments2', :to => 'payments#create2' # @TODO: change
@@ -58,8 +61,8 @@ Ishapi::Engine.routes.draw do
 
   post  'users/fb_sign_in',      to: 'users#fb_sign_in'
   get   'users/me',              to: 'users#account'
-  post  'users/profile',         to: 'users#show'
-  post  'users/profile/update',  to: 'users#update'
+  post  'users/profile',         to: 'users#show' ## @TODO: change, this makes no sense
+  post  'users/profile/update',  to: 'user_profiles#update'
   get   'users/profile',         to: 'users#show' # @TODO: only for testing! accessToken must be hidden
   match 'users/long_term_token', to: 'application#long_term_token', via: [ :get, :post ]
   post  'users/login',           to: 'users#login'
