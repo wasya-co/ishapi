@@ -21,6 +21,11 @@ describe Ishapi::MapsController do
   end
 
   describe '#show' do
+    it 'finds by slug=id' do
+      get :show, format: :json, params: { slug: @map_2.id.to_s }
+      response.code.should eql '200'
+    end
+
     it 'helper image_missing' do
       get :show, format: :json, params: { slug: @map_2.slug }
       response.code.should eql '200'
@@ -52,33 +57,36 @@ describe Ishapi::MapsController do
       result['map']['newsitems'].should_not eql nil
     end
 
-    it 'markers have premium_tier, id of the destination' do
-      get :show, format: :json, params: { slug: @map.slug }
-      result = JSON.parse response.body
-      result['map']['markers'][0].should_not eql nil
-      result['map']['markers'][0]['premium_tier'].should_not eql nil
-      result['map']['markers'][0]['id'].should eql @marker.destination.id.to_s
+    context 'markers have...' do
+      it 'markers have premium_tier, id of the destination' do
+        get :show, format: :json, params: { slug: @map.slug }
+        result = JSON.parse response.body
+        result['map']['markers'][0].should_not eql nil
+        result['map']['markers'][0]['premium_tier'].should_not eql nil
+        result['map']['markers'][0]['id'].should eql @marker.destination.id.to_s
+      end
+
+      it 'markers have is_purchased' do
+        get :show, format: :json, params: { slug: @map.slug }
+        result = JSON.parse response.body
+        result['map']['markers'][0]['id'].should eql @map_2.id.to_s
+        result['map']['markers'][0]['is_purchased'].should be_falsey
+
+        @map_2.update_attributes({ premium_tier: 1 })
+        get :show, format: :json, params: { slug: @map.slug }
+        result = JSON.parse response.body
+        result['map']['markers'][0]['is_purchased'].should be_falsey
+
+        user_2 = create(:user)
+        create(:premium_purchase, item: @map_2, user_profile: user_2.profile)
+        allow(controller).to receive(:current_user).and_return( user_2 )
+
+        get :show, format: :json, params: { slug: @map.slug }
+        result = JSON.parse response.body
+        result['map']['markers'][0]['is_purchased'].should be_truthy
+      end
     end
 
-    it 'markers have is_purchased' do
-      get :show, format: :json, params: { slug: @map.slug }
-      result = JSON.parse response.body
-      result['map']['markers'][0]['id'].should eql @map_2.id.to_s
-      result['map']['markers'][0]['is_purchased'].should be_falsey
-
-      @map_2.update_attributes({ premium_tier: 1 })
-      get :show, format: :json, params: { slug: @map.slug }
-      result = JSON.parse response.body
-      result['map']['markers'][0]['is_purchased'].should be_falsey
-
-      user_2 = create(:user)
-      create(:premium_purchase, item: @map_2, user_profile: user_2.profile)
-      allow(controller).to receive(:current_user).and_return( user_2 )
-
-      get :show, format: :json, params: { slug: @map.slug }
-      result = JSON.parse response.body
-      result['map']['markers'][0]['is_purchased'].should be_truthy
-    end
   end
 
 end
