@@ -16,6 +16,7 @@ json.markers do
     json.title_img_path marker.title_image ? marker.title_image.image.url(:thumb) : image_missing
     json.item_type      marker.item_type
     json.url            marker.url
+    json.asset3d_path   marker.asset3d ? marker.asset3d.object.url : ''
 
     ## @TODO: this is copy-pasted and should be abstracted.
     destination = marker.destination
