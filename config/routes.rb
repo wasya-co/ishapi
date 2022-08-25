@@ -68,6 +68,8 @@ Ishapi::Engine.routes.draw do
   post  'users/login',           to: 'users#login'
   post  'users',                 to: 'users#create'
 
+  post 'v1/vote/:votee_class_name/:votee_id/:voter_id/:value', to: 'application#vote'
+
   get 'venues', :to => 'venues#index'
   get 'venues/view/:venuename', :to => 'venues#show'
 

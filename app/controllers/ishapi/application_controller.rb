@@ -32,6 +32,17 @@ class Ishapi::ApplicationController < ActionController::Base
     }
   end
 
+  ## @TODO: implement completely! _vp_ 2022-08-24
+  def vote
+    votee = params[:votee_class_name].constantize.find(params[:votee_id])
+    out = votee.vote(voter_id: params[:voter_id], value: params[:value])
+
+    render json: {
+      status: 'ok',
+      message: out,
+    }
+  end
+
   private
 
   ## This returns an empty user if not logged in!

@@ -66,6 +66,7 @@ json.newsitems do
       video = Video.unscoped.find( item.video_id )
       json.item_type video.class.name
       json.partial! 'ishapi/videos/show', :video => video
+      json.votes_score item.video.votes_point
     end
 
     if item.photo
