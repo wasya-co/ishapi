@@ -62,11 +62,11 @@ json.newsitems do
 
     if item.video
       json.id item.video_id.to_s
-      # @TODO: why this relation is so weird here?!
+      ## @TODO: why is this relation here? It's non-performant.
       video = Video.unscoped.find( item.video_id )
-      json.item_type video.class.name
+      json.item_type "Video"
       json.partial! 'ishapi/videos/show', :video => video
-      json.votes_score item.video.votes_point
+      json.votes_score item.video.votes_score
     end
 
     if item.photo
