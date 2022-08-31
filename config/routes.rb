@@ -1,4 +1,6 @@
+
 Ishapi::Engine.routes.draw do
+
   root :to => 'application#home'
   post 'home', :to => 'application#home'
 
@@ -65,8 +67,14 @@ Ishapi::Engine.routes.draw do
   post  'users/profile/update',  to: 'user_profiles#update'
   get   'users/profile',         to: 'users#show' # @TODO: only for testing! accessToken must be hidden
   match 'users/long_term_token', to: 'application#long_term_token', via: [ :get, :post ]
-  post  'users/login',           to: 'users#login'
-  post  'users',                 to: 'users#create'
+  # post  'users/login',           to: 'users#login'
+  # post 'users/login', to: 'users/sessions#create'
+  # post  'users',        to: 'users#register'
+  # post  'users',                 to: 'users#create'
+  devise_scope :user do
+    post 'users/register', to: 'users/registrations#create'
+    post 'users/login', to: 'users#login'
+  end
 
   post 'v1/vote/:votee_class_name/:votee_id/:voter_id/:value', to: 'application#vote'
 
