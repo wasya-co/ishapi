@@ -11,11 +11,14 @@ describe Ishapi::Users::RegistrationsController do
 
   describe 'Register' do
     it '' do
+      n_u = User.all.count
+      n_p = Profile.all.count
+
+      @request.env["devise.mapping"] = Devise.mappings[:user]
       post :create, params: { user: { email: 'test@email.com', password: 'test1234' } }
 
-      puts! response.body, 'ze Response'
-
-      response.code.should eql '200'
+      User.all.count.should eql( n_u + 1 )
+      Profile.all.count.should eql( n_p + 1 )
     end
   end
 

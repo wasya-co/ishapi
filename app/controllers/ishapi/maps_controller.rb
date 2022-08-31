@@ -12,7 +12,7 @@ class Ishapi::MapsController < Ishapi::ApplicationController
     authorize! :show, @map
     @newsitems = @location.newsitems
 
-    @markers = @map.markers.permitted_to(current_user.profile)
+    @markers = @map.markers.permitted_to(@current_user.profile)
 
     @tags = @map.tags
 
