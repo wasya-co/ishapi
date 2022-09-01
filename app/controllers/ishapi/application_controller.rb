@@ -34,7 +34,11 @@ class Ishapi::ApplicationController < ActionController::Base
 
   ## @TODO: implement completely! _vp_ 2022-08-24
   def vote
+
     votee = params[:votee_class_name].constantize.find(params[:votee_id])
+
+    authorize! :open_permission, Ishapi # @TODO: make this more rigid
+
     out = votee.vote(voter_id: params[:voter_id], value: params[:value].to_sym)
 
     if out
