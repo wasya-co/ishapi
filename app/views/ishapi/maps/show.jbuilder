@@ -2,12 +2,12 @@
 # ishapi / maps / show
 #
 
-this_key = [
-  @map.id, @map.updated_at,
-  current_user&.profile&.updated_at,
-  params.permit!
-]
-json.cache! this_key do
+# this_key = [
+#   @map.id, @map.updated_at,
+#   current_user&.profile&.updated_at,
+#   params.permit!
+# ]
+# json.cache! this_key do
   json.map do
     json.id          @map.id.to_s
     json.slug        @map.slug
@@ -59,6 +59,6 @@ json.cache! this_key do
     end
 
   end
-end
+# end
 
 
