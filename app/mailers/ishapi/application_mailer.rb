@@ -1,6 +1,6 @@
-module Ishapi
-  class ApplicationMailer < ActionMailer::Base
-    default from: 'from@example.com'
-    layout 'mailer'
-  end
+
+class Ishapi::ApplicationMailer < ActionMailer::Base
+  default from: '314658@gmail.com'
+  layout 'mailer'
 end
+

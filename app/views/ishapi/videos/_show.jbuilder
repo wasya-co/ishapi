@@ -13,11 +13,6 @@ json.x           video.x
 json.y           video.y
 json.url         video.video.url
 
-json.votes_score video.votes_score
-if current_user&.profile
-  json.current_user_vote_value video.vote_value(current_user.profile)
-end
-
 if video.city
   json.cityname video.city.cityname
   json.city do

@@ -18,14 +18,4 @@ describe Ishapi::UsersController do
     end
   end
 
-  describe '#login' do
-    it 'sends jwt_token' do
-      post :login, format: :json, params: { email: @user.email, password: '1234567890' }
-      response.code.should eql '200'
-
-      result = JSON.parse response.body
-      result['jwt_token'].should_not be nil
-    end
-  end
-
 end

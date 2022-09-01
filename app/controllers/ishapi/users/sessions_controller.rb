@@ -12,7 +12,24 @@ class Ishapi::Users::SessionsController < Devise::SessionsController
     ## Send the jwt to client
     @jwt_token = encode(user_id: @current_user.id.to_s)
     @profile = @current_user.profile
-    render 'users/login'
+    render 'ishapi/users/login', format: :json, layout: false
   end
+
+  private
+
+  ## copy-pasted from application_controller
+  ## jwt
+  def decode(token)
+    decoded = JWT.decode(token, Rails.application.secrets.secret_key_base.to_s)[0]
+    HashWithIndifferentAccess.new decoded
+  end
+
+  ## copy-pasted from application_controller
+  ## jwt
+  def encode(payload, exp = 48.hours.from_now) # @TODO: definitely change, right now I expire once in 2 days.
+    payload[:exp] = exp.to_i
+    JWT.encode(payload, Rails.application.secrets.secret_key_base.to_s)
+  end
+
 
 end

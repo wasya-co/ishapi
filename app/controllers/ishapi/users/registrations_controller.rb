@@ -10,7 +10,7 @@ class Ishapi::Users::RegistrationsController < Devise::RegistrationsController
     if resource.persisted?
       render json: {
         status: :ok,
-        message: "You have registered! Please verify your email by clicking on a link we just sent you, before logging in.",
+        message: "You have successfully registered! Please verify your email by clicking on a link we just sent you, before logging in.",
       }, status: 200
 
       # if resource.active_for_authentication?
