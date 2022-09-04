@@ -24,7 +24,7 @@ end
 
 def do_setup
   DatabaseCleaner.clean
-  
+
   User.all.destroy_all
   Profile.all.destroy_all
   @user = @fake_user = create(:user, :email => 'test@gmail.com')
@@ -48,4 +48,8 @@ Paperclip.options[:log] = false
 def encode(payload, exp = 2.hours.from_now)
   payload[:exp] = exp.to_i
   JWT.encode(payload, Rails.application.secrets.secret_key_base.to_s)
+end
+
+def user_confirmation_url opts={}
+  '/'
 end

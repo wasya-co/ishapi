@@ -43,14 +43,18 @@ module Ishapi
       end
     end
 
-    ## This is for guyd _vp_ 2020-07-21
-    ## It's been a while! _vp_ 2022-03-01
+    ## _vp_ 2020-07-21 This is for guyd
+    ## _vp_ 2022-03-01 It's been a while!
+    ## _vp_ 2022-09-04 continue
+    ##
+    ## @TODO: cannot proceed if already is_purchasing?
+    ##
     def create2
       authorize! :create, ::Ish::Payment
       current_user.profile.update_attributes({ is_purchasing: true })
 
       begin
-        amount_cents  = 503 # @TODO: change
+        amount_cents  = params[:amount_cents].to_i # @TODO: change
 
         ::Stripe.api_key = ::STRIPE_SK
         intent = Stripe::PaymentIntent.create({
@@ -63,7 +67,8 @@ module Ishapi
           client_secret: intent.client_secret,
           email: current_user.email,
           payment_intent_id: intent.id,
-          profile_id: current_user.profile.id )
+          profile_id: current_user.profile.id,
+        )
 
         render json: { client_secret: intent.client_secret }
       rescue Mongoid::Errors::DocumentNotFound => e
@@ -93,9 +98,9 @@ module Ishapi
       if payment && payment_intent['status'] == 'succeeded'
 
         payment.update_attributes( status: :confirmed )
-        n_unlocks = payment.profile.n_unlocks + 5
+        n_unlocks = payment.profile.n_unlocks + 1 # @TODO: it's not always 5? adjust
 
-        payment.profile.update_attributes!( n_unlocks: n_unlocks, is_purchasing: false ) # @TODO: it's not always 5? adjust
+        payment.profile.update_attributes!( n_unlocks: n_unlocks, is_purchasing: false )
       end
 
       render status: 200, json: { status: :ok }
