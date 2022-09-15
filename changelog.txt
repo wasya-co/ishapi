@@ -7,3 +7,5 @@
 0.3.0 - 2022-02-24 - fix: marker.destination is required, and also migrate data
 0.3.1 - 2022-08-10 - minor fixes
 0.4.0 - 2022-08-23 - LFG
+0.5.0 - 2022-09-13 - maps#show, config is its own not its parent's
+

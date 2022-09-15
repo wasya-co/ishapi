@@ -32,9 +32,14 @@ describe Ishapi::MapsController do
       response.body.should include("https://s3.amazonaws.com/ish-wp/wp-content/uploads/2022/02/25232018/100x100_crossout.png")
     end
 
-    it 'renders' do
+    it 'renders, sets: x, y, map_type' do
       get :show, format: :json, params: { slug: @map.slug }
       response.code.should eql '200'
+      result = JSON.parse(response.body).deep_symbolize_keys!
+
+      [ :x, :y, :map_type ].each do |sym|
+        result[:map][sym].should_not eql nil
+      end
     end
 
     it 'newsitems is never nil, even if empty' do
@@ -56,6 +61,20 @@ describe Ishapi::MapsController do
       result = JSON.parse response.body
       result['map']['newsitems'].should_not eql nil
     end
+
+    it 'shows its own config even if parent is present. example: 3D -> geodesic' do
+      parent = create(:map)
+      map = create(:map, parent: parent, parent_slug: parent.slug, config: '{ "a": "b" }' )
+      map.image = Ish::ImageAsset.create({
+        image: File.open( Rails.root.join( 'data', 'photo.png' ) ),
+      })
+      get :show, format: :json, params: { slug: map.slug }
+      result = JSON.parse response.body
+      puts! result, 'ze result'
+
+      result['map']['config'].should eql({ 'a' => 'b' })
+    end
+
 
     context 'markers have...' do
       it 'markers have premium_tier, id of the destination' do
