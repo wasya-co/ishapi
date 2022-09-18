@@ -8,13 +8,11 @@ DatabaseCleaner.clean
 
 
 RSpec.configure do |config|
-
   config.include FactoryBot::Syntax::Methods
-
   config.infer_spec_type_from_file_location!
-
-  config.include Devise::TestHelpers, :type => :helper
+  # config.include Devise::TestHelpers, :type => :helper
   config.include Devise::Test::ControllerHelpers, :type => :controller
+  Warden.test_mode!
 end
 
 def puts! a, b=''

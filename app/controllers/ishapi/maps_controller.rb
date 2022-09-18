@@ -12,7 +12,7 @@ class Ishapi::MapsController < Ishapi::ApplicationController
     authorize! :show, @map
     @newsitems = @location.newsitems
 
-    @markers = @map.markers.permitted_to(@current_user.profile)
+    @markers = @map.markers.permitted_to(@current_user.profile).order_by(ordering: :asc)
 
     @tags = @map.tags
 
@@ -21,14 +21,6 @@ class Ishapi::MapsController < Ishapi::ApplicationController
     #   @markers = @markers.order_by( name: :asc )
     # when ::Gameui::Map::ORDERING_TYPE_CUSTOM
     #   @markers = @markers.order_by( ordering: :asc )
-    # end
-
-    # ## @TODO: figure this out eventually
-    # if city = City.where( cityname: @map.slug ).first
-    #   # @newsitems = city.newsitems
-    #   @galleries = city.galleries
-    #   @reports = city.reports
-    #   @videos = city.videos
     # end
 
   end

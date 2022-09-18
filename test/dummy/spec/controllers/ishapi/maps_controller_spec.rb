@@ -4,91 +4,57 @@ describe Ishapi::MapsController do
   render_views
   routes { Ishapi::Engine.routes }
   before :each do
-    @map = FactoryBot.create :map
-    @map_2 = FactoryBot.create :map
-    @map_3 = FactoryBot.create :map
-    @map.image = Ish::ImageAsset.create({
-      image: File.open( Rails.root.join( 'data', 'photo.png' ) ),
-    })
+    @map = create :map
+    @map_2 = create :map
+    @map_3 = create :map
     @marker = create(:marker,
       creator_profile: create(:user),
       map: @map,
       destination: @map_2
     )
-    @map.save
-    @marker_image = create(:image_asset, marker_id: @marker.id)
-    @marker_title_image = create(:image_asset, marker_title_id: @marker.id)
   end
 
   describe '#show' do
-    it 'finds by slug=id' do
+    it 'finds by slug = id' do
       get :show, format: :json, params: { slug: @map_2.id.to_s }
       response.code.should eql '200'
     end
 
-    it 'helper image_missing' do
-      get :show, format: :json, params: { slug: @map_2.slug }
-      response.code.should eql '200'
-      response.body.should include("https://s3.amazonaws.com/ish-wp/wp-content/uploads/2022/02/25232018/100x100_crossout.png")
-    end
-
-    it 'renders, sets: x, y, map_type' do
+    it 'renders, sets: w, h, map_type, newsitems even if empty' do
       get :show, format: :json, params: { slug: @map.slug }
       response.code.should eql '200'
       result = JSON.parse(response.body).deep_symbolize_keys!
 
-      [ :x, :y, :map_type ].each do |sym|
+      [ :w, :h, :map_type, :newsitems ].each do |sym|
         result[:map][sym].should_not eql nil
       end
-    end
-
-    it 'newsitems is never nil, even if empty' do
-      @map = FactoryBot.create :map
-      @map.image = Ish::ImageAsset.create({
-        image: File.open( Rails.root.join( 'data', 'photo.png' ) ),
-      })
-      @marker = create(:marker,
-        creator_profile: create(:user),
-        map: @map,
-        destination: @map_3,
-      )
-      @map.save
-      @marker_image = create(:image_asset, marker_id: @marker.id)
-
-      get :show, format: :json, params: { slug: @map.slug }
-
-      response.code.should eql '200'
-      result = JSON.parse response.body
-      result['map']['newsitems'].should_not eql nil
     end
 
     it 'shows its own config even if parent is present. example: 3D -> geodesic' do
       parent = create(:map)
       map = create(:map, parent: parent, parent_slug: parent.slug, config: '{ "a": "b" }' )
-      map.image = Ish::ImageAsset.create({
-        image: File.open( Rails.root.join( 'data', 'photo.png' ) ),
-      })
       get :show, format: :json, params: { slug: map.slug }
       result = JSON.parse response.body
-      puts! result, 'ze result'
-
       result['map']['config'].should eql({ 'a' => 'b' })
     end
 
-
     context 'markers have...' do
-      it 'markers have premium_tier, id of the destination' do
+      it 'premium_tier, destination_slug' do
         get :show, format: :json, params: { slug: @map.slug }
         result = JSON.parse response.body
         result['map']['markers'][0].should_not eql nil
         result['map']['markers'][0]['premium_tier'].should_not eql nil
-        result['map']['markers'][0]['id'].should eql @marker.destination.id.to_s
+        result['map']['markers'][0]['destination_slug'].should_not eql nil
+        result['map']['markers'][0]['destination_slug'].should eql @marker.destination.slug
+        result['map']['markers'][0]['id'].should eql @marker.destination.id.to_s ## @TODO: Not sure I agree with this. _vp_ 2022-09-17
       end
 
-      it 'markers have is_purchased' do
+      ## @TODO: it appears whatever a user has purchased belongs to its own object or the user,
+      ##   not to the map. So, refactor this. _vp_ 2022-09-17
+      it 'is_purchased' do
         get :show, format: :json, params: { slug: @map.slug }
         result = JSON.parse response.body
-        result['map']['markers'][0]['id'].should eql @map_2.id.to_s
+        result['map']['markers'][0]['id'].should eql @map_2.id.to_s ## @TODO: Not sure I agree with this. _vp_ 2022-09-17
         result['map']['markers'][0]['is_purchased'].should be_falsey
 
         @map_2.update_attributes({ premium_tier: 1 })

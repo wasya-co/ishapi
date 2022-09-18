@@ -5,7 +5,7 @@ describe Ishapi::ReportsController do
   before :each do
     do_setup
     allow(controller).to receive(:current_user).and_return( User.new({ profile: ::Ish::UserProfile.new }) )
-    @report.photo = Photo.create :photo => File.open( Rails.root.join 'data', 'photo.png' )
+    @report.photo = Photo.create :photo => File.open( Rails.root.join 'data', 'image.jpg' )
     @report.save.should eql true
   end
 

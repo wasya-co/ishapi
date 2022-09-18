@@ -10,6 +10,7 @@ class Ishapi::Users::SessionsController < Devise::SessionsController
     # respond_with resource, location: after_sign_in_path_for(resource)
 
     ## Send the jwt to client
+    @current_user = resource
     @jwt_token = encode(user_id: @current_user.id.to_s)
     @profile = @current_user.profile
     render 'ishapi/users/login', format: :json, layout: false

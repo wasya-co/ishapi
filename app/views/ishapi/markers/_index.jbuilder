@@ -20,6 +20,7 @@ json.markers do
 
     ## @TODO: this is copy-pasted and should be abstracted.
     destination = marker.destination
+    json.destination_slug destination.slug
     json.premium_tier destination.premium_tier
     json.is_premium   destination.is_premium
     json.id           destination.id.to_s
