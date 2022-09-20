@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: fec86b4a7325c3dd706442bc13cae846713a5876
+  revision: 1ad420333a14d6dc7075d909fcc5eddc538f74fd
   branch: master
   specs:
-    ish_models (0.0.33.172)
+    ish_models (0.0.33.173)
       aws-sdk
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -15,7 +15,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.188)
+    ishapi (0.1.8.189)
       aws-sdk
       cancancan (~> 2.0)
       devise
@@ -97,7 +97,7 @@ GEM
     aes_key_wrap (1.1.0)
     attr_required (1.0.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.630.0)
+    aws-partitions (1.632.0)
     aws-sdk (3.1.0)
       aws-sdk-resources (~> 3)
     aws-sdk-accessanalyzer (1.29.0)
@@ -250,7 +250,7 @@ GEM
     aws-sdk-cloudsearchdomain (1.33.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-cloudtrail (1.50.0)
+    aws-sdk-cloudtrail (1.51.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-cloudwatch (1.67.0)
@@ -295,7 +295,7 @@ GEM
     aws-sdk-codestarconnections (1.24.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-codestarnotifications (1.19.0)
+    aws-sdk-codestarnotifications (1.20.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-cognitoidentity (1.40.1)
@@ -337,7 +337,7 @@ GEM
     aws-sdk-controltower (1.0.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-core (3.147.0)
+    aws-sdk-core (3.150.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
@@ -390,7 +390,7 @@ GEM
     aws-sdk-drs (1.7.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-dynamodb (1.76.0)
+    aws-sdk-dynamodb (1.77.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-dynamodbstreams (1.39.0)
@@ -399,7 +399,7 @@ GEM
     aws-sdk-ebs (1.26.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-ec2 (1.333.0)
+    aws-sdk-ec2 (1.335.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-ec2instanceconnect (1.25.0)
@@ -411,7 +411,7 @@ GEM
     aws-sdk-ecrpublic (1.12.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-ecs (1.100.0)
+    aws-sdk-ecs (1.101.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-efs (1.54.0)
@@ -696,7 +696,7 @@ GEM
     aws-sdk-marketplacemetering (1.44.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-mediaconnect (1.44.0)
+    aws-sdk-mediaconnect (1.45.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-mediaconvert (1.92.0)
@@ -831,7 +831,7 @@ GEM
     aws-sdk-ram (1.39.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-rds (1.155.0)
+    aws-sdk-rds (1.156.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-rdsdataservice (1.37.0)
@@ -1210,7 +1210,7 @@ GEM
     aws-sdk-s3outposts (1.13.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-sagemaker (1.139.0)
+    aws-sdk-sagemaker (1.140.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-sagemakeredgemanager (1.12.0)
