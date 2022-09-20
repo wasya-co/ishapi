@@ -19,14 +19,15 @@ json.markers do
     json.asset3d_path   marker.asset3d ? marker.asset3d.object.url : ''
 
     ## @TODO: this is copy-pasted and should be abstracted.
-    destination = marker.destination
-    json.destination_slug destination.slug
-    json.premium_tier destination.premium_tier
-    json.is_premium   destination.is_premium
-    json.id           destination.id.to_s
-    if destination.is_premium
-      if current_user && current_user.profile
-        json.is_purchased current_user.profile.has_premium_purchase( destination )
+    if destination = marker.destination
+      json.destination_slug destination.slug
+      json.premium_tier destination.premium_tier
+      json.is_premium   destination.is_premium
+      json.id           destination.id.to_s
+      if destination.is_premium
+        if current_user && current_user.profile
+          json.is_purchased current_user.profile.has_premium_purchase( destination )
+        end
       end
     end
 

@@ -23,7 +23,13 @@ json.cache! key do
     json.username    @report.user_profile.name if @report.user_profile
     json.cityname    @report.city.cityname if @report.city
     json.subhead     @report.subhead
-    json.description @report.descr
+
+    case @report.item_type
+    when 'wordpress'
+      json.raw_json    JSON.parse(@report.raw_json)
+    else
+      json.description @report.descr
+    end
 
     if @report.photo
       json.photo do

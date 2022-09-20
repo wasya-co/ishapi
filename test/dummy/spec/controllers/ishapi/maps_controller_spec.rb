@@ -20,13 +20,26 @@ describe Ishapi::MapsController do
       response.code.should eql '200'
     end
 
-    it 'renders, sets: w, h, map_type, newsitems even if empty' do
+    it 'renders, sets: w, h, newsitems even if empty' do
       get :show, format: :json, params: { slug: @map.slug }
+
       response.code.should eql '200'
       result = JSON.parse(response.body).deep_symbolize_keys!
 
-      [ :w, :h, :map_type, :newsitems ].each do |sym|
-        result[:map][sym].should_not eql nil
+      [ :w, :h, :newsitems ].each do |sym|
+        result[:map][sym].should_not eql( nil ), "#{sym} cannot be empty!"
+      end
+    end
+
+    it 'sets: newsitems_pagination' do
+      create(:newsitem, map: @map)
+
+      get :show, format: :json, params: { slug: @map.slug }
+
+      result = JSON.parse(response.body).deep_symbolize_keys!
+
+      [ :newsitems_pagination ].each do |sym|
+        result[:map][sym].should_not eql( nil ), "#{sym} cannot be empty!"
       end
     end
 
@@ -38,8 +51,8 @@ describe Ishapi::MapsController do
       result['map']['config'].should eql({ 'a' => 'b' })
     end
 
-    context 'markers have...' do
-      it 'premium_tier, destination_slug' do
+    context 'markers' do
+      it 'have premium_tier, destination_slug' do
         get :show, format: :json, params: { slug: @map.slug }
         result = JSON.parse response.body
         result['map']['markers'][0].should_not eql nil

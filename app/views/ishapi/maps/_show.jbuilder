@@ -14,7 +14,7 @@ json.cache! this_key do
     json.h            map.h
     json.x            map.x
     json.y            map.y
-    json.map_type     map.map_type
+    # json.map_type     map.map_type
     json.img_path     map.image.image.url(:original)
     json.updated_at   map.updated_at
     json.rated        map.rated
