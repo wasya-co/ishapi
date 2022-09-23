@@ -5,7 +5,6 @@
 json.markers do
   json.array! markers do |marker|
     json.name marker.name
-    json.slug marker.slug
     json.x    marker.x
     json.y    marker.y
     json.w    marker.w
@@ -20,10 +19,11 @@ json.markers do
 
     ## @TODO: this is copy-pasted and should be abstracted.
     if destination = marker.destination
-      json.destination_slug destination.slug
-      json.premium_tier destination.premium_tier
-      json.is_premium   destination.is_premium
-      json.id           destination.id.to_s
+      json.destination_slug destination.slug # @TODO: this looks obsolete, if I'm using slug instead. _vp_ 2022-09-23
+      json.slug             destination.slug
+      json.premium_tier     destination.premium_tier
+      json.is_premium       destination.is_premium
+      json.id               destination.id.to_s
       if destination.is_premium
         if current_user && current_user.profile
           json.is_purchased current_user.profile.has_premium_purchase( destination )

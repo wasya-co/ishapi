@@ -1,6 +1,7 @@
 #
-# ishapi / maps / _show
+# ishapi / maps / show_restricted
 #
+map = @map
 
 this_key = [ map.id, map.updated_at ]
 json.cache! this_key do
@@ -9,20 +10,11 @@ json.cache! this_key do
     json.id           map.id.to_s
     json.slug         map.slug
     json.parent_slug  map.parent_slug
-    json.description  map.description
-    json.w            map.w
-    json.h            map.h
-    # json.x            map.x
-    # json.y            map.y
-    # json.map_type     map.map_type
-    json.img_path     map.image.image.url(:original)
     json.updated_at   map.updated_at
     json.rated        map.rated
     json.name         map.name
-
     json.premium_tier map.premium_tier
     json.is_premium   map.is_premium
-    json.is_purchased current_user&.profile&.has_premium_purchase( map )
 
     json.breadcrumbs do
       json.array! map.breadcrumbs do |b|
@@ -30,22 +22,6 @@ json.cache! this_key do
         json.slug b[:slug]
         json.link b[:link]
       end
-    end
-
-    if markers
-      json.partial! 'ishapi/markers/index', markers: markers
-    end
-
-    if newsitems
-      json.partial! 'ishapi/newsitems/index', newsitems: newsitems
-    end
-
-    if tags
-      json.partial! 'ishapi/tags/index', tags: tags
-    end
-
-    if map.map
-      json.partial! 'ishapi/maps/show', map: map.map
     end
 
     ## _vp_ 2021-10-14 I removed json parsing from here!
@@ -59,6 +35,8 @@ json.cache! this_key do
       json.config JSON.parse map.config
       json.labels JSON.parse map.labels
     end
+
+    # json.map({ config: {} })
 
   end
 end
