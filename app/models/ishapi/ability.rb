@@ -72,6 +72,11 @@ class Ishapi::Ability
     end
 
     #
+    # P
+    #
+    can [ :show ], Photo
+
+    #
     # R
     #
     can [ :index ], Report

@@ -41,6 +41,7 @@ Ishapi::Engine.routes.draw do
   post 'payments/unlock', to: 'payments#unlock' # do_purchase
   post  'stripe_confirm', to: 'payments#stripe_confirm' # @TODO: test-drive
 
+  get 'photos/view/:id', to: 'photos#show'
   get 'profiles/view/:username', :to => 'user_profiles#show'
 
   get 'reports', :to => 'reports#index'
