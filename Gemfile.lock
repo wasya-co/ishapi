@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/wasya-co/ish_models.git
-  revision: 264d2d20b9d311b8eb3330edf378539f31e07d6d
+  revision: 50e421ad847bf0052a3e9b78f45ea211ba7e7e3a
   branch: 1.9.0
   specs:
-    ish_models (0.0.33.176)
+    ish_models (0.0.33.177)
       aws-sdk
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
