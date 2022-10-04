@@ -19,7 +19,7 @@ class Ishapi::ApplicationController < ActionController::Base
     @long_term_token  = j['access_token']
     @graph            = Koala::Facebook::API.new( accessToken )
     @me               = @graph.get_object( 'me', :fields => 'email' )
-    @current_user     = User.where( :email => @me['email'] ).first
+    @current_user     = TmpUser.where( :email => @me['email'] ).first
 
     # send the jwt to client
     @jwt_token = encode(user_id: @current_user.id.to_s)
@@ -64,7 +64,7 @@ class Ishapi::ApplicationController < ActionController::Base
     rescue JWT::ExpiredSignature, JWT::DecodeError => e
       # flash[:notice] = 'You are not logged in, or you have been logged out.'
       # puts! 'You are not logged in, or you have been logged out.'
-      @current_user = User.new({ profile: Ish::UserProfile.new })
+      @current_user = TmpUser.new({ profile: Ish::UserProfile.new })
     end
   end
 
@@ -72,7 +72,7 @@ class Ishapi::ApplicationController < ActionController::Base
   def check_profile_hard
     begin
       decoded = decode(params[:jwt_token])
-      @current_user = User.find decoded['user_id']
+      @current_user = TmpUser.find decoded['user_id']
     rescue JWT::ExpiredSignature, JWT::DecodeError => e
       # flash[:notice] = 'You are not logged in, or you have been logged out.'
       # puts! 'You are not logged in, or you have been logged out.'
@@ -83,7 +83,7 @@ class Ishapi::ApplicationController < ActionController::Base
   def check_jwt
     begin
       decoded = decode(params[:jwt_token])
-      @current_user = User.find decoded['user_id']
+      @current_user = TmpUser.find decoded['user_id']
     rescue JWT::ExpiredSignature
       Rails.logger.info("JWT::ExpiredSignature")
     rescue JWT::DecodeError
