@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/piousbox/ish_models.git
+  remote: https://github.com/wasya-co/ish_models.git
   revision: 264d2d20b9d311b8eb3330edf378539f31e07d6d
   branch: 1.9.0
   specs:
@@ -15,7 +15,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.192)
+    ishapi (0.1.8.193)
       aws-sdk
       cancancan (~> 2.0)
       devise
