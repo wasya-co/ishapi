@@ -10,3 +10,4 @@
 0.5.0 - 2022-09-13 - maps#show, config is its own not its parent's
 0.6.0 - 2022-09-23 - figuring out how to display a locked premium location
                      map always has is_purchased
+0.7.0 - 2022-10-04 - deploying 0.x.x until models are fixed.
