@@ -9,8 +9,7 @@ module Ishapi
     before_action :check_profile_hard, only: %i| account |
 
     def account
-      @profile = @current_user&.profile
-      authorize! :show, @profile
+      authorize! :show, @current_profile
       render 'ishapi/users/account'
     rescue CanCan::AccessDenied
       render json: {
@@ -37,7 +36,6 @@ module Ishapi
 
     def fb_sign_in
       authorize! :fb_sign_in, Ishapi
-      # render :json => { :status => :ok }
       render :action => 'show'
     end
 

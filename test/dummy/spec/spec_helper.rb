@@ -27,17 +27,11 @@ def do_setup
   Profile.all.destroy_all
   @user = @fake_user = create(:user, :email => 'test@gmail.com')
 
-  @city = City.create( :name => 'xx-test-city', :cityname => 'text-cityname' )
-
   Gallery.all.destroy_all
   @gallery = create :gallery, user_profile: @user.profile
 
   @report = create :report
 
-  @site = create :site
-  @site.newsitems << Newsitem.create({ gallery: @gallery })
-
-  @tag = create :tag
 end
 
 Paperclip.options[:log] = false

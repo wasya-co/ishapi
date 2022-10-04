@@ -16,8 +16,8 @@ json.newsitems do
     json.description item.description
 
     json.votes_score item.votes_score
-    if @current_user&.profile
-      json.current_user_vote_value item.vote_value(@current_user.profile.id)
+    if @current_profile
+      json.current_user_vote_value item.vote_value(@current_profile.id)
     end
 
 
@@ -34,7 +34,7 @@ json.newsitems do
       if item.gallery.is_premium
         json.premium_tier item.gallery.premium_tier
         json.is_premium   item.gallery.premium_tier > 0
-        json.is_purchased current_user&.profile&.has_premium_purchase( item.gallery )
+        json.is_purchased current_profile&.has_premium_purchase( item.gallery )
         json.partial!    'ishapi/photos/index',     :photos => [ item.gallery.photos[0] ]
       else
         json.partial!    'ishapi/photos/index',     :photos => item.gallery.photos[0...3]
@@ -63,7 +63,7 @@ json.newsitems do
         if item.report.is_premium
           json.premium_tier item.report.premium_tier
           json.is_premium   item.report.premium_tier > 0
-          json.is_purchased current_user&.profile&.has_premium_purchase( item.report )
+          json.is_purchased current_profile&.has_premium_purchase( item.report )
         end
       end
     end

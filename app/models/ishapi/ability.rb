@@ -2,30 +2,26 @@
 class Ishapi::Ability
   include ::CanCan::Ability
 
-  def initialize user
+  def initialize user_profile
     #
-    # signed in user
+    # signed in user_profile
     #
-    if !user.blank?
-
-      # if user.profile && user.profile.sudoer?
-      #   can :manage, :all
-      # end
+    if !user_profile.blank?
 
       can [ :my_index ], Gallery
       can [ :show ], Gallery do |gallery|
-        gallery.user_profile == user.profile || # my own
+        gallery.user_profile == user_profile || # my own
         (!gallery.is_trash && gallery.is_public ) || # public
-        (!gallery.is_trash && gallery.shared_profiles.include?( user.profile ) ) # shared with me
+        (!gallery.is_trash && gallery.shared_profiles.include?( user_profile ) ) # shared with me
       end
 
       can [ :do_purchase ], ::Gameui
       can [ :show ], ::Gameui::Map do |map|
-        map.creator_profile == user.profile
+        map.creator_profile == user_profile
       end
 
       can [ :destroy ], Newsitem do |n|
-        n.map.creator_profile.id == user.profile.id
+        n.map.creator_profile.id == user_profile.id
       end
 
       can [ :create, :unlock ], ::Ish::Payment
@@ -42,10 +38,6 @@ class Ishapi::Ability
     can [ :update ], Ish::UserProfile do |p|
       p.user.id.to_s == user.id.to_s
     end
-
-    can [ :index, :show ], City
-
-    can [ :index, :show ], Event
 
     #
     # G
@@ -65,7 +57,7 @@ class Ishapi::Ability
     #
     can [ :index ], ::Gameui::Map
     can [ :show ], ::Gameui::Map do |map|
-      map.is_public || map.shared_profiles.include?( user.profile )
+      map.is_public || map.shared_profiles.include?( user_profile )
     end
     can [ :show ], ::Gameui::Marker do |m|
       m.is_public
@@ -87,23 +79,14 @@ class Ishapi::Ability
     #
     # S
     #
-    can [ :index, :show ], Site
 
     #
     # T
     #
-    can [ :index ], Tag
-    can [ :show ], Tag do |tag|
-      tag.is_public
-    end
 
     #
     # V
     #
-    can [ :index ], Venue
-    can [ :show ], Venue do |venue|
-      venue.is_public
-    end
     can [ :index, :my_index ], Video
     can [ :show ], Video do |video|
       video.is_public

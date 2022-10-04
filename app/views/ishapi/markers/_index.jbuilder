@@ -25,8 +25,8 @@ json.markers do
       json.is_premium       destination.is_premium
       json.id               destination.id.to_s
       if destination.is_premium
-        if current_user && current_user.profile
-          json.is_purchased current_user.profile.has_premium_purchase( destination )
+        if current_profile
+          json.is_purchased current_profile.has_premium_purchase( destination )
         end
       end
     end

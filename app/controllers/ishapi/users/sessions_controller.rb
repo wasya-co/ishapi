@@ -11,8 +11,8 @@ class Ishapi::Users::SessionsController < Devise::SessionsController
 
     ## Send the jwt to client
     @current_user = resource
-    @jwt_token = encode(user_id: @current_user.id.to_s)
-    @profile = @current_user.profile
+    @current_profile = Ish::UserProfile.find_by({ email: @current_user.email })
+    @jwt_token = encode(user_profile_id: @current_profile.id.to_s)
     render 'ishapi/users/login', format: :json, layout: false
   end
 

@@ -1,7 +1,4 @@
 
-#
-# ishapi / users / show.jbuilder
-#
 
 json.email                @current_profile.email
 json.about                @current_profile.about
@@ -23,5 +20,5 @@ if @current_profile.measurement
   json.partial! 'ishapi/measurements/show', :measurement => @current_profile.measurement
 end
 
-json.partial! 'ishapi/orders/show', :order => @current_order
+# json.partial! 'ishapi/orders/show', :order => @current_order
 

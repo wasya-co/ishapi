@@ -6,12 +6,6 @@ Ishapi::Engine.routes.draw do
 
   resources :addresses
 
-  get 'cities',                :to => 'cities#index'
-  get 'cities/view/:cityname', :to => 'cities#show'
-  get 'cities/features',       :to => 'cities#features'
-
-  get 'events/view/:eventname',      :to => 'events#show'
-
   get  'galleries',                   :to => 'galleries#index'
   post 'galleries',                   :to => 'galleries#index'
   get  'galleries/view/:slug', :to => 'galleries#show'
@@ -24,11 +18,11 @@ Ishapi::Engine.routes.draw do
   get 'markers/view/:slug', to: 'maps#show_marker'
   match  "/my/account", to: "users#account", via: [ :get, :post ]
   namespace :my do
-    get 'galleries', to: 'galleries#index'
-    get 'newsitems', to: 'newsitems#index'
-    get  'reports',  to: 'reports#index'
-    get  'videos',   to: 'videos#index'
-    post 'videos',   to: 'videos#index'
+    get  'galleries', to: 'galleries#index'
+    get  'newsitems', to: 'newsitems#index'
+    get  'reports',   to: 'reports#index'
+    get  'videos',    to: 'videos#index'
+    post 'videos',    to: 'videos#index'
   end
 
   # N
@@ -47,19 +41,12 @@ Ishapi::Engine.routes.draw do
   get 'reports', :to => 'reports#index'
   get 'reports/view/:slug', :to => 'reports#show'
 
-  get  'sites/view/:domain',                            :to => 'sites#show',      :constraints => { :domain => /[^\/]+/ }
-  post 'sites/view/:domain',                            :to => 'sites#show',      :constraints => { :domain => /[^\/]+/ }
-  get  'sites/view/:domain/newsitems/:newsitems_page',  :to => 'newsitems#index', :constraints => { :domain => /[^\/]+/ }
-  get  'sites/view/:domain/reports',                    :to => 'reports#index',   :constraints => { :domain => /[^\/]+/ }
-  get  'sites/view/:domain/reports/page/:reports_page', :to => 'reports#index',   :constraints => { :domain => /[^\/]+/ }
-  get  'sites/view/:domain/tags',                       :to => 'tags#index',      :constraints => { :domain => /[^\/]+/ }
-
   post 'stars/buy', to: 'gameui#buy_stars'
 
   ## 2022-02-12 moved to iron_warbler gem _vp_
   # resources "stock_watches"
 
-  get 'tags/view/:slug', :to => 'tags#show'
+
   get 'test', to: 'application#test'
 
   post  'users/fb_sign_in',      to: 'users#fb_sign_in'
@@ -74,9 +61,6 @@ Ishapi::Engine.routes.draw do
   end
 
   post 'v1/vote/:votee_class_name/:votee_id/:voter_id/:value', to: 'application#vote'
-
-  get 'venues', :to => 'venues#index'
-  get 'venues/view/:venuename', :to => 'venues#show'
 
   resources :videos
 

@@ -34,8 +34,8 @@ end
 if video.is_premium
   json.premium_tier video.premium_tier
   json.is_premium   video.premium_tier > 0
-  if current_user && current_user.profile
-    json.is_purchased current_user.profile.has_premium_purchase( video )
+  if current_profile
+    json.is_purchased current_profile.has_premium_purchase( video )
   end
 end
 

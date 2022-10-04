@@ -22,7 +22,7 @@ json.cache! this_key do
 
     json.premium_tier map.premium_tier
     json.is_premium   map.is_premium
-    json.is_purchased current_user&.profile&.has_premium_purchase( map )
+    json.is_purchased current_profile&.has_premium_purchase( map )
 
     json.breadcrumbs do
       json.array! map.breadcrumbs do |b|

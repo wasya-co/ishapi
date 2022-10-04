@@ -5,7 +5,7 @@ class Ishapi::Users::RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
     resource.save
-    resource.profile = Ish::UserProfile.create({ user: resource, email: resource.email })
+    user_profile = Ish::UserProfile.create({ email: resource.email })
     yield resource if block_given?
     if resource.persisted?
       render json: {

@@ -28,7 +28,7 @@ class Ishapi::ApplicationController < ActionController::Base
       email: @current_user.email,
       jwt_token: @jwt_token,
       long_term_token: @long_term_token,
-      n_unlocks: @current_user.profile.n_unlocks,
+      n_unlocks: @current_profile.n_unlocks,
     }
   end
 
@@ -56,15 +56,16 @@ class Ishapi::ApplicationController < ActionController::Base
 
   private
 
-  ## This returns an empty user if not logged in!
+  ## This returns an empty profile if not logged in!
   def check_profile
     begin
       decoded = decode(params[:jwt_token])
-      @current_user = User.find decoded['user_id']
+      @current_profile = Ish::UserProfile.find decoded['user_profile_id']
     rescue JWT::ExpiredSignature, JWT::DecodeError => e
-      # flash[:notice] = 'You are not logged in, or you have been logged out.'
-      # puts! 'You are not logged in, or you have been logged out.'
-      @current_user = User.new({ profile: Ish::UserProfile.new })
+      flash[:notice] = 'You are not logged in, or you have been logged out.'
+      puts! 'You are not logged in, or you have been logged out.'
+
+      @current_profile = Ish::UserProfile.new
     end
   end
 
@@ -72,10 +73,10 @@ class Ishapi::ApplicationController < ActionController::Base
   def check_profile_hard
     begin
       decoded = decode(params[:jwt_token])
-      @current_user = User.find decoded['user_id']
+      @current_profile = Ish::UserProfile.find decoded['user_profile_id']
     rescue JWT::ExpiredSignature, JWT::DecodeError => e
-      # flash[:notice] = 'You are not logged in, or you have been logged out.'
-      # puts! 'You are not logged in, or you have been logged out.'
+      flash[:notice] = 'You are not logged in, or you have been logged out.'
+      puts! 'You are not logged in, or you have been logged out.'
     end
   end
 
@@ -83,7 +84,7 @@ class Ishapi::ApplicationController < ActionController::Base
   def check_jwt
     begin
       decoded = decode(params[:jwt_token])
-      @current_user = User.find decoded['user_id']
+      @current_profile = Ish::UserProfile.find decoded['user_profile_id']
     rescue JWT::ExpiredSignature
       Rails.logger.info("JWT::ExpiredSignature")
     rescue JWT::DecodeError
@@ -105,7 +106,7 @@ class Ishapi::ApplicationController < ActionController::Base
   end
 
   def current_ability
-    @current_ability ||= Ishapi::Ability.new( @current_user )
+    @current_ability ||= Ishapi::Ability.new( @current_profile )
   end
 
 end
