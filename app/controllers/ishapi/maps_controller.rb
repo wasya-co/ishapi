@@ -14,7 +14,7 @@ class Ishapi::MapsController < Ishapi::ApplicationController
     @newsitems = @location.newsitems.page( params[:newsitems_page]
       ).per( @location.newsitems_page_size )
 
-    @markers = @map.markers.permitted_to(@current_user.profile).order_by(ordering: :asc)
+    @markers = @map.markers.permitted_to(@current_profile).order_by(ordering: :asc)
     # case @map.ordering_type
     # when ::Gameui::Map::ORDERING_TYPE_ALPHABETIC
     #   @markers = @markers.order_by( name: :asc )
@@ -22,15 +22,11 @@ class Ishapi::MapsController < Ishapi::ApplicationController
     #   @markers = @markers.order_by( ordering: :asc )
     # end
 
-    @tags = @map.tags
-
-    if @map.is_premium && !@current_user.profile.has_premium_purchase( @map )
+    if @map.is_premium && !@current_profile.has_premium_purchase( @map )
       render 'show_restricted'
     else
       render 'show'
     end
-
-
   end
 
   def show_marker

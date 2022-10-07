@@ -1,7 +1,7 @@
 
 require 'rubygems'
 require 'rack/throttle'
-# require 'jbuilder'
+require 'jbuilder' # _vp_ 2022-10-07 - otherwise host app cant find templates
 
 module Ishapi
   class Engine < ::Rails::Engine
