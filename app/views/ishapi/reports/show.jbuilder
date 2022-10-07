@@ -21,7 +21,6 @@ json.cache! key do
     json.created_at  @report.created_at
     json.updated_at  @report.updated_at
     json.username    @report.user_profile.name if @report.user_profile
-    json.cityname    @report.city.cityname if @report.city
     json.subhead     @report.subhead
 
     case @report.item_type
@@ -38,8 +37,6 @@ json.cache! key do
         json.large_url @report.photo.photo.url :large
       end
     end
-
-    json.partial! 'ishapi/tags/index',   :tags   => @report.tags
   end
 
   # @deprecated, but specs use this _vp_ 20180423

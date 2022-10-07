@@ -13,14 +13,6 @@ json.x           video.x
 json.y           video.y
 json.url         video.video.url
 
-if video.city
-  json.cityname video.city.cityname
-  json.city do
-    json.name video.city.name
-    json.slug video.city.cityname
-  end
-end
-
 json.tags         [ { slug: 'adventure', name: 'Adventure' },
                     { slug: 'bars-and-clubs', name: 'Bars & Clubs' },
                     { slug: 'food', name: 'Food' },

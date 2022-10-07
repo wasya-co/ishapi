@@ -9,10 +9,6 @@ module Ishapi
     def index
       @galleries = Gallery.all
       authorize! :index, Gallery
-      if params[:cityname]
-        city = City.find_by :cityname => params[:cityname]
-        @galleries = @galleries.where( :city => city )
-      end
       if params[:domain]
         @site = Site.find_by( :domain => params[:domain], :lang => 'en' )
         @galleries = @galleries.where( :site => @site )

@@ -20,7 +20,5 @@ json.reports do
       end
     end
 
-    json.partial! 'ishapi/tags/index', tags: report.tags unless report.tags.blank?
-
   end
 end

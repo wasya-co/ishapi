@@ -40,10 +40,6 @@ json.cache! this_key do
       json.partial! 'ishapi/newsitems/index', newsitems: newsitems
     end
 
-    if tags
-      json.partial! 'ishapi/tags/index', tags: tags
-    end
-
     if map.map
       json.partial! 'ishapi/maps/show', map: map.map
     end
