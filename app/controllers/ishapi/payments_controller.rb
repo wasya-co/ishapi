@@ -51,7 +51,7 @@ module Ishapi
     ##
     def create2
       authorize! :create, ::Ish::Payment
-      current_user.profile.update_attributes({ is_purchasing: true })
+      @current_profile.update_attributes({ is_purchasing: true })
 
       begin
         amount_cents  = params[:amount_cents].to_i # @TODO: change
@@ -65,9 +65,9 @@ module Ishapi
 
         payment = Ish::Payment.create!(
           client_secret: intent.client_secret,
-          email: current_user.email,
+          email: @current_profile.email,
           payment_intent_id: intent.id,
-          profile_id: current_user.profile.id,
+          profile_id: @current_profile.id,
         )
 
         render json: { client_secret: intent.client_secret }
@@ -110,18 +110,18 @@ module Ishapi
       authorize! :unlock, ::Ish::Payment
       item = Object::const_get(params['kind']).find params['id']
 
-      existing = Purchase.where( user_profile: @current_user.profile, item: item ).first
+      existing = Purchase.where( user_profile: @current_profile, item: item ).first
       if existing
         render status: 200, json: { status: :ok, message: 'already purchased' }
         return
       end
 
-      @current_user.profile.inc( n_unlocks: -item.premium_tier )
+      @current_profile.inc( n_unlocks: -item.premium_tier )
 
-      purchase = ::Gameui::PremiumPurchase.create!( item: item, user_profile: @current_user.profile, )
+      purchase = ::Gameui::PremiumPurchase.create!( item: item, user_profile: @current_profile, )
 
-      @profile = @current_user.profile
-      render 'ishapi/users/account'
+      @profile = @current_profile
+      render 'ishapi/user_profiles/account'
     end
 
   end
