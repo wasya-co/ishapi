@@ -18,7 +18,7 @@ gem 'koala'
 gem 'jwt'
 
 
-gem 'ish_models', github: 'wasyaco/ish_models', branch: '1.10.0'
+gem 'ish_models', github: 'wasyaco/ish_models', branch: '2.0.0'
 gem 'ishapi'
 
 

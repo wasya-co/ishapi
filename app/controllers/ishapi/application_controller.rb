@@ -63,8 +63,6 @@ class Ishapi::ApplicationController < ActionController::Base
       @current_profile = Ish::UserProfile.find decoded['user_profile_id']
     rescue JWT::ExpiredSignature, JWT::DecodeError => e
       flash[:notice] = 'You are not logged in, or you have been logged out.'
-      puts! 'You are not logged in, or you have been logged out.'
-
       @current_profile = Ish::UserProfile.new
     end
   end
@@ -76,7 +74,6 @@ class Ishapi::ApplicationController < ActionController::Base
       @current_profile = Ish::UserProfile.find decoded['user_profile_id']
     rescue JWT::ExpiredSignature, JWT::DecodeError => e
       flash[:notice] = 'You are not logged in, or you have been logged out.'
-      puts! 'You are not logged in, or you have been logged out.'
     end
   end
 
