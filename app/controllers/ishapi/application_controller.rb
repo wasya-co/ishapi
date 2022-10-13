@@ -69,8 +69,8 @@ class Ishapi::ApplicationController < ActionController::Base
     end
   end
 
-  ## This errors out if not logged in!
-  def check_profile_hard
+  ## If not logged in, errors out
+  def check_profile!
     begin
       decoded = decode(params[:jwt_token])
       @current_profile = Ish::UserProfile.find decoded['user_profile_id']

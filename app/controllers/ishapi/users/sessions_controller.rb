@@ -13,7 +13,7 @@ class Ishapi::Users::SessionsController < Devise::SessionsController
     @current_user = resource
     @current_profile = Ish::UserProfile.find_by({ email: @current_user.email })
     @jwt_token = encode(user_profile_id: @current_profile.id.to_s)
-    render 'ishapi/users/login', format: :json, layout: false
+    render 'ishapi/user_profiles/login', format: :json, layout: false
   end
 
   private

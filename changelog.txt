@@ -14,3 +14,4 @@
 1.0.0 - 2022-10-04 - no longer deploying master, versions of dependencies locked.
                      no more current_user, only current_profile
                      depends on ish_models ~2.0.0
+      - 2022-10-13 - bugfixes, should be able to login once again
