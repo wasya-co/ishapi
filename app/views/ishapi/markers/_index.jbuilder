@@ -7,6 +7,7 @@ json.markers do
     json.name marker.name
     json.x    marker.x
     json.y    marker.y
+    json.z    marker.z
     json.w    marker.w
     json.h    marker.h
     json.centerOffsetX  marker.centerOffsetX
