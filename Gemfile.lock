@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: e790b3c2c7cf5e3662799225ddab0f47ed47d825
+  revision: 1309c8ae46b19d57465db6c5d6a5bc89ae1ec119
   branch: 2.0.0
   specs:
     ish_models (0.0.33.179)
