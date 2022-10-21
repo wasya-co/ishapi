@@ -15,7 +15,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.191)
+    ishapi (0.1.8.192)
       aws-sdk
       cancancan (~> 2.0)
       devise
@@ -1367,7 +1367,7 @@ GEM
     aws-sigv4 (1.5.1)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.18)
-    bindata (2.4.10)
+    bindata (2.4.13)
     bson (4.15.0)
     builder (3.2.4)
     cancancan (2.3.0)
@@ -1383,6 +1383,8 @@ GEM
     erubi (1.11.0)
     faraday (0.17.5)
       multipart-post (>= 1.2, < 3)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
     fb_graph (2.7.17)
       httpclient (>= 2.4)
       multi_json (>= 1.3)
@@ -1421,9 +1423,10 @@ GEM
     kaminari-mongoid (1.0.2)
       kaminari-core (~> 1.0)
       mongoid
-    koala (3.2.0)
+    koala (3.3.0)
       addressable
-      faraday (< 2)
+      faraday
+      faraday-multipart
       json (>= 1.8)
       rexml
     kt-paperclip (7.1.1)
@@ -1463,7 +1466,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.2.3)
     nio4r (2.5.8)
-    nokogiri (1.13.8)
+    nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     orm_adapter (0.5.0)
