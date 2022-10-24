@@ -20,6 +20,7 @@ class Ishapi::ApplicationController < ActionController::Base
     @graph            = Koala::Facebook::API.new( accessToken )
     @me               = @graph.get_object( 'me', :fields => 'email' )
     @current_user     = User.where( :email => @me['email'] ).first
+    @current_profile  = Ish::UserProfile.find_by( email: @current_user.email )
 
     # send the jwt to client
     @jwt_token = encode(user_id: @current_user.id.to_s)

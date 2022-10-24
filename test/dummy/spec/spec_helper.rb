@@ -26,6 +26,7 @@ def do_setup
   User.all.destroy_all
   Profile.all.destroy_all
   @user = @fake_user = create(:user, :email => 'test@gmail.com')
+  @profile = create( :profile, email: 'test@gmail.com' )
 
   Gallery.all.destroy_all
   @gallery = create :gallery, user_profile: @user.profile

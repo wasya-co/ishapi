@@ -2,27 +2,13 @@
 development: &id1
   clients:
     default:
-      database: ish_development
-      hosts:
-        - 127.0.0.1
-development_cached: *id1
-development_production: 
-  clients:
-    default:
-      database: ish_production
+      database: ish_api_development
       hosts:
         - 127.0.0.1
 
 test:
   clients:
     default:
-      database: ish_test
-      hosts:
-        - 127.0.0.1
-
-production:
-  clients:
-    default:
-      database: ish_development
+      database: ish_api_test
       hosts:
         - 127.0.0.1
