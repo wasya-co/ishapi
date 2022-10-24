@@ -10,6 +10,8 @@ json.markers do
     json.z    marker.z
     json.w    marker.w
     json.h    marker.h
+    json.castShadow     marker.castShadow
+    json.receiveShadow  marker.receiveShadow
     json.centerOffsetX  marker.centerOffsetX
     json.centerOffsetY  marker.centerOffsetY
     json.img_path       marker.image ? marker.image.image.url(:original) : image_missing

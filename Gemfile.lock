@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: 9aeb149771ce3331d46453c82d2902850fe4e355
+  revision: f7a07a1a650821a04e475beee51cd18680021855
   branch: 2.1.0
   specs:
-    ish_models (0)
+    ish_models (0.0.33.180)
       aws-sdk-s3
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -96,8 +96,8 @@ GEM
     aes_key_wrap (1.1.0)
     attr_required (1.0.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.647.0)
-    aws-sdk-core (3.161.0)
+    aws-partitions (1.649.0)
+    aws-sdk-core (3.164.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
@@ -105,7 +105,7 @@ GEM
     aws-sdk-kms (1.58.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.114.0)
+    aws-sdk-s3 (1.116.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
