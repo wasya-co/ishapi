@@ -5,8 +5,12 @@ class Ishapi::MapsController < Ishapi::ApplicationController
   before_action :check_profile, only: [ :show ]
 
   def show
-    @location   = ::Gameui::Map.where( slug: params[:slug] ).first
-    @location ||= ::Gameui::Map.find params[:slug]
+    if 'self' == params[:slug] # @TODO: constantize _vp_ 2023-01-11
+      @location = ::Gameui::Map.where( slug: @current_profile[:email] ).first
+    else
+      @location   = ::Gameui::Map.where( slug: params[:slug] ).first
+      @location ||= ::Gameui::Map.find params[:slug]
+    end
     @map = @location.map || @location
 
     authorize! :show, @map
