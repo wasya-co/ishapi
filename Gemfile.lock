@@ -15,7 +15,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.202)
+    ishapi (0.1.8.203)
       cancancan (~> 3.2)
       devise
       fb_graph
