@@ -7,7 +7,7 @@ module Ishapi
     # alphabetized : )
 
     ##
-    ## this is for invoices on wasya.co, isn't it?
+    ## this was for invoices on wasya.co
     ## 20200712
     ##
     def create
@@ -106,6 +106,9 @@ module Ishapi
       render status: 200, json: { status: :ok }
     end
 
+    ##
+    ## Spend an unlock without spending money. _vp_ 2022-03-01
+    ##
     def unlock
       authorize! :unlock, ::Ish::Payment
       item = Object::const_get(params['kind']).find params['id']
