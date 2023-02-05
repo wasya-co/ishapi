@@ -43,8 +43,10 @@ Ishapi::Engine.routes.draw do
 
   post 'stars/buy', to: 'gameui#buy_stars'
 
-  ## 2022-02-12 moved to iron_warbler gem _vp_
-  # resources "stock_watches"
+
+  # resources :option_price_items
+  get 'option_price_items/view-by/symbol/:symbol', to: 'option_price_items#view_by_symbol' ## the symbol is detailed eg 'GME_011924P30'
+  get 'option_price_items/view/:symbol/from/:begin_at/to/:end_at', to: 'option_price_items#view'
 
 
   get 'test', to: 'application#test'

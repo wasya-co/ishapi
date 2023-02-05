@@ -64,6 +64,11 @@ class Ishapi::Ability
     end
 
     #
+    # O
+    #
+    can [ :view_chain ], ::IronWarbler::OptionPriceItem
+
+    #
     # P
     #
     can [ :show ], Photo
