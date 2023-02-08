@@ -16,6 +16,9 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
+  ##
+  ## edit the template, not the gemspec!
+  ##
   s.add_dependency "rails", "~> 6.1.0"
   # s.add_dependency 'mongoid', "~> 7.3.0"
   # s.add_runtime_dependency 'mongoid-paperclip'
@@ -29,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency "fb_graph"
   s.add_dependency "rack-throttle", "~> 0.5"
   s.add_dependency "jbuilder", "~> 2.7"
-  # s.add_dependency "aws-sdk"
+  s.add_runtime_dependency 'aws-sdk-s3'
   s.add_dependency "stripe"
   s.add_dependency "httparty"
   s.add_runtime_dependency "devise"

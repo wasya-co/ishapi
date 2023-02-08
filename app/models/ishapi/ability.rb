@@ -66,7 +66,7 @@ class Ishapi::Ability
     #
     # O
     #
-    can [ :view_chain ], ::IronWarbler::OptionPriceItem
+    # can [ :view_chain ], ::Iro::OptionPriceItem
 
     #
     # P

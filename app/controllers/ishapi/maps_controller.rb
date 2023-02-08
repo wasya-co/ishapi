@@ -5,8 +5,6 @@ class Ishapi::MapsController < Ishapi::ApplicationController
   before_action :check_profile, only: [ :show ]
 
   def show
-    puts! @current_profile, '@current_profile'
-
     if 'self' == params[:slug] # @TODO: constantize _vp_ 2023-01-11
       @location = ::Gameui::Map.where( slug: @current_profile[:email] ).first
     else

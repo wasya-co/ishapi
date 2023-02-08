@@ -5,8 +5,8 @@ module Ishapi
     before_action :check_jwt
 
     def index
-      authorize! :index, IronWarbler::StockWatch
-      @stock_watches = IronWarbler::StockWatch.active # @TODO: restrict by-profile, no?
+      # authorize! :index, IronWarbler::StockWatch
+      # @stock_watches = IronWarbler::StockWatch.active # @TODO: restrict by-profile, no?
     end
 
   end

@@ -77,7 +77,8 @@ describe Ishapi::MapsController do
           result = JSON.parse response.body
           result['map']['markers'][0]['is_purchased'].should be_falsey
 
-          user_2 = create(:user)
+          profile_2 = create(:user_profile)
+          user_2 = create(:user, profile: profile_2 )
           create(:premium_purchase, item: @map_2, user_profile: user_2.profile)
           allow(controller).to receive(:current_user).and_return( user_2 )
 

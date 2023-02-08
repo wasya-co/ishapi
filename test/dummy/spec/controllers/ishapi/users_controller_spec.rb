@@ -9,10 +9,9 @@ describe Ishapi::UsersController do
 
   # Alphabetized : )
 
-
   describe '#account' do
     it 'renders' do
-      @jwt_token = encode(user_id: @user.id.to_s)
+      @jwt_token = encode(user_profile_id: @profile.id.to_s)
       get :account, format: :json, params: { jwt_token: @jwt_token }
       response.should be_successful
     end
