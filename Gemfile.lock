@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: 712a86160472844d6d7db858a27b1cc276e5d445
+  revision: 12d4202b35c7a6cae03709fe84213b1716e5fb42
   branch: 2.1.0
   specs:
-    ish_models (0.0.33.192)
+    ish_models (0.0.33.193)
       aws-sdk-s3
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -11,8 +11,6 @@ GIT
       mongoid-autoinc (~> 6.0)
       mongoid-paperclip
       mongoid_paranoia
-      mysql2 (~> 0.5.4)
-      rails (~> 6.1.0)
 
 PATH
   remote: .
@@ -217,7 +215,6 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
-    mysql2 (0.5.5)
     net-imap (0.3.4)
       date
       net-protocol
