@@ -10,7 +10,10 @@ module Ishapi
         return
       end
 
-      msg = Office::EmailMessage.new({ object_path: params[:object_path] })
+      msg = Office::EmailMessage.new({
+        object_path: params[:object_path],
+        object_key: params[:object_key],
+      })
       if msg.save
         render status: :ok, json: { status: :ok }
       else
