@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: 5f5897fc674bd744cb57946a6d248fa8aa3a1625
+  revision: e17bd06be9e0ee145ce340cd3ac3433eb161560d
   branch: 2.1.0
   specs:
     ish_models (0.0.33.194)
@@ -15,7 +15,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.210)
+    ishapi (0.1.8.211)
       aws-sdk-s3
       cancancan (~> 3.2)
       devise
@@ -97,7 +97,7 @@ GEM
     aes_key_wrap (1.1.0)
     attr_required (1.0.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.707.0)
+    aws-partitions (1.717.0)
     aws-sdk-core (3.170.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -106,7 +106,7 @@ GEM
     aws-sdk-kms (1.62.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.119.0)
+    aws-sdk-s3 (1.119.1)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
@@ -118,10 +118,10 @@ GEM
     builder (3.2.4)
     cancancan (3.4.0)
     climate_control (0.2.0)
-    concurrent-ruby (1.2.0)
+    concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.3)
-    devise (4.8.1)
+    devise (4.9.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0)
@@ -195,7 +195,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.4.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2022.0105)
+    mime-types-data (3.2023.0218.1)
     mini_mime (1.1.2)
     mini_portile2 (2.8.1)
     minitest (5.17.0)
@@ -225,7 +225,7 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.8)
-    nokogiri (1.14.1)
+    nokogiri (1.14.2)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -288,11 +288,11 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    stripe (8.2.0)
+    stripe (8.3.0)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
     thor (1.2.1)
-    timeout (0.3.1)
+    timeout (0.3.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     warden (1.2.9)
@@ -300,7 +300,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.6.6)
+    zeitwerk (2.6.7)
 
 PLATFORMS
   ruby
