@@ -13,6 +13,10 @@ Ishapi::Engine.routes.draw do
 
   post 'invoices/search', :to => 'invoices#search'
 
+  # L
+  get 'leadsets',    to: 'leadsets#index'
+  delete 'leadsets', to: 'leadsets#destroy'
+
   get 'maps', to: 'maps#index'
   get 'maps/view/:slug', to: 'maps#show'
   get 'markers/view/:slug', to: 'maps#show_marker'
