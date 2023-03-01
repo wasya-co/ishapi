@@ -3,9 +3,11 @@ require_dependency "ishapi/application_controller"
 module Ishapi
   class LeadsetsController < ApplicationController
 
+    load_and_authorize_resource
 
     def destroy
       puts! params, 'params'
+      authorize! :leadsets_destroy, ::Ishapi
 
       leadsets = Leadset.find( params[:leadset_ids] )
       @results = []

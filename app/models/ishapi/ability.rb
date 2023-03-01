@@ -4,6 +4,15 @@ class Ishapi::Ability
 
   def initialize user_profile
     #
+    # superuser
+    #
+    if %w| victor@wasya.co victor@piousbox.com piousbox@gmail.com |.include?( user_profile.email )
+      can [ :email_conversations_delete ], ::Ishapi
+
+      can [ :email_messages_show ], ::Ishapi
+    end
+
+    #
     # signed in user_profile
     #
     if !user_profile.blank?

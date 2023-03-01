@@ -33,6 +33,9 @@ Ishapi::Engine.routes.draw do
   delete 'newsitems/:id', to: 'newsitems#destroy'
 
   post 'email_messages', to: 'email_messages#receive'
+  get 'email_messages/:id', to: 'email_messages#show'
+
+  delete 'email_conversations', to: 'email_conversations#delete'
 
   post 'do_purchase', to: 'gameui#do_purchase' # @TODO: rename to just purchase, or destroy endpoint
   post 'payments', :to => 'payments#create'
