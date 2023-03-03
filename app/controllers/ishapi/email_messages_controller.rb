@@ -14,6 +14,7 @@ module Ishapi
       }
     end
 
+    ## From lambda, ses
     def receive
       if params[:secret] != AWS_SES_LAMBDA_SECRET
         render status: 400, json: { status: 400 }
@@ -25,6 +26,7 @@ module Ishapi
         object_key: params[:object_key],
       })
       if msg.save
+        EmailMessageIntakeJob.perform_later( msg.id )
         render status: :ok, json: { status: :ok }
       else
         render status: 400, json: { status: 400 }
