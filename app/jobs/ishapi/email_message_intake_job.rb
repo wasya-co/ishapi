@@ -126,48 +126,34 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       lead = Lead.new( email: @message.from )
       lead.leadsets.push( leadset )
       flag = lead.save
-      puts! "Cannot create lead: #{lead.errors.full_messages.join(", ")}" if !flag
+      if !flag
+        puts! "Cannot create lead: #{lead.errors.full_messages.join(", ")}"
+      end
     end
 
     conv.lead_ids = conv.lead_ids.push( lead.id ).uniq
     conv.save
 
     flag = @message.save
-    puts! @message.errors.full_messages.join(', '), 'Cannot save email_message' if !flag
+    if !flag
+      puts! @message.errors.full_messages.join(', '), 'Cannot save email_message'
+    end
 
     stub.update_attributes({ state: ::Office::EmailMessageStub::STATE_PROCESSED })
 
     ##
-    ## @TODO: herehere
+    ## 2023-03-03 _vp_ @TODO: herehere
     ##
-    inbox_tag = nil
+    inbox_tag = WpTag.email_inbox_tag
+    @message.tags.push( inbox_tag )
 
     ## Actions & Filters
-    email_filters = []
+    email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
-      if filter[:from].match @message.from ||
-        MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
-
-        @message.apply( filter )
-
-        # Ex: skip inbox
-        tags = @message.tags.dup.delete( inbox_tag )
-        @message.term_ids = tags.map &:id
-
+      if @message.from.match( filter.from_regex ) ||
+        @message.part_html.match( filter.body_regex ) # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
+        @message.apply_filter( filter )
       end
-
-      # Ex: its a generic recruitment email
-      if
-        new_action = Office::ScheduledAction.create({
-          lead: @message.from_lead,
-          kind: 'require-book-call',
-        })
-        new_action = Office::ScheduledAction.create({
-          lead: @message.from_lead,
-          kind: 'require-sign-nda',
-        })
-      end
-
     end
 
 
