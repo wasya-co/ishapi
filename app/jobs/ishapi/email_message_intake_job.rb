@@ -3,7 +3,7 @@
 ## 2023-02-26 _vp_ let's go
 ## 2023-03-02 _vp_ Continue
 ##
-## @TODO: mark the stub as processed!
+## How will a sequence of actions look like, without any other machinery? ex.: sign nda w/reminders, book a call w/reminders
 ##
 class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
@@ -57,14 +57,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     # "image/jpeg; name=TX_DL_2.jpg"
     # "text/plain; charset=UTF-8"
     the_mail.parts.each do |part|
-      if part.content_type.include?('text/html')
-        @message.part_html = part.decoded
+      puts! part.content_type, 'Part content-type'
 
-      elsif part.content_type.include?("text/plain")
-        @message.part_txt = part.decoded
-
-      elsif part.content_type.include?("multipart/related")
-
+      if part.content_type.include?("multipart/related")
 
         part.parts.each do |subpart|
           if part.content_type.include?('text/html')
@@ -74,15 +69,20 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
             @message.part_txt = part.decoded
 
           else
-            puts! part.content_type, 'no action for the SUBPART of this content_type'
+            puts! part.content_type, '333 No action for the SUBPART of this content_type'
           end
         end
 
+      elsif part.content_type.include?('text/html')
+        @message.part_html = part.decoded
+
+      elsif part.content_type.include?("text/plain")
+        @message.part_txt = part.decoded
 
       else
         ## @TODO: attachments !
         ## @TODO: part_txt (often unavailable?!)
-        puts! part.content_type, 'no action for a part with this content_type'
+        puts! part.content_type, '444 No action for a part with this content_type'
       end
     end
 
@@ -127,17 +127,55 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       lead.leadsets.push( leadset )
       flag = lead.save
       puts! "Cannot create lead: #{lead.errors.full_messages.join(", ")}" if !flag
-
-      conv.lead_ids.push( lead.id )
-      conv.save
     end
 
-    # @TODO: send android notification _vp_ 2023-03-01
+    conv.lead_ids = conv.lead_ids.push( lead.id ).uniq
+    conv.save
 
     flag = @message.save
     puts! @message.errors.full_messages.join(', '), 'Cannot save email_message' if !flag
 
     stub.update_attributes({ state: ::Office::EmailMessageStub::STATE_PROCESSED })
+
+    ##
+    ## @TODO: herehere
+    ##
+    inbox_tag = nil
+
+    ## Actions & Filters
+    email_filters = []
+    email_filters.each do |filter|
+      if filter[:from].match @message.from ||
+        MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
+
+        @message.apply( filter )
+
+        # Ex: skip inbox
+        tags = @message.tags.dup.delete( inbox_tag )
+        @message.term_ids = tags.map &:id
+
+      end
+
+      # Ex: its a generic recruitment email
+      if
+        new_action = Office::ScheduledAction.create({
+          lead: @message.from_lead,
+          kind: 'require-book-call',
+        })
+        new_action = Office::ScheduledAction.create({
+          lead: @message.from_lead,
+          kind: 'require-sign-nda',
+        })
+      end
+
+    end
+
+
+    ## Notification
+    if @message.tags.include?( inbox_tag )
+      # @TODO: send android notification _vp_ 2023-03-01
+    end
+
   end
 
 

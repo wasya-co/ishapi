@@ -7,6 +7,7 @@ module Ishapi
     before_action :check_jwt, only: [ :show ]
 
     def show
+
       m = Office::EmailMessage.find( params[:id] )
       authorize! :email_messages_show, ::Ishapi
       render json: {

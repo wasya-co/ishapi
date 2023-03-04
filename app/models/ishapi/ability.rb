@@ -3,14 +3,6 @@ class Ishapi::Ability
   include ::CanCan::Ability
 
   def initialize user_profile
-    #
-    # superuser
-    #
-    if %w| victor@wasya.co victor@piousbox.com piousbox@gmail.com |.include?( user_profile.email )
-      can [ :email_conversations_delete ], ::Ishapi
-
-      can [ :email_messages_show ], ::Ishapi
-    end
 
     #
     # signed in user_profile
@@ -36,6 +28,15 @@ class Ishapi::Ability
       can [ :create, :unlock ], ::Ish::Payment
 
       can [ :buy_stars ], ::Ish::UserProfile
+
+      #
+      # superuser
+      #
+      if %w| victor@wasya.co victor@piousbox.com piousbox@gmail.com |.include?( user_profile.email )
+        can [ :email_conversations_delete ], ::Ishapi
+
+        can [ :email_messages_show ], ::Ishapi
+      end
 
     end
     #
