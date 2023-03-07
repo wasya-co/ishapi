@@ -24,7 +24,6 @@ Ishapi::Engine.routes.draw do
   namespace :my do
     get  'galleries', to: 'galleries#index'
     get  'newsitems', to: 'newsitems#index'
-    get  'reports',   to: 'reports#index'
     get  'videos',    to: 'videos#index'
     post 'videos',    to: 'videos#index'
   end
@@ -46,9 +45,6 @@ Ishapi::Engine.routes.draw do
 
   get 'photos/view/:id', to: 'photos#show'
   get 'profiles/view/:username', :to => 'user_profiles#show'
-
-  get 'reports', :to => 'reports#index'
-  get 'reports/view/:slug', :to => 'reports#show'
 
   post 'stars/buy', to: 'gameui#buy_stars'
 

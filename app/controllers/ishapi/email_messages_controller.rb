@@ -22,12 +22,12 @@ module Ishapi
         return
       end
 
-      msg = Office::EmailMessage.new({
+      msg = Office::EmailMessageStub.new({
         object_path: params[:object_path],
-        object_key: params[:object_key],
+        object_key:  params[:object_key],
       })
       if msg.save
-        EmailMessageIntakeJob.perform_later( msg.id )
+        ::Ishapi::EmailMessageIntakeJob.perform_later( msg.id )
         render status: :ok, json: { status: :ok }
       else
         render status: 400, json: { status: 400 }

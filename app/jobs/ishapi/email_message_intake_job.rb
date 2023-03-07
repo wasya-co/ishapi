@@ -1,9 +1,18 @@
 
+=begin
+
+m_id_2 = "2021-07-12T19_17_26Fpedidos_jmc2_gmail_com"
+stub = Stub.new( object_key: m_id_2 )
+stub = Stub.find_by( object_key: m_id_2 )
+stub.update_attribute(:state, 'state_pending')
+Ishapi::EmailMessageIntakeJob.perform_now( stub.id.to_s )
+
+
+=end
 ##
 ## 2023-02-26 _vp_ let's go
 ## 2023-03-02 _vp_ Continue
-##
-## How will a sequence of actions look like, without any other machinery? ex.: sign nda w/reminders, book a call w/reminders
+## 2023-03-07 _vp_ Continue
 ##
 class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
@@ -11,8 +20,36 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
   queue_as :default
 
+  ## For recursive parts of type `related`.
+  ## Content Types:
+  # "text/html; charset=utf-8"
+  # "application/pdf; name=\"Securities Forward Agreement -- HaulHub Inc -- Victor Pudeyev -- 2021-10-26.docx.pdf\""
+  # "image/jpeg; name=TX_DL_2.jpg"
+  # "text/plain; charset=UTF-8"
+  def churn_subpart message, part
+    if part.content_type.include?("multipart/related")
+
+      part.parts.each do |subpart|
+        churn_subpart( message, subpart )
+      end
+
+    elsif part.content_type.include?('text/html')
+      message.part_html = part.decoded
+
+    elsif part.content_type.include?("text/plain")
+      message.part_txt = part.decoded
+
+    else
+      ## @TODO: attachments !
+      puts! part.content_type, '444 No action for a part with this content_type'
+    end
+
+    return nil
+  end
+
   def perform id
-    stub   = ::Office::EmailMessageStub.find id
+    stub = ::Office::EmailMessageStub.find id
+    puts "Performing EmailMessageIntakeJob for message_id #{stub.object_key}"
     if stub.state != ::Office::EmailMessageStub::STATE_PENDING
       raise "This stub has already been processed: #{stub.id.to_s}."
       return
@@ -24,7 +61,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
     _mail          = client.get_object( bucket: ::S3_CREDENTIALS[:bucket_ses], key: stub.object_key ).body.read
     the_mail       = Mail.new(_mail)
-    message_id     = the_mail.header['message-id'].decoded
+    message_id     = the_mail.header['message-id'].decoded ## == stub.object_key
     in_reply_to_id = the_mail.header['in-reply-to']&.to_s
 
     @message = ::Office::EmailMessage.where( message_id: message_id ).first
@@ -51,39 +88,8 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       bccs: the_mail.bcc,
     })
 
-    ## Content Types:
-    # "text/html; charset=utf-8"
-    # "application/pdf; name=\"Securities Forward Agreement -- HaulHub Inc -- Victor Pudeyev -- 2021-10-26.docx.pdf\""
-    # "image/jpeg; name=TX_DL_2.jpg"
-    # "text/plain; charset=UTF-8"
     the_mail.parts.each do |part|
-      puts! part.content_type, 'Part content-type'
-
-      if part.content_type.include?("multipart/related")
-
-        part.parts.each do |subpart|
-          if part.content_type.include?('text/html')
-            @message.part_html = part.decoded
-
-          elsif part.content_type.include?("text/plain")
-            @message.part_txt = part.decoded
-
-          else
-            puts! part.content_type, '333 No action for the SUBPART of this content_type'
-          end
-        end
-
-      elsif part.content_type.include?('text/html')
-        @message.part_html = part.decoded
-
-      elsif part.content_type.include?("text/plain")
-        @message.part_txt = part.decoded
-
-      else
-        ## @TODO: attachments !
-        ## @TODO: part_txt (often unavailable?!)
-        puts! part.content_type, '444 No action for a part with this content_type'
-      end
+      churn_subpart( @message, part )
     end
 
     ## Conversation
@@ -110,7 +116,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     conv.update_attributes({
       state: Conv::STATE_UNREAD,
       latest_at: the_mail.date,
-      term_ids: stub.term_ids,
+      term_ids: (conv.term_ids + stub.term_ids).uniq,
     })
 
     ## Leadset
@@ -125,63 +131,40 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     if !lead
       lead = Lead.new( email: @message.from )
       lead.leadsets.push( leadset )
-      flag = lead.save
-      if !flag
-        puts! "Cannot create lead: #{lead.errors.full_messages.join(", ")}"
-      end
+      lead.save!
     end
-
     conv.lead_ids = conv.lead_ids.push( lead.id ).uniq
-    conv.save
-
-    flag = @message.save
-    if !flag
-      puts! @message.errors.full_messages.join(', '), 'Cannot save email_message'
-    end
-
-    stub.update_attributes({ state: ::Office::EmailMessageStub::STATE_PROCESSED })
-
-    ##
-    ## 2023-03-03 _vp_ @TODO: herehere
-    ##
-    inbox_tag = WpTag.email_inbox_tag
-    @message.tags.push( inbox_tag )
 
     ## Actions & Filters
+    inbox_tag = WpTag.email_inbox_tag
+    @message.add_tag( inbox_tag )
+    conv.add_tag( inbox_tag )
+
     email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
-      if @message.from.match( filter.from_regex ) ||
-        @message.part_html.match( filter.body_regex ) # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
+      if @message.from.match( filter.from_regex ) # || @message.part_html.match( filter.body_regex ) ) # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
+
         @message.apply_filter( filter )
       end
     end
 
+    ## Save to exit
+    flag = @message.save
+    if flag
+      puts! @message.message_id, 'Saved this message'
+    else
+      puts! @message.errors.full_messages.join(', '), 'Cannot save email_message'
+    end
+    conv.save
+    stub.update_attributes({ state: ::Office::EmailMessageStub::STATE_PROCESSED })
 
     ## Notification
-    if @message.tags.include?( inbox_tag )
+    if @message.wp_term_ids.include?( inbox_tag.id )
       # @TODO: send android notification _vp_ 2023-03-01
+      ::Ishapi::ApplicationMailer.forwarder_notify( @message.id.to_s ).deliver_later
     end
 
   end
-
 
 end
 EIJ = Ishapi::EmailMessageIntakeJob
-
-=begin
-
-  ##
-  ## Save to s3
-  ##
-  if save_to_s3
-    flag = client.put_object( bucket: ::S3_CREDENTIALS[:bucket_ses],
-                              key: filename,
-                              body: _msg )
-    if !flag
-      puts! "cannot save to s3"
-    end
-  end
-
-=end
-
-
