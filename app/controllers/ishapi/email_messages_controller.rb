@@ -7,11 +7,10 @@ module Ishapi
     before_action :check_jwt, only: [ :show ]
 
     def show
-
-      m = Office::EmailMessage.find( params[:id] )
+      msg = Office::EmailMessage.find( params[:id] )
       authorize! :email_messages_show, ::Ishapi
       render json: {
-        item: m,
+        item: msg,
       }
     end
 
@@ -27,7 +26,7 @@ module Ishapi
         object_key:  params[:object_key],
       })
       if msg.save
-        ::Ishapi::EmailMessageIntakeJob.perform_later( msg.id )
+        ::Ishapi::EmailMessageIntakeJob.perform_later( msg.id.to_s )
         render status: :ok, json: { status: :ok }
       else
         render status: 400, json: { status: 400 }
