@@ -17,16 +17,38 @@ module Ishapi
     end
 
     def show
-      @gallery = ::Gallery.unscoped.find_by :slug => params[:slug]
+      @gallery = ::Gallery.unscoped.where( slug: params[:slug] ).first
+      @gallery ||= ::Gallery.unscoped.where( id: params[:slug] ).first
       authorize! :show, @gallery
-      if @gallery.premium?
-        if @current_user&.profile&.has_premium_purchase( @gallery )
-          render 'show_premium_unlocked'
-        else
-          render 'show_premium_locked'
+
+      @photos = @gallery.photos.order_by( ordering: :asc )
+      respond_to do |format|
+        format.json do
+
+          if @gallery.premium?
+            if @current_user&.profile&.has_premium_purchase( @gallery )
+              render 'show_premium_unlocked'
+            else
+              render 'show_premium_locked'
+            end
+          else
+            render 'show'
+          end
+
         end
-      else
-        render 'show'
+        format.html do
+
+          if @gallery.premium?
+            if @current_user&.profile&.has_premium_purchase( @gallery )
+              render 'show_premium_unlocked'
+            else
+              render 'show_premium_locked'
+            end
+          else
+            render 'show'
+          end
+
+        end
       end
     end
 

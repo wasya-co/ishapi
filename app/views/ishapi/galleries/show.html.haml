@@ -1,0 +1,20 @@
+
+.galleries-show
+
+  .header
+    %h2.title= @gallery.name
+
+  .photos-mini
+    - @photos.each do |photo|
+      .item= image_tag photo.photo.url( :mini )
+  .photos-thumb
+    - @photos.each do |photo|
+      .item= image_tag photo.photo.url( :thumb2 )
+  .photos-large
+    - @photos.each do |photo|
+      .item= image_tag photo.photo.url( :large )
+
+-# json.thumb_url    photo.photo.url( :thumb )
+-# json.small_url    photo.photo.url( :small )
+-# json.large_url    photo.photo.url( :large )
+-# json.original_url photo.photo.url( :original )
