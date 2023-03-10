@@ -12,6 +12,7 @@ json.array! @opis do |opi|
   json.last       opi.last
   # json.lastPrice  opi.lastPrice
   # json.open opi.openPrice
-  json.timestamp opi.timestamp
+  json.timestamp opi.timestamp.strftime('%H:%M:%S')
+  json.seconds   opi.timestamp.to_i
 end
 

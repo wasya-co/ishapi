@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/wasyaco/ish_models.git
-  revision: 96ee3f134ca55544ce5fae65d675004b4c6e4f40
+  revision: 882a8566f035e90877b9f966b68b0b17e227cbef
   branch: 2.1.0
   specs:
     ish_models (0.0.33.195)
@@ -330,6 +330,8 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sqlite3 (1.6.1)
+      mini_portile2 (~> 2.8.0)
     stripe (8.2.0)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
@@ -348,6 +350,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord
   aws-sdk-s3
   byebug
   cancancan
@@ -371,6 +374,7 @@ DEPENDENCIES
   rails-controller-testing
   rspec-rails (~> 5.1.0)
   simplecov
+  sqlite3
 
 BUNDLED WITH
    2.1.4

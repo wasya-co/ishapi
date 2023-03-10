@@ -24,6 +24,7 @@ module Ishapi
   end
 end
 
+## this is in scratchpadjs / done
 =begin
 
 SELECT symbol, bid, ask, MAX(`timestamp`) as a
