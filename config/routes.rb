@@ -4,14 +4,23 @@ Ishapi::Engine.routes.draw do
   root :to => 'application#home'
   post 'home', :to => 'application#home'
 
-
+  # A
   resources :addresses
 
+  # E
+  post 'email_messages', to: 'email_messages#receive'
+  get 'email_messages/:id', to: 'email_messages#show', as: :email_message
+
+  delete 'email_conversations', to: 'email_conversations#delete'
+
+  # G
   get  'galleries',                   :to => 'galleries#index'
   post 'galleries',                   :to => 'galleries#index'
   get  'galleries/view/:slug', :to => 'galleries#show'
   post 'galleries/view/:slug', :to => 'galleries#show'
 
+  # H
+  # I
   post 'invoices/search', :to => 'invoices#search'
 
   # L
@@ -31,11 +40,6 @@ Ishapi::Engine.routes.draw do
 
   # N
   delete 'newsitems/:id', to: 'newsitems#destroy'
-
-  post 'email_messages', to: 'email_messages#receive'
-  get 'email_messages/:id', to: 'email_messages#show'
-
-  delete 'email_conversations', to: 'email_conversations#delete'
 
   post 'do_purchase', to: 'gameui#do_purchase' # @TODO: rename to just purchase, or destroy endpoint
   post 'payments', :to => 'payments#create'

@@ -4,13 +4,30 @@ require_dependency "ishapi/application_controller"
 class ::Ishapi::EmailMessagesController < ::Ishapi::ApplicationController
 
   before_action :check_jwt, only: [ :show ]
+  layout false
 
   def show
-    msg = Office::EmailMessage.find( params[:id] )
-    authorize! :show, msg
-    render json: {
-      item: msg,
-    }
+    @msg = Office::EmailMessage.find( params[:id] )
+    authorize! :show, @msg
+
+    if params[:load_images]
+      ;
+    else
+      doc = Nokogiri::HTML(@msg.part_html)
+      images = doc.search('img')
+      images.each do |img|
+        img['src'] = 'missing'
+      end
+      @msg.part_html = doc
+    end
+
+    respond_to do |format|
+      format.json do
+        render json: { item: @msg, }
+      end
+      format.html do
+      end
+    end
   end
 
   ## From lambda, ses

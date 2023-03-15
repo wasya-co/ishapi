@@ -7,8 +7,10 @@ stub = Stub.find_by( object_key: m_id_2 )
 stub.update_attribute(:state, 'state_pending')
 Ishapi::EmailMessageIntakeJob.perform_now( stub.id.to_s )
 
-
 =end
+
+
+
 ##
 ## 2023-02-26 _vp_ let's go
 ## 2023-03-02 _vp_ Continue
@@ -61,7 +63,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
     _mail          = client.get_object( bucket: ::S3_CREDENTIALS[:bucket_ses], key: stub.object_key ).body.read
     the_mail       = Mail.new(_mail)
-    message_id     = the_mail.header['message-id'].decoded ## == stub.object_key
+    message_id     = the_mail.header['message-id'].decoded
     in_reply_to_id = the_mail.header['in-reply-to']&.to_s
 
     @message = ::Office::EmailMessage.where( message_id: message_id ).first
