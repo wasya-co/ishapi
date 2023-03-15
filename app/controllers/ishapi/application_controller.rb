@@ -1,5 +1,9 @@
 
-class Ishapi::ApplicationController < ActionController::Base
+class ::Ishapi::ApplicationController < ActionController::Base
+
+  def exception
+    throw "this exception: #{Time.now}"
+  end
 
   def home
     render json: { status: :ok }, status: :ok

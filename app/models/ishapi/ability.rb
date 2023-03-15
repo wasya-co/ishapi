@@ -7,7 +7,7 @@ class Ishapi::Ability
     #
     # signed in user_profile
     #
-    if !user_profile.blank?
+    if user_profile.present?
 
       can [ :my_index ], Gallery
       can [ :show ], Gallery do |gallery|
@@ -29,13 +29,15 @@ class Ishapi::Ability
 
       can [ :buy_stars ], ::Ish::UserProfile
 
-      #
-      # superuser
-      #
+      ##
+      ## superuser
+      ##
       if %w| victor@wasya.co victor@piousbox.com piousbox@gmail.com |.include?( user_profile.email )
+        puts! user_profile, 'ze profile'
+
         can [ :email_conversations_delete ], ::Ishapi
 
-        can [ :email_messages_show ], ::Ishapi
+        can [ :show ], ::Office::EmailMessage
       end
 
     end

@@ -4,6 +4,7 @@ Ishapi::Engine.routes.draw do
   root :to => 'application#home'
   post 'home', :to => 'application#home'
 
+
   resources :addresses
 
   get  'galleries',                   :to => 'galleries#index'
@@ -54,7 +55,8 @@ Ishapi::Engine.routes.draw do
   get 'option_price_items/view/:symbol/from/:begin_at/to/:end_at', to: 'option_price_items#view'
 
 
-  get 'test', to: 'application#test'
+  get 'test',      to: 'application#test'
+  get 'exception', to: 'application#exception'
 
   post  'users/fb_sign_in',      to: 'users#fb_sign_in'
   get   'users/me',              to: 'users#account'
