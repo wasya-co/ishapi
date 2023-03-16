@@ -96,7 +96,13 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
     if the_mail.parts.length == 0
       body = the_mail.body.decoded
-      @message.part_txt = body
+      if the_mail.content_type.include?('text/html')
+        @message.part_html = body
+      elsif the_mail.content_type.include?('text/plain')
+        @message.part_txt = body
+      else
+        throw "mail body of unknown type: #{the_mail.content_type}"
+      end
     end
 
     ## Conversation

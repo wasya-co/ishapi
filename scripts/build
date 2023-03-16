@@ -18,12 +18,12 @@ echo $version
 cat ishapi.gemspec-template | \
   sed -e "s/\$version/$version/g" > ishapi.gemspec
 
-gem build ishapi.gemspec
-gem push ishapi-$version.gem
-
 git add .
 git commit -m 'autobuild `date "+%Y%m%d"`'
 git push
+
+gem build ishapi.gemspec
+gem push ishapi-$version.gem
 
 echo "ishapi build ok"
 

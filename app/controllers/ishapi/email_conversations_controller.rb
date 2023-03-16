@@ -12,7 +12,10 @@ module Ishapi
     def delete
       authorize! :email_conversations_delete, ::Ishapi
       convos = Office::EmailConversation.find params[:ids]
-      convos.map &:destroy
+      outs = convos.map do |convo|
+        convo.add_tag( WpTag::EMAILTAG_TRASH )
+      end
+      flash[:notice] = "outcome: #{outs}"
     end
 
   end
