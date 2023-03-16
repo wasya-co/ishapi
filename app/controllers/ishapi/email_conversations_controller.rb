@@ -10,7 +10,6 @@ module Ishapi
     before_action :check_jwt
 
     def delete
-      puts! params, 'deleting email conversations'
       authorize! :email_conversations_delete, ::Ishapi
       convos = Office::EmailConversation.find params[:ids]
       convos.map &:destroy

@@ -9,7 +9,19 @@ Ishapi::EmailMessageIntakeJob.perform_now( stub.id.to_s )
 
 =end
 
-
+## align companies do leads' domains
+=begin
+outs = Lead.all.map do |lead|
+  domain = lead.email.split('@')[1]
+  if lead.company.company_url == domain
+    ;
+  else
+    company = Leadset.find_or_create_by( company_url: domain )
+    lead.m3_leadset_id = company.id
+    lead.save
+  end
+end.compact
+=end
 
 ##
 ## 2023-02-26 _vp_ let's go
@@ -98,54 +110,43 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     if in_reply_to_id
       in_reply_to_msg = ::Office::EmailMessage.where({ message_id: in_reply_to_id }).first
       if !in_reply_to_msg
-        conv = ::Office::EmailConversation.create!({
+        conv = ::Office::EmailConversation.find_or_create_by({
           subject: the_mail.subject,
-          latest_at: the_mail.date,
         })
-        in_reply_to_msg = ::Office::EmailMessage.create!({
+        in_reply_to_msg = ::Office::EmailMessage.find_or_create_by({
           message_id: in_reply_to_id,
           email_conversation_id: conv.id,
         })
       end
       conv = in_reply_to_msg.email_conversation
     else
-      conv = ::Office::EmailConversation.create!({
+      conv = ::Office::EmailConversation.find_or_create_by({
         subject: the_mail.subject,
-        latest_at: the_mail.date,
       })
     end
     @message.email_conversation_id = conv.id
     conv.update_attributes({
       state: Conv::STATE_UNREAD,
       latest_at: the_mail.date,
-      term_ids: (conv.term_ids + stub.term_ids).uniq,
+      wp_term_ids: ( [ WpTag.email_inbox_tag.id ] + conv.wp_term_ids + stub.wp_term_ids ).uniq,
     })
 
     ## Leadset
     domain = @message.from.split('@')[1]
-    leadset = Leadset.where( company_url: domain ).first
-    if !leadset
-      leadset = Leadset.create!( company_url: domain, name: domain )
-    end
+    leadset = Leadset.find_or_create_by( company_url: domain )
 
     ## Lead
-    lead = Lead.where( email: @message.from ).first
-    if !lead
-      lead = Lead.new( email: @message.from )
-      lead.leadsets.push( leadset )
-      lead.save!
-    end
+    lead = Lead.find_or_create_by( email: @message.from, m3_leadset_id: leadset.id )
     conv.lead_ids = conv.lead_ids.push( lead.id ).uniq
 
     ## Actions & Filters
-    inbox_tag = WpTag.email_inbox_tag
-    @message.add_tag( inbox_tag )
-    conv.add_tag( inbox_tag )
+    # inbox_tag = WpTag.email_inbox_tag
+    # @message.add_tag( inbox_tag )
+    # conv.add_tag( inbox_tag )
 
     email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
       if @message.from.match( filter.from_regex ) # || @message.part_html.match( filter.body_regex ) ) # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
-
         @message.apply_filter( filter )
       end
     end

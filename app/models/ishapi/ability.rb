@@ -33,7 +33,6 @@ class Ishapi::Ability
       ## superuser
       ##
       if %w| victor@wasya.co victor@piousbox.com piousbox@gmail.com |.include?( user_profile.email )
-        puts! user_profile, 'ze profile'
 
         can [ :email_conversations_delete ], ::Ishapi
 
