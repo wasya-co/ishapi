@@ -9,19 +9,6 @@ Ishapi::EmailMessageIntakeJob.perform_now( stub.id.to_s )
 
 =end
 
-## align companies do leads' domains
-=begin
-outs = Lead.all.map do |lead|
-  domain = lead.email.split('@')[1]
-  if lead.company.company_url == domain
-    ;
-  else
-    company = Leadset.find_or_create_by( company_url: domain )
-    lead.m3_leadset_id = company.id
-    lead.save
-  end
-end.compact
-=end
 
 ##
 ## 2023-02-26 _vp_ let's go
@@ -73,10 +60,11 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       access_key_id:     ::S3_CREDENTIALS[:access_key_id],
       secret_access_key: ::S3_CREDENTIALS[:secret_access_key] })
 
-    _mail          = client.get_object( bucket: ::S3_CREDENTIALS[:bucket_ses], key: stub.object_key ).body.read
-    the_mail       = Mail.new(_mail)
-    message_id     = the_mail.header['message-id'].decoded
-    in_reply_to_id = the_mail.header['in-reply-to']&.to_s
+    _mail              = client.get_object( bucket: ::S3_CREDENTIALS[:bucket_ses], key: stub.object_key ).body.read
+    the_mail           = Mail.new(_mail)
+    message_id         = the_mail.header['message-id'].decoded
+    in_reply_to_id     = the_mail.header['in-reply-to']&.to_s
+    email_inbox_tag_id = WpTag.email_inbox_tag.id
 
     @message = ::Office::EmailMessage.where( message_id: message_id ).first
     @message ||= ::Office::EmailMessage.new
@@ -128,7 +116,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     conv.update_attributes({
       state: Conv::STATE_UNREAD,
       latest_at: the_mail.date,
-      wp_term_ids: ( [ WpTag.email_inbox_tag.id ] + conv.wp_term_ids + stub.wp_term_ids ).uniq,
+      wp_term_ids: ( [ email_inbox_tag_id ] + conv.wp_term_ids + stub.wp_term_ids ).uniq,
     })
 
     ## Leadset
@@ -140,10 +128,6 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     conv.lead_ids = conv.lead_ids.push( lead.id ).uniq
 
     ## Actions & Filters
-    # inbox_tag = WpTag.email_inbox_tag
-    # @message.add_tag( inbox_tag )
-    # conv.add_tag( inbox_tag )
-
     email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
       if @message.from.match( filter.from_regex ) # || @message.part_html.match( filter.body_regex ) ) # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
@@ -162,7 +146,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     stub.update_attributes({ state: ::Office::EmailMessageStub::STATE_PROCESSED })
 
     ## Notification
-    if @message.wp_term_ids.include?( inbox_tag.id )
+    if @message.wp_term_ids.include?( email_inbox_tag_id )
       # @TODO: send android notification _vp_ 2023-03-01
       ::Ishapi::ApplicationMailer.forwarder_notify( @message.id.to_s ).deliver_later
     end

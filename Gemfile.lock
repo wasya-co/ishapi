@@ -15,7 +15,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.221)
+    ishapi (0.1.8.224)
       aws-sdk-s3
       cancancan (~> 3.2)
       devise
