@@ -151,8 +151,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     stub.update_attributes({ state: ::Office::EmailMessageStub::STATE_PROCESSED })
 
     ## Notification
-    if @message.wp_term_ids.include?( email_inbox_tag_id )
-      # @TODO: send android notification _vp_ 2023-03-01
+    if conv.wp_term_ids.include?( email_inbox_tag_id )
       ::Ishapi::ApplicationMailer.forwarder_notify( @message.id.to_s ).deliver_later
     end
 
