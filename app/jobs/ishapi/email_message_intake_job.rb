@@ -94,6 +94,11 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       churn_subpart( @message, part )
     end
 
+    if the_mail.parts.length == 0
+      body = the_mail.body.decoded
+      @message.part_txt = body
+    end
+
     ## Conversation
     if in_reply_to_id
       in_reply_to_msg = ::Office::EmailMessage.where({ message_id: in_reply_to_id }).first

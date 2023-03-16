@@ -1,3 +1,10 @@
 
 %html
-  %body{ style: 'background: white' }= raw @msg.part_html
+  %body{ style: 'background: white' }
+    - if @msg.part_html
+      = raw( @msg.part_html )
+    - elsif @msg.part_txt
+      %pre
+        = @msg.part_txt
+    - else
+      Neither part_html nor part_txt!

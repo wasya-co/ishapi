@@ -13,12 +13,14 @@ class ::Ishapi::EmailMessagesController < ::Ishapi::ApplicationController
     if params[:load_images]
       ;
     else
-      doc = Nokogiri::HTML(@msg.part_html)
-      images = doc.search('img')
-      images.each do |img|
-        img['src'] = 'missing'
+      if @msg.part_html
+        doc = Nokogiri::HTML(@msg.part_html)
+        images = doc.search('img')
+        images.each do |img|
+          img['src'] = 'missing'
+        end
+        @msg.part_html = doc
       end
-      @msg.part_html = doc
     end
 
     respond_to do |format|
