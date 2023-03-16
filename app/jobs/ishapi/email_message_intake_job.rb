@@ -51,7 +51,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
   def perform id
     stub = ::Office::EmailMessageStub.find id
-    puts "Performing EmailMessageIntakeJob for message_id #{stub.object_key}"
+    puts "Performing EmailMessageIntakeJob for object_key #{stub.object_key}"
     if stub.state != ::Office::EmailMessageStub::STATE_PENDING
       raise "This stub has already been processed: #{stub.id.to_s}."
       return
@@ -75,7 +75,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       in_reply_to_id: in_reply_to_id,
 
       object_key:  stub.object_key,
-      object_path: stub.object_path,
+      # object_path: stub.object_path,
 
       subject: the_mail.subject,
       date:    the_mail.date,

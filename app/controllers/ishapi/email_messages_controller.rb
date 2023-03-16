@@ -38,7 +38,7 @@ class ::Ishapi::EmailMessagesController < ::Ishapi::ApplicationController
     end
 
     msg = Office::EmailMessageStub.new({
-      object_path: params[:object_path],
+      # object_path: params[:object_path],
       object_key:  params[:object_key],
     })
     if msg.save
