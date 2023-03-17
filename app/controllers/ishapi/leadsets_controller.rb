@@ -6,7 +6,6 @@ module Ishapi
     load_and_authorize_resource
 
     def destroy
-      puts! params, 'params'
       authorize! :leadsets_destroy, ::Ishapi
 
       leadsets = Leadset.find( params[:leadset_ids] )

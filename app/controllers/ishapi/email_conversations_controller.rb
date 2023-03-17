@@ -14,6 +14,7 @@ module Ishapi
       convos = Office::EmailConversation.find params[:ids]
       outs = convos.map do |convo|
         convo.add_tag( WpTag::EMAILTAG_TRASH )
+        convo.remove_tag( WpTag::EMAILTAG_INBOX )
       end
       flash[:notice] = "outcome: #{outs}"
     end
