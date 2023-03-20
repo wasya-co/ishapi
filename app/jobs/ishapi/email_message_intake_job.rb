@@ -28,7 +28,8 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
   # "image/jpeg; name=TX_DL_2.jpg"
   # "text/plain; charset=UTF-8"
   def churn_subpart message, part
-    if part.content_type.include?("multipart/related")
+    if part.content_type.include?("multipart/related") ||
+       part.content_type.include?("multipart/alternative")
 
       part.parts.each do |subpart|
         churn_subpart( message, subpart )
