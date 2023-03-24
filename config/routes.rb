@@ -27,6 +27,9 @@ Ishapi::Engine.routes.draw do
   get 'leadsets',    to: 'leadsets#index'
   delete 'leadsets', to: 'leadsets#destroy'
 
+  get 'locations/show/:slug', to: 'locations#show'
+  resources :locations
+
   get 'maps', to: 'maps#index'
   get 'maps/view/:slug', to: 'maps#show'
   get 'markers/view/:slug', to: 'maps#show_marker'

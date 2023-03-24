@@ -1,0 +1,14 @@
+
+.locations-show
+  .max-width
+    .header
+      %h3.title Location #{@location.slug}
+
+    .map
+    .markers
+      .title Markers (#{@markers.length}):
+      .items
+        - @markers.each do |marker|
+          = render 'ishapi/markers/card', marker: marker
+    .actions
+    .newsitems

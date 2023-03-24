@@ -1,0 +1,28 @@
+
+- destination = marker.destination
+
+.markers--card.Card
+  - if destination.premium_tier && !@current_profile&.has_premium_purchase( destination )
+    #{marker.name} [purchase]
+  - else
+    - if marker.url
+      #{marker.url} [external]
+    - else
+      = link_to marker.name, location_path(destination)
+
+
+
+-# const goto = (e) => {
+-#   e.preventDefault()
+-#   if (marker.premium_tier && !marker.is_purchased) {
+-#     setItemToUnlock(marker)
+-#   } else {
+-#     if (marker.url) {
+-#       setShowUrl(marker.url) // @TODO: this should be encoded in the (server-side) router eventually. _vp_ 2022-09-11
+-#     }
+-#     else {
+-#       history.push(href)
+-#     }
+-#   }
+-# }
+

@@ -65,7 +65,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     the_mail           = Mail.new(_mail)
     message_id         = the_mail.header['message-id'].decoded
     in_reply_to_id     = the_mail.header['in-reply-to']&.to_s
-    email_inbox_tag_id = WpTag.email_inbox_tag.id
+    email_inbox_tag_id = WpTag.emailtag(WpTag::INBOX)
 
     @message = ::Office::EmailMessage.where( message_id: message_id ).first
     @message ||= ::Office::EmailMessage.new
@@ -142,7 +142,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     ## Actions & Filters
     email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
-      if @message.from.match( filter.from_regex ) # || @message.part_html.match( filter.body_regex ) ) # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
+      if @message.from.match( filter.from_regex )
+        # || @message.part_html.match( filter.body_regex ) )
+        # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
         @message.apply_filter( filter )
       end
     end
