@@ -8,10 +8,11 @@ Ishapi::Engine.routes.draw do
   resources :addresses
 
   # E
-  post 'email_messages', to: 'email_messages#receive'
+  post 'email_messages',    to: 'email_messages#receive'
   get 'email_messages/:id', to: 'email_messages#show', as: :email_message
 
-  delete 'email_conversations', to: 'email_conversations#delete'
+  delete 'email_conversations',                 to: 'email_conversations#delete'
+  post   'email_conversations/rmtag/:emailtag', to: 'email_conversations#rmtag'
 
   # G
   get  'galleries',                   :to => 'galleries#index'

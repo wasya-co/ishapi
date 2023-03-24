@@ -9,6 +9,16 @@ module Ishapi
 
     before_action :check_jwt
 
+    def rmtag
+      authorize! :email_conversations_rmtag, ::Ishapi
+      convos = Office::EmailConversation.find params[:ids]
+      outs = convos.map do |convo|
+        convo.rmtag( params[:emailtag] )
+      end
+      flash[:notice] = "outcome: #{outs}"
+      render json: { status: :ok }
+    end
+
     def delete
       authorize! :email_conversations_delete, ::Ishapi
       convos = Office::EmailConversation.find params[:ids]
@@ -17,6 +27,7 @@ module Ishapi
         convo.remove_tag( WpTag::EMAILTAG_INBOX )
       end
       flash[:notice] = "outcome: #{outs}"
+      render json: { status: :ok }
     end
 
   end
