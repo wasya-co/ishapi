@@ -98,7 +98,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     end
 
     if the_mail.parts.length == 0
-      body = the_mail.body.decoded
+      body = the_mail.body.decoded.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
       if the_mail.content_type.include?('text/html')
         @message.part_html = body
       elsif the_mail.content_type.include?('text/plain')
