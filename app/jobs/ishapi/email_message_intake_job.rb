@@ -15,6 +15,8 @@ Ishapi::EmailMessageIntakeJob.perform_now( stub.id.to_s )
 ## 2023-03-02 _vp_ Continue
 ## 2023-03-07 _vp_ Continue
 ##
+## class name: EIJ
+##
 class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
   # include Sidekiq::Worker ## From: https://stackoverflow.com/questions/59114063/sidekiq-options-giving-sidekiqworker-cannot-be-included-in-an-activejob-for
@@ -65,7 +67,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     the_mail           = Mail.new(_mail)
     message_id         = the_mail.header['message-id'].decoded
     in_reply_to_id     = the_mail.header['in-reply-to']&.to_s
-    email_inbox_tag_id = WpTag.emailtag(WpTag::INBOX)
+    email_inbox_tag_id = WpTag.emailtag(WpTag::INBOX).id
 
     @message = ::Office::EmailMessage.where( message_id: message_id ).first
     @message ||= ::Office::EmailMessage.new

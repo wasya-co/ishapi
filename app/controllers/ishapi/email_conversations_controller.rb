@@ -23,8 +23,8 @@ module Ishapi
       authorize! :email_conversations_delete, ::Ishapi
       convos = Office::EmailConversation.find params[:ids]
       outs = convos.map do |convo|
-        convo.add_tag( WpTag::EMAILTAG_TRASH )
-        convo.remove_tag( WpTag::EMAILTAG_INBOX )
+        convo.add_tag( WpTag::TRASH )
+        convo.remove_tag( WpTag::INBOX )
       end
       flash[:notice] = "outcome: #{outs}"
       render json: { status: :ok }
