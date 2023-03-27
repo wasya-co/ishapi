@@ -6,7 +6,7 @@ require "ishapi/version"
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "ishapi"
-  s.version     = "0.1.8.244"
+  s.version     = "0.1.8.245"
   s.authors     = ["piousbox"]
   s.email       = ["piousbox@gmail.com"]
   s.homepage    = "http://wasya.co"
@@ -21,8 +21,8 @@ Gem::Specification.new do |s|
   ##
   s.add_dependency "rails", "~> 6.1.0"
   # s.add_dependency 'mongoid', "~> 7.3.0"
-  # s.add_runtime_dependency 'mongoid-paperclip'
-  # s.add_runtime_dependency 'mongoid_paranoia'
+  # s.add_dependency 'mongoid-paperclip'
+  # s.add_dependency 'mongoid_paranoia'
   # s.add_dependency "mongoid-autoinc", "~> 6.0"
   s.add_dependency 'cancancan', "~> 3.2"
   s.add_dependency "kaminari-mongoid", "~> 1.0"
@@ -32,10 +32,10 @@ Gem::Specification.new do |s|
   s.add_dependency "fb_graph"
   s.add_dependency "rack-throttle", "~> 0.5"
   s.add_dependency "jbuilder", "~> 2.7"
-  s.add_runtime_dependency 'aws-sdk-s3'
+  s.add_dependency 'aws-sdk-s3'
   s.add_dependency "stripe"
   s.add_dependency "httparty"
-  s.add_runtime_dependency "devise"
+  s.add__dependency "devise"
   # s.add_dependency "ahoy_matey"
 
 end
