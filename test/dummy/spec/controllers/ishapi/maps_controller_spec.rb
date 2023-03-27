@@ -77,8 +77,8 @@ describe Ishapi::MapsController do
           result = JSON.parse response.body
           result['map']['markers'][0]['is_purchased'].should be_falsey
 
-          profile_2 = create(:user_profile)
-          user_2 = create(:user, profile: profile_2 )
+          user_2    = create(:user)
+          profile_2 = create(:user_profile, email: user_2.email)
           create(:premium_purchase, item: @map_2, user_profile: user_2.profile)
           allow(controller).to receive(:current_user).and_return( user_2 )
 
@@ -104,9 +104,10 @@ describe Ishapi::MapsController do
     describe 'premium purchased' do
 
       it 'says its purchased' do
-        map = create(:map, premium_tier: 1)
-        user = create(:user)
-        purchase = create(:purchase, item: map, user_profile: user.profile)
+        map      = create(:map, premium_tier: 1)
+        user     = create(:user)
+        profile  = create(:user_profile, email: user.email)
+        purchase = create(:purchase, item: map, user_profile: profile)
         get :show, format: :json, params: { slug: map.slug }
         result = JSON.parse response.body
         (!!result['map']['is_purchased']).should eql false

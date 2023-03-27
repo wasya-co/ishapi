@@ -53,7 +53,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
   def perform id
     stub = ::Office::EmailMessageStub.find id
-    puts "Performing EmailMessageIntakeJob for object_key #{stub.object_key}"
+    if !Rails.env.test?
+      puts "Performing EmailMessageIntakeJob for object_key #{stub.object_key}"
+    end
     if stub.state != ::Office::EmailMessageStub::STATE_PENDING
       raise "This stub has already been processed: #{stub.id.to_s}."
       return

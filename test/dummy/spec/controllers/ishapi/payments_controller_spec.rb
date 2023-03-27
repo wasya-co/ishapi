@@ -10,7 +10,7 @@ describe Ishapi::PaymentsController do
   describe '#unlock' do
     before do
       ::Gameui::PremiumPurchase.destroy_all
-      @jwt_token = encode({ user_id: @user.id.to_s })
+      @jwt_token = encode({ user_profile_id: @user.profile.id.to_s })
     end
 
     it 'happy path, and duplicates are not unlocked' do

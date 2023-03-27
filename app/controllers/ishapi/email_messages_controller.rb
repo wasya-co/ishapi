@@ -40,13 +40,13 @@ class ::Ishapi::EmailMessagesController < ::Ishapi::ApplicationController
     end
 
     msg = Office::EmailMessageStub.new({
-      # object_path: params[:object_path],
       object_key:  params[:object_key],
     })
     if msg.save
       ::Ishapi::EmailMessageIntakeJob.perform_later( msg.id.to_s )
       render status: :ok, json: { status: :ok }
     else
+      puts! msg.errors.full_messages, 'Could not save EmailMessageStub'
       render status: 400, json: { status: 400 }
     end
   end

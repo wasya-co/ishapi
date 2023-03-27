@@ -7,7 +7,9 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  has_one :profile, :class_name => '::Ish::UserProfile'
+  def profile
+    ::Ish::UserProfile.find_by( email: email )
+  end
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

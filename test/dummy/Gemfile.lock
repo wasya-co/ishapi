@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/wasyaco/ish_models.git
-  revision: 96273e0ec32dc26cc88a4d6b3b528299ea19e36b
+  revision: eadc5a9deb2e53e158512c050b593b4bec4a11a6
   branch: 2.1.0
   specs:
-    ish_models (0.0.33.213)
+    ish_models (0.0.33.217)
       aws-sdk-s3
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -11,6 +11,7 @@ GIT
       mongoid-autoinc (~> 6.0)
       mongoid-paperclip
       mongoid_paranoia
+      rails (~> 6.1.0)
 
 GEM
   remote: https://rubygems.org/
