@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'aws-sdk-s3'
   s.add_dependency "stripe"
   s.add_dependency "httparty"
-  s.add__dependency "devise"
+  s.add_dependency "devise"
   # s.add_dependency "ahoy_matey"
 
 end
