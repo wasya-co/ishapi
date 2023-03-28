@@ -131,7 +131,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     @message.email_conversation_id = conv.id
     conv.update_attributes({
       state: Conv::STATE_UNREAD,
-      latest_at: the_mail.date,
+      latest_at: the_mail.date || Time.now.to_datetime,
       wp_term_ids: ( [ email_inbox_tag_id ] + conv.wp_term_ids + stub.wp_term_ids ).uniq,
     })
 
