@@ -4,9 +4,6 @@ Ishapi::Engine.routes.draw do
   root :to => 'application#home'
   post 'home', :to => 'application#home'
 
-  # A
-  resources :addresses
-
   # E
   post 'email_messages',    to: 'email_messages#receive'
   get 'email_messages/:id', to: 'email_messages#show', as: :email_message

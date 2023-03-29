@@ -61,7 +61,7 @@ class ::Ishapi::ApplicationController < ActionController::Base
 
   private
 
-  ## This returns an empty profile if not logged in!
+  ## This returns an empty profile if not logged in
   def check_profile
     begin
       decoded = decode(params[:jwt_token])

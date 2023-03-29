@@ -1,7 +1,7 @@
 require_dependency "ishapi/application_controller"
 class Ishapi::PaymentsController < ApplicationController
 
-  before_action :check_profile, only: %i| create2 unlock |
+  before_action :check_profile, only: %i| create unlock |
 
   # alphabetized : )
 
@@ -10,9 +10,13 @@ class Ishapi::PaymentsController < ApplicationController
   ## _vp_ 2022-09-04 continue
   ##
   ## @TODO: cannot proceed if already is_purchasing?
+  ## @TODO: and this doesn't say what you're buying! herehere
   ##
   def create
     authorize! :create, ::Ish::Payment
+
+    puts! @current_profile, 'current_profile'
+
     @current_profile.update_attributes({ is_purchasing: true })
 
     begin
