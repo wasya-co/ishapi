@@ -16,4 +16,4 @@
                      depends on ish_models ~2.0.0
       - 2022-10-13 - bugfixes, should be able to login once again
                      lets see if removing runtime dep's on mongoid works just fine
-
+      - 2023-03-29 - there are spec errors, but lets continue groking payments

@@ -47,10 +47,8 @@ Ishapi::Engine.routes.draw do
 
   post 'do_purchase', to: 'gameui#do_purchase' # @TODO: rename to just purchase, or destroy endpoint
   post 'payments', :to => 'payments#create'
-  post 'payments2', :to => 'payments#create2' # @TODO: change
-  get  'payments2', to: 'payments#create2'
   post 'payments/unlock', to: 'payments#unlock' # do_purchase
-  post  'stripe_confirm', to: 'payments#stripe_confirm' # @TODO: test-drive
+  post 'payments/stripe_confirm', to: 'payments#stripe_confirm' # @TODO: test-drive herehere
 
   get 'photos/view/:id', to: 'photos#show'
   get 'profiles/view/:username', :to => 'user_profiles#show'

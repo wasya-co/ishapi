@@ -1,17 +1,6 @@
 
-=begin
-
-m_id_2 = "2021-07-12T19_17_26Fpedidos_jmc2_gmail_com"
-stub = Stub.new( object_key: m_id_2 )
-stub = Stub.find_by( object_key: m_id_2 )
-stub.update_attribute(:state, 'state_pending')
-Ishapi::EmailMessageIntakeJob.perform_now( stub.id.to_s )
-
-=end
-
-
 ##
-## 2023-02-26 _vp_ let's go
+## 2023-02-26 _vp_ Let's go
 ## 2023-03-02 _vp_ Continue
 ## 2023-03-07 _vp_ Continue
 ##
