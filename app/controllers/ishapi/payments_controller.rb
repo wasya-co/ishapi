@@ -1,5 +1,5 @@
 require_dependency "ishapi/application_controller"
-class Ishapi::PaymentsController < ApplicationController
+class Ishapi::PaymentsController < ::Ishapi::ApplicationController
 
   before_action :check_profile, only: %i| create unlock |
 
