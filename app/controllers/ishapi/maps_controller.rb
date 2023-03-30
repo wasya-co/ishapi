@@ -18,8 +18,7 @@ class Ishapi::MapsController < Ishapi::ApplicationController
 
     authorize! :show, @map
 
-    @newsitems = @location.newsitems.page( params[:newsitems_page]
-      ).per( @location.newsitems_page_size )
+    @newsitems = @location.newsitems.page( params[:newsitems_page] ).per( @location.newsitems_page_size )
 
     @markers = @map.markers.permitted_to(@current_profile).order_by(ordering: :asc)
     # case @map.ordering_type

@@ -25,7 +25,7 @@ module Ishapi
       respond_to do |format|
         format.json do
 
-          if @gallery.premium?
+          if @gallery.is_premium
             if @current_user&.profile&.has_premium_purchase( @gallery )
               render 'show_premium_unlocked'
             else
@@ -38,7 +38,7 @@ module Ishapi
         end
         format.html do
 
-          if @gallery.premium?
+          if @gallery.is_premium
             if @current_user&.profile&.has_premium_purchase( @gallery )
               render 'show_premium_unlocked'
             else

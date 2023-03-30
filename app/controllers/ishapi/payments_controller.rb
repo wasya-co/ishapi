@@ -3,7 +3,8 @@ class Ishapi::PaymentsController < ::Ishapi::ApplicationController
 
   before_action :check_profile, only: %i| create unlock |
 
-  skip_before_action :verify_authenticity_token, only: %i| create stripe_confirm |
+  ## Hmmm, ishapi does not verify authenticity token.
+  # skip_before_action :verify_authenticity_token, only: %i| create stripe_confirm |
 
   # alphabetized : )
 
@@ -82,7 +83,7 @@ class Ishapi::PaymentsController < ::Ishapi::ApplicationController
     authorize! :unlock, ::Ish::Payment
     item = Object::const_get(params['kind']).find params['id']
 
-    existing = Purchase.where( user_profile: @current_profile, item: item ).first
+    existing = Ish::Payment.where( profile: @current_profile, item: item ).first
     if existing
       render status: 200, json: { status: :ok, message: 'already purchased' }
       return
@@ -90,7 +91,7 @@ class Ishapi::PaymentsController < ::Ishapi::ApplicationController
 
     @current_profile.inc( n_unlocks: -item.premium_tier )
 
-    purchase = ::Gameui::PremiumPurchase.create!( item: item, user_profile: @current_profile, )
+    purchase = ::Ish::Payment.create!( item: item, profile: @current_profile, )
 
     @profile = @current_profile
     render 'ishapi/user_profiles/account'

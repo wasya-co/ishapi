@@ -32,7 +32,6 @@ def do_setup
   @gallery = create :gallery, user_profile: @user.profile
 
   @report = create :report
-
 end
 
 Paperclip.options[:log] = false

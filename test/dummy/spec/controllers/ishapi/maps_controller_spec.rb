@@ -63,29 +63,6 @@ describe Ishapi::MapsController do
           result['map']['markers'][0]['destination_slug'].should eql @marker.destination.slug
           result['map']['markers'][0]['id'].should eql @marker.destination.id.to_s ## @TODO: Not sure I agree with this. _vp_ 2022-09-17
         end
-
-        ## @TODO: it appears whatever a user has purchased belongs to its own object or the user,
-        ##   not to the map. So, refactor this. _vp_ 2022-09-17
-        it 'is_purchased' do
-          get :show, format: :json, params: { slug: @map.slug }
-          result = JSON.parse response.body
-          result['map']['markers'][0]['id'].should eql @map_2.id.to_s ## @TODO: Not sure I agree with this. _vp_ 2022-09-17
-          result['map']['markers'][0]['is_purchased'].should be_falsey
-
-          @map_2.update_attributes({ premium_tier: 1 })
-          get :show, format: :json, params: { slug: @map.slug }
-          result = JSON.parse response.body
-          result['map']['markers'][0]['is_purchased'].should be_falsey
-
-          user_2    = create(:user)
-          profile_2 = create(:user_profile, email: user_2.email)
-          create(:premium_purchase, item: @map_2, user_profile: user_2.profile)
-          allow(controller).to receive(:current_user).and_return( user_2 )
-
-          get :show, format: :json, params: { slug: @map.slug }
-          result = JSON.parse response.body
-          result['map']['markers'][0]['is_purchased'].should be_truthy
-        end
       end
 
     end
@@ -107,12 +84,12 @@ describe Ishapi::MapsController do
         map      = create(:map, premium_tier: 1)
         user     = create(:user)
         profile  = create(:user_profile, email: user.email)
-        purchase = create(:purchase, item: map, user_profile: profile)
+        purchase = create(:purchase, item: map, profile: profile)
         get :show, format: :json, params: { slug: map.slug }
         result = JSON.parse response.body
         (!!result['map']['is_purchased']).should eql false
 
-        jwt_token = encode(user_id: user.id.to_s)
+        jwt_token = encode(user_profile_id: profile.id.to_s)
         get :show, format: :json, params: { jwt_token: jwt_token, slug: map.slug }
         result = JSON.parse response.body
         result['map']['is_purchased'].should eql true
