@@ -3,6 +3,8 @@ class Ishapi::PaymentsController < ::Ishapi::ApplicationController
 
   before_action :check_profile, only: %i| create unlock |
 
+  skip_before_action :verify_authenticity_token, only: %i| create stripe_confirm |
+
   # alphabetized : )
 
   ## _vp_ 2020-07-21 This is for guyd
@@ -14,8 +16,6 @@ class Ishapi::PaymentsController < ::Ishapi::ApplicationController
   ##
   def create
     authorize! :create, ::Ish::Payment
-
-    puts! @current_profile, 'current_profile'
 
     @current_profile.update_attributes({ is_purchasing: true })
 

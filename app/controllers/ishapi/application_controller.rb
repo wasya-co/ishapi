@@ -10,6 +10,7 @@ class ::Ishapi::ApplicationController < ActionController::Base
   end
 
   ## POST /api/users/long_term_token , a FB login flow
+  ## 2023-03-29 _vp_ This should not work, needs to be rewritten.
   def long_term_token
     accessToken   = request.headers[:accessToken]
     accessToken ||= params[:accessToken]
@@ -27,7 +28,7 @@ class ::Ishapi::ApplicationController < ActionController::Base
     @current_profile  = Ish::UserProfile.find_by( email: @current_user.email )
 
     # send the jwt to client
-    @jwt_token = encode(user_id: @current_user.id.to_s)
+    @jwt_token = encode(user_profile_id: @current_user.profile.id.to_s)
 
     render json: {
       email: @current_user.email,
