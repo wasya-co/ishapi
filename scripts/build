@@ -24,6 +24,7 @@ git push
 
 gem build ishapi.gemspec
 gem push ishapi-$version.gem
+rm ishapi-$version.gem
 
 echo "ishapi build ok"
 
