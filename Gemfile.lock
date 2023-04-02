@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: 6f0e48fabc0cf56bddfa3468ca960d006d12f42f
+  revision: f355457d080904f801135cf01d763df3236dbd31
   branch: 2.2.0
   specs:
-    ish_models (0.0.33.224)
+    ish_models (0.0.33.230)
       aws-sdk-s3
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -16,7 +16,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.257)
+    ishapi (0.1.8.259)
       aws-sdk-s3
       cancancan (~> 3.2)
       devise
@@ -93,12 +93,12 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
-    addressable (2.8.1)
+    addressable (2.8.2)
       public_suffix (>= 2.0.2, < 6.0)
     aes_key_wrap (1.1.0)
     attr_required (1.0.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.736.0)
+    aws-partitions (1.739.0)
     aws-sdk-core (3.171.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -107,7 +107,7 @@ GEM
     aws-sdk-kms (1.63.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.119.2)
+    aws-sdk-s3 (1.120.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
@@ -122,7 +122,7 @@ GEM
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.3)
-    devise (4.9.0)
+    devise (4.9.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0)
@@ -183,7 +183,7 @@ GEM
       marcel (~> 1.0.1)
       mime-types
       terrapin (~> 0.6.0)
-    loofah (2.19.1)
+    loofah (2.20.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.8.1)
@@ -289,7 +289,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    stripe (8.4.0)
+    stripe (8.5.0)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
     thor (1.2.1)
