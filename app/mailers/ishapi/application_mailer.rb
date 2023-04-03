@@ -6,7 +6,7 @@ class Ishapi::ApplicationMailer < ActionMailer::Base
   def forwarder_notify msg_id
     @msg = ::Office::EmailMessage.find msg_id
     mail( to: 'poxlovi@gmail.com',
-          subject: "FWD_Notify: #{@msg.subject}" )
+          subject: "POX::#{@msg.subject}" )
   end
 
 end
