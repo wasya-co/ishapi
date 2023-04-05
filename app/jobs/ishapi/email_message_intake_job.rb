@@ -135,26 +135,30 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     ## Actions & Filters
     email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
-      if @message.from.match( filter.from_regex )
-        # || @message.part_html.match( filter.body_regex ) )
+      if ( @message.from.match(      filter.from_regex ) ||
+           @message.part_html.match( filter.body_regex ) ||
+           @message.subject.match(   filter.subject_regex )
+      )
         # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
+
         @message.apply_filter( filter )
       end
     end
 
     ## Save to exit
     flag = @message.save
-    if flag
-      puts! @message.message_id, 'Saved this message'
-    else
-      puts! @message.errors.full_messages.join(', '), 'Cannot save email_message'
-    end
+    # if flag
+    #   puts! @message.message_id, 'Saved this message'
+    # else
+    #   puts! @message.errors.full_messages.join(', '), 'Cannot save email_message'
+    # end
     conv.save
     stub.update_attributes({ state: ::Office::EmailMessageStub::STATE_PROCESSED })
 
     ## Notification
     if conv.wp_term_ids.include?( email_inbox_tag_id )
-      ::Ishapi::ApplicationMailer.forwarder_notify( @message.id.to_s ).deliver_later
+      out = ::Ishapi::ApplicationMailer.forwarder_notify( @message.id.to_s )
+      Rails.env.production? ? out.deliver_later : out.deliver_now
     end
 
   end
