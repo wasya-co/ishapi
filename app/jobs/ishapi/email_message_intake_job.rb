@@ -135,10 +135,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     ## Actions & Filters
     email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
-      if ( @message.from.match(      filter.from_regex ) ||
-           @message.part_html.match( filter.body_regex ) ||
-           @message.subject.match(   filter.subject_regex )
-      )
+      if ( filter.from_regex.blank? ||     @message.from.match(      filter.from_regex ) ) &&
+         ( filter.body_regex.blank? ||     @message.part_html.match( filter.body_regex ) ) &&
+         ( filter.subject_regex.blank? ||  @message.subject.match(   filter.subject_regex ) )
         # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
 
         @message.apply_filter( filter )
