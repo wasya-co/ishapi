@@ -19,25 +19,27 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
   # "image/jpeg; name=TX_DL_2.jpg"
   # "text/plain; charset=UTF-8"
   def churn_subpart message, part
-    if part.content_type.include?("multipart/related") ||
-       part.content_type.include?("multipart/alternative")
-
-      part.parts.each do |subpart|
-        churn_subpart( message, subpart )
-      end
-
-    elsif part.content_type.include?('text/html')
-      message.part_html = part.decoded
-
-    elsif part.content_type.include?("text/plain")
-      message.part_txt = part.decoded
-
-    else
+    if part.content_disposition&.include?('attachment')
       ## @TODO: attachments !
-      puts! part.content_type, '444 No action for a part with this content_type'
-    end
+      ;
+    else
+      if part.content_type.include?("multipart/related") ||
+        part.content_type.include?("multipart/alternative")
 
-    return nil
+        part.parts.each do |subpart|
+          churn_subpart( message, subpart )
+        end
+
+      elsif part.content_type.include?('text/html')
+        message.part_html = part.decoded
+
+      elsif part.content_type.include?("text/plain")
+        message.part_txt = part.decoded
+
+      else
+        puts! part.content_type, '444 No action for a part with this content_type'
+      end
+    end
   end
 
   def perform id
@@ -59,6 +61,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     message_id         = the_mail.header['message-id'].decoded
     in_reply_to_id     = the_mail.header['in-reply-to']&.to_s
     email_inbox_tag_id = WpTag.emailtag(WpTag::INBOX).id
+
+    if !the_mail.to
+      the_mail.to = [ 'NO-RECIPIENT' ]
+    end
 
     @message = ::Office::EmailMessage.where( message_id: message_id ).first
     @message ||= ::Office::EmailMessage.new
