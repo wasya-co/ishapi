@@ -1,15 +1,13 @@
 #
-# ishapi / option_price_items / view
+# ishapi / option_price_items / index
 #
 
-
-json.array! @opis do |opi|
-  json.ticker     opi.ticker
-  json.putCall    opi.putCall
+json.array! @outs do |out|
   json.strikePrice opi.strikePrice
   json.symbol     opi.symbol
   json.bid        opi.bid
   json.ask        opi.ask
+  json.natural    ((opi.bid + opi.ask )/2).round(3)
   json.last       opi.last
   # json.lastPrice  opi.lastPrice
   # json.open opi.openPrice

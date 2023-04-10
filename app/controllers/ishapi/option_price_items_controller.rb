@@ -8,41 +8,37 @@ module Ishapi
 
     ## params: symbol, begin_at, end_at
     def view
-      authorize! :view_chain, ::Iro::OptionPriceItem.new
+      authorize! :view_chain, ::Iro::OptionPriceItem
       @opis = ::Iro::OptionPriceItem.where({ ticker: params[:symbol]
       }).where( "timestamp BETWEEN ? and ? ", params[:begin_at], params[:end_at]
       ).limit(100)
     end
 
     def view_by_symbol
-      authorize! :view_chain, ::Iro::OptionPriceItem.new
+      authorize! :view_chain, ::Iro::OptionPriceItem
       @opis = ::Iro::OptionPriceItem.where({ symbol: params[:symbol]
       }).limit(100)
       render 'view'
     end
 
+    # kind-1, always
+    def index
+      authorize! :view_chain, ::Iro::OptionPriceItem
+      @opis = Iro::OptionPriceItem.where({
+        expirationDate: '1676062800000',
+        timestamp: '2023-02-06 14:46:48',
+      })
+      @outs = {}
+      @opis.map do |opi|
+        r = @outs[opi.strikePrice] || {}
+        r[opi.putCall] = ((opi.bid + opi.ask)/2).round(3)
+        @outs[opi.strikePrice] = r
+      end
+      render json: @outs
+      return
+    end
+
   end
 end
-
-## this is in scratchpadjs / done
-=begin
-
-SELECT symbol, bid, ask, MAX(`timestamp`) as a
-FROM iwa_option_price_items
-where symbol = "GME_021023P20"
-GROUP BY symbol, bid, ask, DATE(`timestamp`), HOUR(`timestamp`), Minute(`timestamp`)
-order by a desc;
-
-SELECT symbol, MAX(`timestamp`) as a
-FROM iwa_option_price_items
-where symbol = "GME_021023P20"
-GROUP BY symbol, DATE(`timestamp`), HOUR(`timestamp`), Minute(`timestamp`)
-order by a desc;
-
-select timestamp as a FROM iwa_option_price_items
-where symbol = "GME_021023P20"
-order by a desc;
-
-=end
 
 
