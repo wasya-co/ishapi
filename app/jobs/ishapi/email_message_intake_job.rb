@@ -13,10 +13,15 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
   queue_as :default
 
   ## For recursive parts of type `related`.
+  ## Content dispositions:
+  # "inline; creation-date=\"Tue, 11 Apr 2023 19:39:42 GMT\"; filename=image005.png; modification-date=\"Tue, 11 Apr 2023 19:47:53 GMT\"; size=14916",
+  #
   ## Content Types:
-  # "text/html; charset=utf-8"
   # "application/pdf; name=\"Securities Forward Agreement -- HaulHub Inc -- Victor Pudeyev -- 2021-10-26.docx.pdf\""
   # "image/jpeg; name=TX_DL_2.jpg"
+  # "image/png; name=image005.png"
+  # "multipart/alternative; boundary=_000_BL0PR10MB2913C560ADE059F0AB3A6D11829A9BL0PR10MB2913namp_",
+  # "text/html; charset=utf-8"
   # "text/plain; charset=UTF-8"
   def churn_subpart message, part
     if part.content_disposition&.include?('attachment')
@@ -89,9 +94,26 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       ccs:  the_mail.cc,
       bccs: the_mail.bcc,
     })
+    if the_mail.body.preamble.present?
+      @message.preamble = the_mail.body.preamble
+    end
+    if the_mail.body.epilogue.present?
+      @message.epilogue = the_mail.body.epilogue
+    end
 
     the_mail.parts.each do |part|
       churn_subpart( @message, part )
+    end
+
+    the_mail.attachments.each do |att|
+      photo = Photo.new({
+        content_type:      att.content_type.split(';')[0],
+        original_filename: att.content_type_parameters[:name],
+        image_data:        att.body.encoded,
+        email_message_id: @message.id,
+      })
+      photo.decode_base64_image
+      photo.save
     end
 
     if the_mail.parts.length == 0
