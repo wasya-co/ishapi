@@ -8,6 +8,8 @@ Ishapi::Engine.routes.draw do
   post 'email_messages',    to: 'email_messages#receive'
   get 'email_messages/:id', to: 'email_messages#show', as: :email_message
 
+  get 'email_contexts/summary', to: 'email_contexts#summary'
+
   delete 'email_conversations',                 to: 'email_conversations#delete'
   post   'email_conversations/rmtag/:emailtag', to: 'email_conversations#rmtag'
 

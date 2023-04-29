@@ -87,6 +87,7 @@ class ::Ishapi::ApplicationController < ActionController::Base
   def check_jwt
     begin
       decoded = decode(params[:jwt_token])
+      puts! decoded, 'decoded'
       @current_profile = Ish::UserProfile.find decoded['user_profile_id']
     rescue JWT::ExpiredSignature
       Rails.logger.info("JWT::ExpiredSignature")

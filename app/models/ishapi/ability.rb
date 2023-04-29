@@ -35,6 +35,7 @@ class Ishapi::Ability
       if %w| victor@wasya.co victor@piousbox.com piousbox@gmail.com |.include?( user_profile.email )
 
         can [ :manage ], ::Ishapi
+        can [ :manage ], ::Ish::EmailContext
 
         can [ :show ], ::Office::EmailMessage
       end

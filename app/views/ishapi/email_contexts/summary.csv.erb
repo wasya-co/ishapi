@@ -1,0 +1,4 @@
+<%= CSV.generate_line ['date', 'count'] -%>
+<%- @results.each do |result| -%>
+<%= CSV.generate_line [ result['_id'], result['total'] ] -%>
+<%- end -%>
