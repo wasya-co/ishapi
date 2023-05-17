@@ -1,0 +1,18 @@
+
+
+%section.newsitems.newsitems--index
+
+  .header
+    %h3.title Newsitems
+
+  .items
+    - newsitems.each do |newsitem|
+      .Card14
+        - if newsitem.video
+          \[Video]
+          = link_to newsitem.video.name, video_path( newsitem.video )
+        = newsitem.name
+        = raw newsitem.descr
+      = newsitem.video.inspect rescue nil
+
+

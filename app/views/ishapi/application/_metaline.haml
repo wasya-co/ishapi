@@ -1,0 +1,12 @@
+
+.metaline
+
+  <b>On</b> #{item.created_at.to_s[0...10]}
+  - if item.user_profile
+    <b>By</b> #{item.user_profile.name}
+
+  -# - if item.tags.length > 0
+  -#   <b>Tags:</b> #{ item.tags.map(&:name).join(', ') }
+
+  - if defined?(item.premium_tier) && item.premium_tier > 0
+    <b>Tier $#{item.premium_tier}</b>

@@ -13,4 +13,23 @@
  *= require_self
  *= require ./galleries.scss
  *= require ./locations.scss
- */
+**/
+
+
+.my-row { /* necessarily no-wrap */
+  display: flex;
+  flex-wrap: no-wrap;
+
+  > * {
+    margin-right: 10px;
+  }
+}
+
+.newsitems--index {
+  .items {
+    > * {
+      margin-bottom: .5em;
+    }
+  }
+}
+
