@@ -9,8 +9,12 @@
     - newsitems.each do |newsitem|
       .Card14
         - if newsitem.video
-          \[Video]
+          [Video]
           = link_to newsitem.video.name, video_path( newsitem.video )
+        - if newsitem.report
+          [Report]
+          = link_to newsitem.report.name, report_path( newsitem.report )
+
         = newsitem.name
         = raw newsitem.descr
       = newsitem.video.inspect rescue nil

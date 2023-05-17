@@ -1,0 +1,15 @@
+
+.reports-show.max-width
+
+  %h1.flex-row
+    = @report.name
+
+  = render 'ishapi/application/metaline', item: @report
+
+  - if @report.subhead.length > 3
+    .subhead= @report.subhead
+
+  .descr
+    - if @report.photo
+      .float-left= image_tag @report.photo.photo.url( :small )
+    = raw @report.descr
