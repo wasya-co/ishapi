@@ -127,6 +127,11 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       end
     end
 
+    ## Leadset, Lead
+    domain  = @message.from.split('@')[1]
+    leadset = Leadset.find_or_create_by( company_url: domain )
+    lead    = Lead.find_or_create_by( email: @message.from, m3_leadset_id: leadset.id )
+
     ## Conversation
     if in_reply_to_id
       in_reply_to_msg = ::Office::EmailMessage.where({ message_id: in_reply_to_id }).first
@@ -145,30 +150,22 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         subject: the_mail.subject,
       })
     end
-    @message.email_conversation_id = conv.id
+    @message.update_attributes({ email_conversation_id: conv.id })
     conv.update_attributes({
-      state: Conv::STATE_UNREAD,
+      state:     Conv::STATE_UNREAD,
       latest_at: the_mail.date || Time.now.to_datetime,
+      lead_ids:  conv.lead_ids.push( lead.id ).uniq,
       wp_term_ids: ( [ email_inbox_tag_id ] + conv.wp_term_ids + stub.wp_term_ids ).uniq,
     })
-
-    ## Leadset
-    domain = @message.from.split('@')[1]
-    leadset = Leadset.find_or_create_by( company_url: domain )
-
-    ## Lead
-    lead = Lead.find_or_create_by( email: @message.from, m3_leadset_id: leadset.id )
-    conv.lead_ids = conv.lead_ids.push( lead.id ).uniq
 
     ## Actions & Filters
     email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
-      if ( filter.from_regex.blank? ||     @message.from.match(         filter.from_regex ) ) &&
-         ( filter.from_exact.blank? ||     @message.from.include?(      filter.from_exact ) ) &&
-        #  ( filter.body_regex.blank? ||     @message.part_html.match(    filter.body_regex ) ) &&
-         ( filter.body_exact.blank? ||     @message.part_html.include?( filter.body_exact ) ) &&
-         ( filter.subject_regex.blank? ||  @message.subject.match(      filter.subject_regex ) ) &&
-         ( filter.subject_exact.blank? ||  @message.subject.include?(   filter.subject_exact ) )
+      if ( filter.from_regex.blank? ||     @message.from.match(             filter.from_regex    ) ) &&
+         ( filter.from_exact.blank? ||     @message.from.downcase.include?( filter.from_exact    ) ) &&
+         ( filter.body_exact.blank? ||     @message.part_html.include?(     filter.body_exact    ) ) &&
+         ( filter.subject_regex.blank? ||  @message.subject.match(          filter.subject_regex ) ) &&
+         ( filter.subject_exact.blank? ||  @message.subject.include?(       filter.subject_exact ) )
 
         # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
 
@@ -176,17 +173,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       end
     end
 
-    ## Save to exit
-    flag = @message.save
-    # if flag
-    #   puts! @message.message_id, 'Saved this message'
-    # else
-    #   puts! @message.errors.full_messages.join(', '), 'Cannot save email_message'
-    # end
-    conv.save
     stub.update_attributes({ state: ::Office::EmailMessageStub::STATE_PROCESSED })
 
     ## Notification
+    conv.reload
     if conv.wp_term_ids.include?( email_inbox_tag_id )
       out = ::Ishapi::ApplicationMailer.forwarder_notify( @message.id.to_s )
       Rails.env.production? ? out.deliver_later : out.deliver_now
