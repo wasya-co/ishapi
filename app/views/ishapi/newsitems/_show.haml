@@ -1,0 +1,10 @@
+
+- newsitem ||= @newsitem
+.newsitems--show
+  .header
+    %h2.title= @newsitem.name
+  %iframe{ src: newsitem.iframe_src,
+    width: "90%",
+    height: "90%",
+    style: "margin: auto;",
+  }
