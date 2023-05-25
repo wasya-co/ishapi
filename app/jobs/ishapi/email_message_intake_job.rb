@@ -162,7 +162,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
       if ( filter.from_regex.blank? ||     @message.from.match(             filter.from_regex    ) ) &&
-         ( filter.from_exact.blank? ||     @message.from.downcase.include?( filter.from_exact    ) ) &&
+         ( filter.from_exact.blank? ||     @message.from.downcase.include?( filter.from_exact.downcase ) ) &&
          ( filter.body_exact.blank? ||     @message.part_html.include?(     filter.body_exact    ) ) &&
          ( filter.subject_regex.blank? ||  @message.subject.match(          filter.subject_regex ) ) &&
          ( filter.subject_exact.blank? ||  @message.subject.include?(       filter.subject_exact ) )
