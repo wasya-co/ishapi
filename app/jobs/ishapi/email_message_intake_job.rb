@@ -57,9 +57,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       return
     end
     client = Aws::S3::Client.new({
-      region:            ::S3_CREDENTIALS[:region],
-      access_key_id:     ::S3_CREDENTIALS[:access_key_id],
-      secret_access_key: ::S3_CREDENTIALS[:secret_access_key] })
+      region:            ::S3_CREDENTIALS[:region_ses],
+      access_key_id:     ::S3_CREDENTIALS[:access_key_id_ses],
+      secret_access_key: ::S3_CREDENTIALS[:secret_access_key_ses] })
 
     _mail              = client.get_object( bucket: ::S3_CREDENTIALS[:bucket_ses], key: stub.object_key ).body.read
     the_mail           = Mail.new(_mail)
