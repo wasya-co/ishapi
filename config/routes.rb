@@ -24,6 +24,7 @@ Ishapi::Engine.routes.draw do
   post 'invoices/search', :to => 'invoices#search'
 
   # L
+  get 'leads',       to: 'leads#index'
   get 'leadsets',    to: 'leadsets#index'
   delete 'leadsets', to: 'leadsets#destroy'
 
