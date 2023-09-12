@@ -45,6 +45,16 @@ Ishapi::Engine.routes.draw do
   # N
   delete 'newsitems/:id', to: 'newsitems#destroy'
 
+  ## O
+
+  # resources :option_price_items
+  get 'option_price_items/view-by/symbol/:symbol', to: 'option_price_items#view_by_symbol', :constraints => { :symbol => /[^\/]+/ } ## the symbol is detailed eg 'GME_011924P30'
+  get 'option_price_items/index1', to: 'option_price_items#index', defaults: { kind: 'kind-1' }
+  get 'option_price_items/view/:symbol/from/:begin_at/to/:end_at', to: 'option_price_items#view'
+
+
+  ## P
+
   post 'do_purchase', to: 'gameui#do_purchase' # @TODO: rename to just purchase, or destroy endpoint
   post 'payments', :to => 'payments#create'
   post 'payments/unlock', to: 'payments#unlock' # do_purchase
@@ -53,13 +63,11 @@ Ishapi::Engine.routes.draw do
   get 'photos/view/:id', to: 'photos#show'
   get 'profiles/view/:username', :to => 'user_profiles#show'
 
+  get 'products/:id', to: 'products#show'
+
+  ## S
+
   post 'stars/buy', to: 'gameui#buy_stars'
-
-
-  # resources :option_price_items
-  get 'option_price_items/view-by/symbol/:symbol', to: 'option_price_items#view_by_symbol', :constraints => { :symbol => /[^\/]+/ } ## the symbol is detailed eg 'GME_011924P30'
-  get 'option_price_items/index1', to: 'option_price_items#index', defaults: { kind: 'kind-1' }
-  get 'option_price_items/view/:symbol/from/:begin_at/to/:end_at', to: 'option_price_items#view'
 
 
   get 'test',      to: 'application#test'

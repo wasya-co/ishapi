@@ -4,6 +4,13 @@ class Ishapi::Ability
 
   def initialize user_profile
 
+    ##
+    ## super user
+    ##
+    if %w| piousbox@gmail.com |.include?( user_profile.email )
+      can [ :manage ], :all
+    end
+
     #
     # signed in user_profile
     #
