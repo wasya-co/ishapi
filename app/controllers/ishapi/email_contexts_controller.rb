@@ -19,7 +19,7 @@ module Ishapi
           render layout: false
         end
         format.json do
-          render json: @results
+          render json: { items: @results }
         end
       end
     end
