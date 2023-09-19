@@ -7,7 +7,7 @@ module Ishapi
     before_action :check_jwt
 
     def index
-      @galleries = Gallery.all
+      @galleries = Gallery.all.public
       authorize! :index, Gallery
       if params[:domain]
         @site = Site.find_by( :domain => params[:domain], :lang => 'en' )
@@ -17,8 +17,8 @@ module Ishapi
     end
 
     def show
-      @gallery = ::Gallery.unscoped.where( slug: params[:slug] ).first
-      @gallery ||= ::Gallery.unscoped.where( id: params[:slug] ).first
+      @gallery   = ::Gallery.unscoped.where( slug: params[:slug] ).first
+      @gallery ||= ::Gallery.unscoped.where( id: params[:slug]   ).first
       authorize! :show, @gallery
 
       @photos = @gallery.photos.order_by( ordering: :asc )

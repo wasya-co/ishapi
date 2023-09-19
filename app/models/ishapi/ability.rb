@@ -7,7 +7,7 @@ class Ishapi::Ability
     ##
     ## super user
     ##
-    if %w| piousbox@gmail.com |.include?( user_profile.email )
+    if %w| piousbox@gmail.com |.include?( user_profile&.email )
       can [ :manage ], :all
     end
 
@@ -18,9 +18,9 @@ class Ishapi::Ability
 
       can [ :my_index ], Gallery
       can [ :show ], Gallery do |gallery|
-        gallery.user_profile == user_profile || # my own
-        (!gallery.is_trash && gallery.is_public ) || # public
-        (!gallery.is_trash && gallery.shared_profiles.include?( user_profile ) ) # shared with me
+        ( gallery.user_profile == user_profile                                 ) || # my own
+        (!gallery.is_trash && gallery.is_public                                ) || # public
+        (!gallery.is_trash && gallery.shared_profiles.include?( user_profile ) )    # shared with me
       end
 
       can [ :do_purchase ], ::Gameui
@@ -29,7 +29,7 @@ class Ishapi::Ability
       end
 
       can [ :destroy ], Newsitem do |n|
-        n.map.creator_profile.id == user_profile.id
+        n.map.creator_profile.id.to_s == user_profile.id.to_s
       end
 
       can [ :create, :unlock ], ::Ish::Payment
@@ -58,10 +58,16 @@ class Ishapi::Ability
       p.user.id.to_s == user.id.to_s
     end
 
+
+    ##
+    ## E
+    ##
+    can [ :create ], Ish::EmailUnsubscribe
+
     #
     # G
     #
-    can [ :index ], Gallery
+    # can [ :index ], Gallery
     can [ :show ], Gallery do |gallery|
       gallery.is_public && !gallery.is_trash
     end
@@ -85,7 +91,11 @@ class Ishapi::Ability
     #
     # O
     #
+
+    can [ :show ], ::Office::ObfuscatedRedirect
+
     can [ :view_chain ], ::Iro::OptionPriceItem
+
 
     #
     # P
@@ -111,7 +121,7 @@ class Ishapi::Ability
     #
     # V
     #
-    can [ :index, :my_index ], Video
+    # can [ :index, :my_index ], Video
     can [ :show ], Video do |video|
       video.is_public
     end

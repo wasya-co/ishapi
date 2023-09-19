@@ -1,10 +1,11 @@
 
 Ishapi::Engine.routes.draw do
 
-  root :to => 'application#home'
-  post 'home', :to => 'application#home'
+  root         to: 'application#home'
+  post 'home', to: 'application#home'
 
-  # E
+  ## E
+
   post 'email_messages',    to: 'email_messages#receive'
   get 'email_messages/:id', to: 'email_messages#show', as: :email_message
 
@@ -13,7 +14,10 @@ Ishapi::Engine.routes.draw do
   delete 'email_conversations',                 to: 'email_conversations#delete'
   post   'email_conversations/rmtag/:emailtag', to: 'email_conversations#rmtag'
 
-  # G
+  get 'email_unsubscribes', to: 'email_unsubscribes#create'
+
+  ## G
+
   get  'galleries',                   :to => 'galleries#index'
   post 'galleries',                   :to => 'galleries#index'
   get  'galleries/view/:slug', :to => 'galleries#show'
@@ -28,8 +32,11 @@ Ishapi::Engine.routes.draw do
   get 'leadsets',    to: 'leadsets#index'
   delete 'leadsets', to: 'leadsets#destroy'
 
+  get 'lead_actions', to: 'lead_actions#create', as: :lead_actions
   get 'locations/show/:slug', to: 'locations#show'
   resources :locations
+
+  ## M
 
   get 'maps', to: 'maps#index'
   get 'maps/view/:slug', to: 'maps#show'
@@ -46,6 +53,8 @@ Ishapi::Engine.routes.draw do
   delete 'newsitems/:id', to: 'newsitems#destroy'
 
   ## O
+
+  get '/obf/:id', to: 'obfuscated_redirects#show', as: :obf
 
   # resources :option_price_items
   get 'option_price_items/view-by/symbol/:symbol', to: 'option_price_items#view_by_symbol', :constraints => { :symbol => /[^\/]+/ } ## the symbol is detailed eg 'GME_011924P30'
@@ -74,7 +83,7 @@ Ishapi::Engine.routes.draw do
   get 'exception', to: 'application#exception'
 
   post  'users/fb_sign_in',      to: 'users#fb_sign_in'
-  get   'users/me',              to: 'users#account'
+  get   'users/me',              to: 'users#account', as: :users_dashboard
   post  'users/profile',         to: 'users#show' ## @TODO: change, this makes no sense
   post  'users/profile/update',  to: 'user_profiles#update'
   get   'users/profile',         to: 'users#show' # @TODO: only for testing! accessToken must be hidden

@@ -60,6 +60,9 @@ class ::Ishapi::ApplicationController < ActionController::Base
 
   end
 
+  ##
+  ## private
+  ##
   private
 
   ## This returns an empty profile if not logged in
