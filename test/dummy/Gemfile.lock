@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/wasyaco/ish_models.git
-  revision: 0759dc0becef85a52f41a1e4ecb585640f8b9d3b
+  revision: f2bb1a91544ec150e626be7b3817ffa42ea9c767
   branch: 2.2.0
   specs:
-    ish_models (0.0.33.242)
+    ish_models (0.0.33.272)
       aws-sdk-s3
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -11,6 +11,10 @@ GIT
       mongoid-autoinc (~> 6.0)
       mongoid-paperclip
       mongoid_paranoia
+      net-scp (~> 4.0.0)
+      net-ssh (~> 7.1.0)
+      prawn (~> 2.4.0)
+      prawn-table (~> 0.2.1)
       rails (~> 6.1.0)
 
 GEM
@@ -238,14 +242,23 @@ GEM
       net-protocol
     net-protocol (0.2.1)
       timeout
+    net-scp (4.0.0)
+      net-ssh (>= 2.6.5, < 8.0.0)
     net-smtp (0.3.3)
       net-protocol
+    net-ssh (7.1.0)
     nio4r (2.5.8)
     nokogiri (1.14.1)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     os (1.1.4)
+    pdf-core (0.9.0)
+    prawn (2.4.0)
+      pdf-core (~> 0.9.0)
+      ttfunk (~> 1.7)
+    prawn-table (0.2.2)
+      prawn (>= 1.3.0, < 3.0.0)
     public_suffix (5.0.1)
     racc (1.6.2)
     rack (2.2.6.2)
@@ -338,6 +351,7 @@ GEM
       climate_control (>= 0.0.3, < 1.0)
     thor (1.2.1)
     timeout (0.3.1)
+    ttfunk (1.7.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     warden (1.2.9)

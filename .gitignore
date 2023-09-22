@@ -1,4 +1,6 @@
 .DS_Store
+config/initializers/00_s3.rb
+test/dummy/config/initializers/00_s3.rb
 
 /.bundle
 /vendor
