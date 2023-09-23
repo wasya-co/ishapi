@@ -1,14 +1,11 @@
 
 ##
 ## 2023-02-26 _vp_ Let's go
-## 2023-03-02 _vp_ Continue
 ## 2023-03-07 _vp_ Continue
 ##
 ## class name: EIJ
 ##
 class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
-
-  # include Sidekiq::Worker ## From: https://stackoverflow.com/questions/59114063/sidekiq-options-giving-sidekiqworker-cannot-be-included-in-an-activejob-for
 
   queue_as :default
 
@@ -59,7 +56,8 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     client = Aws::S3::Client.new({
       region:            ::S3_CREDENTIALS[:region_ses],
       access_key_id:     ::S3_CREDENTIALS[:access_key_id_ses],
-      secret_access_key: ::S3_CREDENTIALS[:secret_access_key_ses] })
+      secret_access_key: ::S3_CREDENTIALS[:secret_access_key_ses],
+    })
 
     _mail              = client.get_object( bucket: ::S3_CREDENTIALS[:bucket_ses], key: stub.object_key ).body.read
     the_mail           = Mail.new(_mail)
@@ -71,7 +69,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       the_mail.to = [ 'NO-RECIPIENT' ]
     end
 
-    @message = ::Office::EmailMessage.where( message_id: message_id ).first
+    @message   = ::Office::EmailMessage.where( message_id: message_id ).first
     @message ||= ::Office::EmailMessage.new
     @message.assign_attributes({
       raw: _mail,
@@ -101,19 +99,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       @message.epilogue = the_mail.body.epilogue
     end
 
+    ## Parts
     the_mail.parts.each do |part|
       churn_subpart( @message, part )
-    end
-
-    the_mail.attachments.each do |att|
-      photo = Photo.new({
-        content_type:      att.content_type.split(';')[0],
-        original_filename: att.content_type_parameters[:name],
-        image_data:        att.body.encoded,
-        email_message_id: @message.id,
-      })
-      photo.decode_base64_image
-      photo.save
     end
 
     if the_mail.parts.length == 0
@@ -125,6 +113,18 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       else
         throw "mail body of unknown type: #{the_mail.content_type}"
       end
+    end
+
+    ## Attachments
+    the_mail.attachments.each do |att|
+      photo = Photo.new({
+        content_type:      att.content_type.split(';')[0],
+        original_filename: att.content_type_parameters[:name],
+        image_data:        att.body.encoded,
+        email_message_id: @message.id,
+      })
+      photo.decode_base64_image
+      photo.save
     end
 
     ## Leadset, Lead
@@ -154,9 +154,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     conv.update_attributes({
       state:     Conv::STATE_UNREAD,
       latest_at: the_mail.date || Time.now.to_datetime,
-      lead_ids:  conv.lead_ids.push( lead.id ).uniq,
-      wp_term_ids: ( [ email_inbox_tag_id ] + conv.wp_term_ids + stub.wp_term_ids ).uniq,
+      lead_ids:  conv.lead_ids.push( lead.id ).uniq, ## @TODO: change, this is an association now
+      # wp_term_ids: ( [ email_inbox_tag_id ] + conv.wp_term_ids + stub.wp_term_ids ).uniq,
     })
+    conv.add_tag( ::WpTag::INBOX )
 
     ## Actions & Filters
     email_filters = Office::EmailFilter.active
@@ -169,15 +170,15 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
         # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
 
-        @message.apply_filter( filter )
+        conv.apply_filter( filter )
       end
     end
 
     stub.update_attributes({ state: ::Office::EmailMessageStub::STATE_PROCESSED })
 
     ## Notification
-    conv.reload
-    if conv.wp_term_ids.include?( email_inbox_tag_id )
+    conv = Conv.find( conv.id )
+    if conv.in_emailtag? WpTag::INBOX
       out = ::Ishapi::ApplicationMailer.forwarder_notify( @message.id.to_s )
       Rails.env.production? ? out.deliver_later : out.deliver_now
     end

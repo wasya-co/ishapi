@@ -9,7 +9,7 @@ module Ishapi
 
     def index
       authorize! :index, Video
-      @videos = Video.all.public
+      @videos = Video.all.published
       @videos = @videos.page( params[:videos_page] ).per( 10 )
     end
 

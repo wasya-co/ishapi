@@ -30,4 +30,6 @@ group :development, :test do
   gem 'database_cleaner-mongoid'
   gem 'rails-controller-testing'
   gem 'sqlite3'
+
+  gem 'irb', '>= 1.2.8'
 end

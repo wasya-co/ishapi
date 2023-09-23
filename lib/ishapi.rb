@@ -1,8 +1,8 @@
 
-require "ishapi/engine"
 require 'cancancan'
-require 'kaminari/mongoid'
+require "ishapi/engine"
 require 'kaminari/actionview'
+require 'kaminari/mongoid'
 
 module Ishapi
 end

@@ -7,7 +7,7 @@ module Ishapi
     before_action :check_jwt
 
     def index
-      @galleries = Gallery.all.public
+      @galleries = Gallery.all.published
       authorize! :index, Gallery
       if params[:domain]
         @site = Site.find_by( :domain => params[:domain], :lang => 'en' )
