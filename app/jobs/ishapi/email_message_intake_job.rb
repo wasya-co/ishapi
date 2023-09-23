@@ -154,10 +154,14 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     conv.update_attributes({
       state:     Conv::STATE_UNREAD,
       latest_at: the_mail.date || Time.now.to_datetime,
-      lead_ids:  conv.lead_ids.push( lead.id ).uniq, ## @TODO: change, this is an association now
-      # wp_term_ids: ( [ email_inbox_tag_id ] + conv.wp_term_ids + stub.wp_term_ids ).uniq,
+      from_emails: conv.from_emails.push( the_mail.from[0] ).uniq,
     })
     conv.add_tag( ::WpTag::INBOX )
+    conv_lead_tie = Office::EmailConversationLead.find_or_create_by({
+      lead_id: lead.id,
+      email_conversation_id: conv.id,
+    })
+
 
     ## Actions & Filters
     email_filters = Office::EmailFilter.active
