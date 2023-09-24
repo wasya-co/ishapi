@@ -89,8 +89,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       to:  the_mail.to[0],
       tos: the_mail.to,
 
+      cc:  the_mail.cc[0],
       ccs:  the_mail.cc,
-      bccs: the_mail.bcc,
+
+      # bccs: the_mail.bcc,
     })
     if the_mail.body.preamble.present?
       @message.preamble = the_mail.body.preamble
