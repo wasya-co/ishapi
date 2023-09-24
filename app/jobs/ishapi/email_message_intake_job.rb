@@ -80,10 +80,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       object_key:  stub.object_key,
       # object_path: stub.object_path,
 
-      subject: the_mail.subject || 'NO SUBJECT HEREZZ',
+      subject: the_mail.subject || '(wco no subject)',
       date:    the_mail.date,
 
-      from:  the_mail.from ? the_mail.from[0] : "NOBODY@UNKNOWN.DOMAIN",
+      from:  the_mail.from ? the_mail.from[0] : "nobody@unknown.domain",
       froms: the_mail.from,
 
       to:  the_mail.to ? the_mail.to[0] : nil,
@@ -130,7 +130,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     end
 
     ## Leadset, Lead
-    domain  = @message.from.split('@')[1] rescue 'UNKNOWN.DOMAIN'
+    domain  = @message.from.split('@')[1] rescue 'unknown.domain'
     leadset = Leadset.find_or_create_by( company_url: domain )
     lead    = Lead.find_or_create_by( email: @message.from, m3_leadset_id: leadset.id )
 
