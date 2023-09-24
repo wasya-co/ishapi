@@ -80,16 +80,16 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       object_key:  stub.object_key,
       # object_path: stub.object_path,
 
-      subject: the_mail.subject,
+      subject: the_mail.subject || 'NO SUBJECT HEREZZ',
       date:    the_mail.date,
 
-      from:  the_mail.from[0],
+      from:  the_mail.from ? the_mail.from[0] : "NOBODY@UNKNOWN.DOMAIN",
       froms: the_mail.from,
 
-      to:  the_mail.to[0],
+      to:  the_mail.to ? the_mail.to[0] : nil,
       tos: the_mail.to,
 
-      cc:  the_mail.cc[0],
+      cc:  the_mail.cc ? the_mail.cc[0] : nil,
       ccs:  the_mail.cc,
 
       # bccs: the_mail.bcc,
@@ -130,7 +130,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     end
 
     ## Leadset, Lead
-    domain  = @message.from.split('@')[1]
+    domain  = @message.from.split('@')[1] rescue 'UNKNOWN.DOMAIN'
     leadset = Leadset.find_or_create_by( company_url: domain )
     lead    = Lead.find_or_create_by( email: @message.from, m3_leadset_id: leadset.id )
 
@@ -156,7 +156,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     conv.update_attributes({
       state:     Conv::STATE_UNREAD,
       latest_at: the_mail.date || Time.now.to_datetime,
-      from_emails: conv.from_emails.push( the_mail.from[0] ).uniq,
+      from_emails: conv.from_emails + the_mail.from,
     })
     conv.add_tag( ::WpTag::INBOX )
     conv_lead_tie = Office::EmailConversationLead.find_or_create_by({
@@ -169,10 +169,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     email_filters = Office::EmailFilter.active
     email_filters.each do |filter|
       if ( filter.from_regex.blank? ||     @message.from.match(                 filter.from_regex    ) ) &&
-         ( filter.from_exact.blank? ||     @message.from&.downcase.include?(    filter.from_exact&.downcase ) ) &&
+         ( filter.from_exact.blank? ||     @message.from.downcase.include?(     filter.from_exact&.downcase ) ) &&
          ( filter.body_exact.blank? ||     @message.part_html.include?(         filter.body_exact    ) ) &&
          ( filter.subject_regex.blank? ||  @message.subject.match(              filter.subject_regex ) ) &&
-         ( filter.subject_exact.blank? ||  @message.subject&.downcase.include?( filter.subject_exact&.downcase ) )
+         ( filter.subject_exact.blank? ||  @message.subject.downcase.include?(  filter.subject_exact&.downcase ) )
 
         # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
 
