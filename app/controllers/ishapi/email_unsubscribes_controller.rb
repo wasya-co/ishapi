@@ -20,9 +20,15 @@ module ::Ishapi
         template_id: params[:template_id],
         campaign_id: params[:campaign_id],
       })
-      @unsubscribe.update_attributes({
+      flag = @unsubscribe.update_attributes({
         unsubscribed_at: Time.now,
       })
+      if flag
+        flash_notice "You have been unsubscribed."
+      else
+        flash_alert "We're sorry, but something went wrong. Please try again later."
+      end
+
     end
   end
 
