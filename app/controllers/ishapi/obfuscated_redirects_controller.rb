@@ -14,7 +14,7 @@ module Ishapi
         visits: @obf.visits + [ visit_time ],
       })
 
-      if Rails.application.config.debug
+      if DEBUG
         render and return
       end
 
