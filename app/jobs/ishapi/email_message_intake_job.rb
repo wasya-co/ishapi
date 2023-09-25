@@ -202,7 +202,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
         # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
 
-        conv.apply_filter( filter )
+        # puts! "applying filter #{filter} to conv #{conv}" if DEBUG
+
+        @message.apply_filter( filter )
       end
     end
 
