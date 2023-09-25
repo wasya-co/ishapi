@@ -44,6 +44,28 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     end
   end
 
+  ## From: https://stackoverflow.com/questions/24672834/how-do-i-remove-emoji-from-string/24673322
+  def strip_emoji(text)
+    text = text.force_encoding('utf-8').encode
+    clean = ""
+
+    # symbols & pics
+    regex = /[\u{1f300}-\u{1f5ff}]/
+    clean = text.gsub regex, ""
+
+    # enclosed chars
+    regex = /[\u{2500}-\u{2BEF}]/ # I changed this to exclude chinese char
+    clean = clean.gsub regex, ""
+
+    # emoticons
+    regex = /[\u{1f600}-\u{1f64f}]/
+    clean = clean.gsub regex, ""
+
+    #dingbats
+    regex = /[\u{2702}-\u{27b0}]/
+    clean = clean.gsub regex, ""
+  end
+
   def perform id
     stub = ::Office::EmailMessageStub.find id
     if !Rails.env.test?
@@ -69,6 +91,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       the_mail.to = [ 'NO-RECIPIENT' ]
     end
 
+
+    subject   = strip_emoji the_mail.subject
+    subject ||= '(wco no subject)'
+
     @message   = ::Office::EmailMessage.where( message_id: message_id ).first
     @message ||= ::Office::EmailMessage.new
     @message.assign_attributes({
@@ -80,7 +106,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       object_key:  stub.object_key,
       # object_path: stub.object_path,
 
-      subject: the_mail.subject || '(wco no subject)',
+      subject: subject,
       date:    the_mail.date,
 
       from:  the_mail.from ? the_mail.from[0] : "nobody@unknown.domain",
@@ -139,7 +165,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       in_reply_to_msg = ::Office::EmailMessage.where({ message_id: in_reply_to_id }).first
       if !in_reply_to_msg
         conv = ::Office::EmailConversation.find_or_create_by({
-          subject: the_mail.subject,
+          subject: @message.subject,
         })
         in_reply_to_msg = ::Office::EmailMessage.find_or_create_by({
           message_id: in_reply_to_id,
@@ -149,7 +175,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       conv = in_reply_to_msg.email_conversation
     else
       conv = ::Office::EmailConversation.find_or_create_by({
-        subject: the_mail.subject,
+        subject: @message.subject,
       })
     end
     @message.update_attributes({ email_conversation_id: conv.id })
