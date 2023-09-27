@@ -134,9 +134,11 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
     if the_mail.parts.length == 0
       body = the_mail.body.decoded.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
-      if the_mail.content_type.include?('text/html')
+      if the_mail.content_type&.include?('text/html')
         @message.part_html = body
-      elsif the_mail.content_type.include?('text/plain')
+      elsif the_mail.content_type&.include?('text/plain')
+        @message.part_txt = body
+      elsif the_mail.content_type.blank?
         @message.part_txt = body
       else
         throw "mail body of unknown type: #{the_mail.content_type}"
@@ -196,13 +198,13 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     email_filters.each do |filter|
       if ( filter.from_regex.blank? ||     @message.from.match(                 filter.from_regex    ) ) &&
          ( filter.from_exact.blank? ||     @message.from.downcase.include?(     filter.from_exact&.downcase ) ) &&
-         ( filter.body_exact.blank? ||     @message.part_html.include?(         filter.body_exact    ) ) &&
+         ( filter.body_exact.blank? ||     @message.part_html&.include?(         filter.body_exact    ) ) &&
          ( filter.subject_regex.blank? ||  @message.subject.match(              filter.subject_regex ) ) &&
          ( filter.subject_exact.blank? ||  @message.subject.downcase.include?(  filter.subject_exact&.downcase ) )
 
         # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
 
-        # puts! "applying filter #{filter} to conv #{conv}" if DEBUG
+        puts! "applying filter #{filter} to conv #{conv}" if DEBUG
 
         @message.apply_filter( filter )
       end
