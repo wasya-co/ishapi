@@ -9,11 +9,21 @@ module Ishapi
 
     before_action :check_jwt
 
-    def rmtag
-      authorize! :email_conversations_rmtag, ::Ishapi
+    def addtag
+      authorize! :email_conversations_addtag, ::Ishapi
       convos = Office::EmailConversation.find params[:ids]
       outs = convos.map do |convo|
-        convo.rmtag( params[:emailtag] )
+        convo.add_tag( params[:emailtag] )
+      end
+      flash[:notice] = "outcome: #{outs}"
+      render json: { status: :ok }
+    end
+
+    def rmtag
+      authorize! :email_conversations_addtag, ::Ishapi
+      convos = Office::EmailConversation.find params[:ids]
+      outs = convos.map do |convo|
+        convo.remove_tag( params[:emailtag] )
       end
       flash[:notice] = "outcome: #{outs}"
       render json: { status: :ok }

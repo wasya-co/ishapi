@@ -11,8 +11,11 @@ Ishapi::Engine.routes.draw do
 
   get 'email_contexts/summary', to: 'email_contexts#summary'
 
-  delete 'email_conversations',                 to: 'email_conversations#delete'
-  post   'email_conversations/rmtag/:emailtag', to: 'email_conversations#rmtag'
+  delete 'email_conversations',                  to: 'email_conversations#delete'
+  post   'email_conversations/addtag',           to: 'email_conversations#addtag'
+  post   'email_conversations/addtag/:emailtag', to: 'email_conversations#addtag'
+  post   'email_conversations/rmtag',            to: 'email_conversations#rmtag'
+  post   'email_conversations/rmtag/:emailtag',  to: 'email_conversations#rmtag'
 
   get 'email_unsubscribes', to: 'email_unsubscribes#create'
 
