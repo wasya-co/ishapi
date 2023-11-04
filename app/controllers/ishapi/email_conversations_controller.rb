@@ -14,6 +14,7 @@ module Ishapi
       convos = Office::EmailConversation.find params[:ids]
       outs = convos.map do |convo|
         convo.add_tag( params[:emailtag] )
+        convo.remove_tag( WpTag::INBOX ) if params[:is_move]
       end
       flash[:notice] = "outcome: #{outs}"
       render json: { status: :ok }
