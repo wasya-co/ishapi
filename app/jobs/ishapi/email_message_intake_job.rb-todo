@@ -1,0 +1,6 @@
+
+    ## Lead
+    lead    = Lead.create( email: @message.from )
+    the_mail.cc&.each do |cc|
+      lead    = Lead.create( email: cc )
+    end

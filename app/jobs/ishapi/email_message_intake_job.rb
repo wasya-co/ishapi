@@ -20,6 +20,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
   # "multipart/alternative; boundary=_000_BL0PR10MB2913C560ADE059F0AB3A6D11829A9BL0PR10MB2913namp_",
   # "text/html; charset=utf-8"
   # "text/plain; charset=UTF-8"
+  # "text/calendar; charset=utf-8; method=REQUEST"
   def churn_subpart message, part
     if part.content_disposition&.include?('attachment')
       ## @TODO: attachments !
@@ -31,15 +32,33 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         part.parts.each do |subpart|
           churn_subpart( message, subpart )
         end
-
-      elsif part.content_type.include?('text/html')
-        message.part_html = part.decoded
-
-      elsif part.content_type.include?("text/plain")
-        message.part_txt = part.decoded
-
       else
-        puts! part.content_type, '444 No action for a part with this content_type'
+        attachment = Office::EmailAttachment.new({
+          content:       part.decoded,
+          content_type:  part.content_type,
+          email_message: message,
+        })
+        attachment.save
+
+        if part.content_type.include?('text/html')
+          message.part_html = part.decoded
+
+        elsif part.content_type.include?("text/plain")
+          message.part_txt = part.decoded
+
+        elsif part.content_type.include?("text/calendar")
+          ;
+        elsif part.content_type.include?("application/pdf")
+          ;
+        elsif part.content_type.include?("image/jpeg")
+          ;
+        elsif part.content_type.include?("image/png")
+          ;
+
+        else
+          puts! part.content_type, '444 No action for a part with this content_type'
+
+        end
       end
     end
   end
@@ -96,8 +115,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     subject ||= '(wco no subject)'
 
     @message   = ::Office::EmailMessage.where( message_id: message_id ).first
-    @message ||= ::Office::EmailMessage.new
-    @message.assign_attributes({
+    @message ||= ::Office::EmailMessage.create({
       raw: _mail,
 
       message_id:     message_id,
@@ -109,7 +127,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       subject: subject,
       date:    the_mail.date,
 
-      from:  the_mail.from ? the_mail.from[0] : "nobody@unknown.domain",
+      from:  the_mail.from ? the_mail.from[0] : "nobody@unknown-doma.in",
       froms: the_mail.from,
 
       to:  the_mail.to ? the_mail.to[0] : nil,
@@ -120,6 +138,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
       # bccs: the_mail.bcc,
     })
+    if !@message.persisted?
+      puts! @message.errors.full_messages, "Could not create email_message"
+    end
     if the_mail.body.preamble.present?
       @message.preamble = the_mail.body.preamble
     end
@@ -161,6 +182,11 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     domain  = @message.from.split('@')[1] rescue 'unknown.domain'
     leadset = Leadset.find_or_create_by( company_url: domain )
     lead    = Lead.find_or_create_by( email: @message.from, m3_leadset_id: leadset.id )
+    the_mail.cc&.each do |cc|
+      domain  = cc.split('@')[1] rescue 'unknown.domain'
+      leadset = Leadset.find_or_create_by( company_url: domain )
+      Lead.find_or_create_by( email: cc, m3_leadset_id: leadset.id )
+    end
 
     ## Conversation
     if in_reply_to_id
@@ -182,9 +208,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
     end
     @message.update_attributes({ email_conversation_id: conv.id })
     conv.update_attributes({
-      state:     Conv::STATE_UNREAD,
-      latest_at: the_mail.date || Time.now.to_datetime,
-      from_emails: conv.from_emails + the_mail.from,
+      state:       Conv::STATE_UNREAD,
+      latest_at:   the_mail.date || Time.now.to_datetime,
+      from_emails: ( conv.from_emails + the_mail.from ).uniq,
     })
     conv.add_tag( ::WpTag::INBOX )
     conv_lead_tie = Office::EmailConversationLead.find_or_create_by({

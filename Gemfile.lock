@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: 779e036680fb75efcb0d13365e75f8644579b0e6
+  revision: 2add80c0ba28ba649f1400cafffa248b7b0929b9
   branch: 2.2.0
   specs:
-    ish_models (0.0.33.291)
+    ish_models (0.0.33.292)
       aws-sdk-s3
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -20,7 +20,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.298)
+    ishapi (0.1.8.300)
       aws-sdk-s3
       cancancan (~> 3.2)
       devise
@@ -102,7 +102,7 @@ GEM
     aes_key_wrap (1.1.0)
     attr_required (1.0.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.844.0)
+    aws-partitions (1.847.0)
     aws-sdk-core (3.186.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -125,7 +125,7 @@ GEM
     climate_control (0.2.0)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
-    date (3.3.3)
+    date (3.3.4)
     devise (4.9.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -220,12 +220,12 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
-    net-imap (0.4.3)
+    net-imap (0.4.4)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.2.1)
+    net-protocol (0.2.2)
       timeout
     net-scp (4.0.0)
       net-ssh (>= 2.6.5, < 8.0.0)
@@ -245,7 +245,7 @@ GEM
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
     public_suffix (5.0.3)
-    racc (1.7.2)
+    racc (1.7.3)
     rack (2.2.8)
     rack-oauth2 (1.21.3)
       activesupport
@@ -308,7 +308,7 @@ GEM
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
     thor (1.3.0)
-    timeout (0.4.0)
+    timeout (0.4.1)
     ttfunk (1.7.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
