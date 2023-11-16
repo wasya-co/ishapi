@@ -36,8 +36,8 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         secret_access_key: ::S3_CREDENTIALS[:secret_access_key_ses],
       })
 
-      _mail              = client.get_object( bucket: ::S3_CREDENTIALS[:bucket_ses], key: stub.object_key ).body.read
-      the_mail           = Mail.new(_mail)
+      raw                = client.get_object( bucket: ::S3_CREDENTIALS[:bucket_ses], key: stub.object_key ).body.read
+      the_mail           = Mail.new( raw )
       message_id         = the_mail.header['message-id'].decoded
       in_reply_to_id     = the_mail.header['in-reply-to']&.to_s
       email_inbox_tag_id = WpTag.emailtag(WpTag::INBOX).id
@@ -52,7 +52,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
       @message   = ::Office::EmailMessage.where( message_id: message_id ).first
       @message ||= ::Office::EmailMessage.create({
-        raw: _mail,
+        raw: raw,
 
         message_id:     message_id,
         in_reply_to_id: in_reply_to_id,
@@ -75,13 +75,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         # bccs: the_mail.bcc,
       })
       if !@message.persisted?
-        puts! @message.errors.full_messages, "Could not create email_message"
-      end
-      if the_mail.body.preamble.present?
-        @message.preamble = the_mail.body.preamble
-      end
-      if the_mail.body.epilogue.present?
-        @message.epilogue = the_mail.body.epilogue
+        throw "Could not create email_message: #{@message.errors.full_messages.join(', ')} ."
       end
 
       ## Parts
@@ -160,6 +154,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         state:       Conv::STATE_UNREAD,
         latest_at:   the_mail.date || Time.now.to_datetime,
         from_emails: ( conv.from_emails + the_mail.from ).uniq,
+        preview: @message.body_sanitized[0...200],
       })
       conv.add_tag( ::WpTag::INBOX )
       conv_lead_tie = Office::EmailConversationLead.find_or_create_by({

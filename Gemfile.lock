@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: 2d83d05fe34bb82e3674167477e8d5a2416fb389
+  revision: 7924937a04688d2bcdaaf3340ca450e6823a354b
   branch: 2.2.0
   specs:
-    ish_models (0.0.33.296)
+    ish_models (0.0.33.297)
       aws-sdk-s3
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -20,7 +20,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.303)
+    ishapi (0.1.8.304)
       aws-sdk-s3
       cancancan (~> 3.2)
       devise
@@ -102,7 +102,7 @@ GEM
     aes_key_wrap (1.1.0)
     attr_required (1.0.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.851.0)
+    aws-partitions (1.852.0)
     aws-sdk-core (3.186.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -204,7 +204,7 @@ GEM
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
     minitest (5.20.0)
-    mongo (2.19.2)
+    mongo (2.19.3)
       bson (>= 4.14.1, < 5.0.0)
     mongoid (7.3.5)
       activemodel (>= 5.1, < 7.1, != 7.0.0)
