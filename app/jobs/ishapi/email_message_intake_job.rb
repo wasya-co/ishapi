@@ -10,11 +10,15 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
   queue_as :default
 
 =begin
-  object_key = 'bg57j6u0j38b5ts86635fkqtjlucn5tvrm2hea81'
+
+  object_key = 'n0v5mg6q1t4fjjnfh8vj8a96t85rp9la2ud0gdg1'
   MsgStub.where({ object_key: object_key }).delete
 
-  stub = MsgStub.create({ object_key: object_key })
+  stub = MsgStub.create!({ object_key: object_key })
   id = stub.id
+
+  Ishapi::EmailMessageIntakeJob.perform_now( stub.id.to_s )
+
 =end
   def perform id
       stub = ::Office::EmailMessageStub.find id
@@ -25,6 +29,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         raise "This stub has already been processed: #{stub.id.to_s}."
         return
       end
+
       client = Aws::S3::Client.new({
         region:            ::S3_CREDENTIALS[:region_ses],
         access_key_id:     ::S3_CREDENTIALS[:access_key_id_ses],
@@ -93,29 +98,32 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         elsif the_mail.content_type.blank?
           @message.part_txt = body
         else
-          throw "mail body of unknown type: #{the_mail.content_type}"
+          @message.logs.push "mail body of unknown type: #{the_mail.content_type}"
         end
       end
 
       ## Attachments
       the_mail.attachments.each do |att|
-        photo = Photo.new({
-          content_type:      att.content_type.split(';')[0],
-          original_filename: att.content_type_parameters[:name],
-          image_data:        att.body.encoded,
-          email_message_id: @message.id,
-        })
-        photo.decode_base64_image
-        if photo.save
-          ;
-        else
+        content_type = att.content_type.split(';')[0]
+        if content_type.include? 'image'
+          photo = Photo.new({
+            content_type:      content_type,
+            original_filename: att.content_type_parameters[:name],
+            image_data:        att.body.encoded,
+            email_message_id: @message.id,
+          })
+          photo.decode_base64_image
+          photo.save
+        elsif att.filename
           attachment = Office::EmailAttachment.new({
-            content:       att.decoded,
+            content:       att.body.decoded,
             content_type:  att.content_type,
             email_message: @message,
             filename:      att.filename,
           })
           attachment.save
+        else
+          @message.logs.push "Could not save an attachment!"
         end
       end
 
