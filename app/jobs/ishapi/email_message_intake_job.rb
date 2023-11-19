@@ -109,15 +109,32 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
           photo.decode_base64_image
           photo.save
         elsif att.filename
+          filename = CGI.escape( att.filename )
+
           attachment = Office::EmailAttachment.new({
             content:       att.body.decoded,
             content_type:  att.content_type,
             email_message: @message,
-            filename:      att.filename,
+            filename:      filename,
           })
-          attachment.save
+          if !attachment.save
+            @message.logs.push "Could not save an attachment"
+          end
+
+          sio = StringIO.new att.body.decoded
+          File.open("/tmp/#{filename}", 'w:UTF-8:ASCII-8BIT') do |f|
+            f.puts(sio.read)
+          end
+          asset3d = ::Gameui::Asset3d.new({
+            object: File.open("/tmp/#{filename}"),
+            email_message: @message,
+          })
+          if !asset3d.save
+            @message.logs.push "Could not save an asset3d"
+          end
+
         else
-          @message.logs.push "Could not save an attachment!"
+          @message.logs.push "Has an attachment with no filename?"
         end
       end
 
