@@ -6,7 +6,7 @@ require "ishapi/version"
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "ishapi"
-  s.version     = "0.1.8.309"
+  s.version     = "0.1.8.310"
   s.authors     = ["piousbox"]
   s.email       = ["piousbox@gmail.com"]
   s.homepage    = "http://wasya.co"

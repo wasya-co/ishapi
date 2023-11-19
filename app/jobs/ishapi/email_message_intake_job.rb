@@ -11,7 +11,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
 =begin
 
-  object_key = 'b7t9ns5iqood9edbng1qqh89f2cishcviv1l2ro1'
+  object_key = 'k96moravpgg4f976vusakqdaoki97u11i2i3c201'
   MsgStub.where({ object_key: object_key }).delete
 
   stub = MsgStub.create!({ object_key: object_key })
@@ -38,13 +38,12 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
       raw                = client.get_object( bucket: ::S3_CREDENTIALS[:bucket_ses], key: stub.object_key ).body.read
       the_mail           = Mail.new( raw )
-      message_id         = the_mail.header['message-id'].decoded
+      message_id         = the_mail.header['message-id']&.decoded
+      message_id       ||= "#{the_mail.date.iso8601}::#{the_mail.from}"
       in_reply_to_id     = the_mail.header['in-reply-to']&.to_s
       email_inbox_tag_id = WpTag.emailtag(WpTag::INBOX).id
       the_mail.to        = [ 'NO-RECIPIENT' ] if !the_mail.to
-
-      subject   = ::Msg.strip_emoji the_mail.subject
-      subject ||= '(wco-no-subject)'
+      subject            = ::Msg.strip_emoji( the_mail.subject || '(wco-no-subject)' )
 
 
       ## Conversation
@@ -133,7 +132,9 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
             email_message: @message,
             filename:      filename,
           })
-          if !attachment.save
+          begin
+            attachment.save
+          rescue Encoding::UndefinedConversionError
             @message.logs.push "Could not save an attachment"
           end
 
