@@ -11,7 +11,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
 =begin
 
-  object_key = 'n0v5mg6q1t4fjjnfh8vj8a96t85rp9la2ud0gdg1'
+  object_key = 'fom5a97nif6j9urfp46sbchi33sks90e9kkrn181'
   MsgStub.where({ object_key: object_key }).delete
 
   stub = MsgStub.create!({ object_key: object_key })
@@ -50,9 +50,30 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       subject   = ::Msg.strip_emoji the_mail.subject
       subject ||= '(wco no subject)'
 
+
+      ## Conversation
+      if in_reply_to_id
+        in_reply_to_msg = ::Office::EmailMessage.where({ message_id: in_reply_to_id }).first
+        if !in_reply_to_msg
+          conv = ::Office::EmailConversation.find_or_create_by({
+            subject: subject,
+          })
+          in_reply_to_msg = ::Office::EmailMessage.find_or_create_by({
+            message_id: in_reply_to_id,
+            email_conversation_id: conv.id,
+          })
+        end
+        conv = in_reply_to_msg.email_conversation
+      else
+        conv = ::Office::EmailConversation.find_or_create_by({
+          subject: subject,
+        })
+      end
+
       @message   = ::Office::EmailMessage.where( message_id: message_id ).first
       @message ||= ::Office::EmailMessage.create({
         raw: raw,
+        email_conversation_id: conv.id,
 
         message_id:     message_id,
         in_reply_to_id: in_reply_to_id,
@@ -148,25 +169,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         Lead.find_or_create_by( email: cc, m3_leadset_id: leadset.id )
       end
 
-      ## Conversation
-      if in_reply_to_id
-        in_reply_to_msg = ::Office::EmailMessage.where({ message_id: in_reply_to_id }).first
-        if !in_reply_to_msg
-          conv = ::Office::EmailConversation.find_or_create_by({
-            subject: @message.subject,
-          })
-          in_reply_to_msg = ::Office::EmailMessage.find_or_create_by({
-            message_id: in_reply_to_id,
-            email_conversation_id: conv.id,
-          })
-        end
-        conv = in_reply_to_msg.email_conversation
-      else
-        conv = ::Office::EmailConversation.find_or_create_by({
-          subject: @message.subject,
-        })
-      end
-      @message.update_attributes({ email_conversation_id: conv.id })
+      # @message.update_attributes({ email_conversation_id: conv.id })
       conv.update_attributes({
         state:       Conv::STATE_UNREAD,
         latest_at:   the_mail.date || Time.now.to_datetime,
