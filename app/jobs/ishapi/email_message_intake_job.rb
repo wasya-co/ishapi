@@ -41,14 +41,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       message_id         = the_mail.header['message-id'].decoded
       in_reply_to_id     = the_mail.header['in-reply-to']&.to_s
       email_inbox_tag_id = WpTag.emailtag(WpTag::INBOX).id
-
-      if !the_mail.to
-        the_mail.to = [ 'NO-RECIPIENT' ]
-      end
-
+      the_mail.to        = [ 'NO-RECIPIENT' ] if !the_mail.to
 
       subject   = ::Msg.strip_emoji the_mail.subject
-      subject ||= '(wco no subject)'
+      subject ||= '(wco-no-subject)'
 
 
       ## Conversation
@@ -79,7 +75,6 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         in_reply_to_id: in_reply_to_id,
 
         object_key:  stub.object_key,
-        # object_path: stub.object_path,
 
         subject: subject,
         date:    the_mail.date,
@@ -92,8 +87,6 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
         cc:  the_mail.cc ? the_mail.cc[0] : nil,
         ccs:  the_mail.cc,
-
-        # bccs: the_mail.bcc,
       })
       if !@message.persisted?
         throw "Could not create email_message: #{@message.errors.full_messages.join(', ')} ."
@@ -159,6 +152,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         end
       end
 
+      if !@message.save
+        puts! @message.errors.full_messages.join(", "), "Could not save @message"
+      end
+
       ## Leadset, Lead
       domain  = @message.from.split('@')[1] rescue 'unknown.domain'
       leadset = Leadset.find_or_create_by( company_url: domain )
@@ -194,7 +191,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
           # || MiaTagger.analyze( @message.part_html, :is_spammy_recruite ).score > .5
 
-          puts! "applying filter #{filter} to conv #{conv}" if DEBUG
+          # puts! "applying filter #{filter} to conv #{conv}" if DEBUG
 
           @message.apply_filter( filter )
         end

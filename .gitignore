@@ -1,27 +1,31 @@
-.DS_Store
-config/initializers/00_s3.rb
-test/dummy/config/initializers/00_s3.rb
 
-/.bundle
-/vendor
+*~
+\#*
+.#*
+
+.bundle
+.byebug_history
+
+config/initializers/00_s3.rb
+config/initializers/koala.rb
+
+.DS_Store
+
+ishapi-0.1*gem
 
 log/*.log
+
 pkg/
+
 test/dummy/db/*.sqlite3
 test/dummy/db/*.sqlite3-journal
 test/dummy/log/*.log
 test/dummy/tmp/
 test/dummy/vendor
+test/dummy/config/initializers/00_s3.rb
 test/dummy/config/initializers/01_FB.rb
 test/dummy/spec/factories/ish_models_factories.rb
 
-*~
 *trash
-\#*
-.#*
 
-ishapi-0.1*gem
-
-/config/initializers/koala.rb
-
-.byebug_history
+vendor
