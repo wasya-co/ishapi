@@ -11,7 +11,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
 =begin
 
-  object_key = 'fom5a97nif6j9urfp46sbchi33sks90e9kkrn181'
+  object_key = 'b7t9ns5iqood9edbng1qqh89f2cishcviv1l2ro1'
   MsgStub.where({ object_key: object_key }).delete
 
   stub = MsgStub.create!({ object_key: object_key })
@@ -96,6 +96,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       the_mail.parts.each do |part|
         @message.churn_subpart( part )
       end
+      @message.save
 
       if the_mail.parts.length == 0
         body = the_mail.body.decoded.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
@@ -108,6 +109,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         else
           @message.logs.push "mail body of unknown type: #{the_mail.content_type}"
         end
+        @message.save
       end
 
       ## Attachments
