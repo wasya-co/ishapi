@@ -21,7 +21,7 @@ RSpec.describe Ishapi::EmailMessageIntakeJob, type: :job do
       id = stub.id
       Ishapi::EmailMessageIntakeJob.perform_now( stub.id.to_s )
 
-      ::Office::EmailMessage.all.length.should.eql( n + 1 )
+      ::Office::EmailMessage.all.length.should eql( n + 1 )
 
     end
   end

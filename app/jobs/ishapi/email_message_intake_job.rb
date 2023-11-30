@@ -11,7 +11,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
 =begin
 
-  object_key = 'k96moravpgg4f976vusakqdaoki97u11i2i3c201'
+  object_key = '2nslnfug6d46ot0i6cppa8om92khj08r8nu6sk01'
   MsgStub.where({ object_key: object_key }).delete
 
   stub = MsgStub.create!({ object_key: object_key })
@@ -41,7 +41,6 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       message_id         = the_mail.header['message-id']&.decoded
       message_id       ||= "#{the_mail.date.iso8601}::#{the_mail.from}"
       in_reply_to_id     = the_mail.header['in-reply-to']&.to_s
-      email_inbox_tag_id = WpTag.emailtag(WpTag::INBOX).id
       the_mail.to        = [ 'NO-RECIPIENT' ] if !the_mail.to
       subject            = ::Msg.strip_emoji( the_mail.subject || '(wco-no-subject)' )
 
@@ -161,8 +160,8 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
       ## Leadset, Lead
       domain  = @message.from.split('@')[1] rescue 'unknown.domain'
-      leadset = Leadset.find_or_create_by( company_url: domain )
-      lead    = Lead.find_or_create_by( email: @message.from, m3_leadset_id: leadset.id )
+      leadset = Wco::Leadset.find_or_create_by( company_url: domain )
+      lead    = Wco::Lead.find_or_create_by( email: @message.from, wco_leadset: leadset )
       the_mail.cc&.each do |cc|
         domain  = cc.split('@')[1] rescue 'unknown.domain'
         leadset = Leadset.find_or_create_by( company_url: domain )
@@ -176,7 +175,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
         from_emails: ( conv.from_emails + the_mail.from ).uniq,
         preview: @message.body_sanitized[0...200],
       })
-      conv.add_tag( ::WpTag::INBOX )
+      conv.add_tag( Office::Emailtag.inbox )
       conv_lead_tie = Office::EmailConversationLead.find_or_create_by({
         lead_id: lead.id,
         email_conversation_id: conv.id,
@@ -204,7 +203,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
       ## Notification
       conv = Conv.find( conv.id )
-      if conv.in_emailtag? WpTag::INBOX
+      if conv.in_emailtag? Office::Emailtag::INBOX
         out = ::Ishapi::ApplicationMailer.forwarder_notify( @message.id.to_s )
         Rails.env.production? ? out.deliver_later : out.deliver_now
       end

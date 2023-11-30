@@ -18,3 +18,5 @@
                      lets see if removing runtime dep's on mongoid works just fine
       - 2023-03-29 - there are spec errors, but lets continue groking payments
 1.1.0 - 2023-03-29 - groking payments
+2.0.0 :: 2023-11-30 :: major rewrite: removing sql from here
+
