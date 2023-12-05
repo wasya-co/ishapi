@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/piousbox/ish_models.git
-  revision: a3c62395d18bbac6e8ee952103b154067ad91ff5
+  revision: 3dd1a0f79195ac1a96d18b4930879826f450b215
   branch: 2.2.0
   specs:
-    ish_models (0.0.33.302)
+    ish_models (0.0.33.303)
       aws-sdk-s3
       devise (> 0)
       kaminari-mongoid (~> 1.0.1)
@@ -20,7 +20,7 @@ GIT
 PATH
   remote: .
   specs:
-    ishapi (0.1.8.309)
+    ishapi (0.1.8.310)
       aws-sdk-s3
       cancancan (~> 3.2)
       devise
@@ -101,21 +101,21 @@ GEM
       public_suffix (>= 2.0.2, < 6.0)
     aes_key_wrap (1.1.0)
     attr_required (1.0.1)
-    aws-eventstream (1.2.0)
-    aws-partitions (1.853.0)
-    aws-sdk-core (3.187.0)
-      aws-eventstream (~> 1, >= 1.0.2)
+    aws-eventstream (1.3.0)
+    aws-partitions (1.863.0)
+    aws-sdk-core (3.190.0)
+      aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
-      aws-sigv4 (~> 1.5)
+      aws-sigv4 (~> 1.8)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.72.0)
-      aws-sdk-core (~> 3, >= 3.184.0)
+    aws-sdk-kms (1.74.0)
+      aws-sdk-core (~> 3, >= 3.188.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.137.0)
-      aws-sdk-core (~> 3, >= 3.181.0)
+    aws-sdk-s3 (1.141.0)
+      aws-sdk-core (~> 3, >= 3.189.0)
       aws-sdk-kms (~> 1)
-      aws-sigv4 (~> 1.6)
-    aws-sigv4 (1.6.1)
+      aws-sigv4 (~> 1.8)
+    aws-sigv4 (1.8.0)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.20)
     bindata (2.4.15)
@@ -161,7 +161,7 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.6.2)
-    json (2.6.3)
+    json (2.7.1)
     json-jwt (1.15.3)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -200,7 +200,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.5.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2023.1003)
+    mime-types-data (3.2023.1205)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
     minitest (5.20.0)
@@ -220,7 +220,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
-    net-imap (0.4.5)
+    net-imap (0.4.7)
       date
       net-protocol
     net-pop (0.1.2)
@@ -232,7 +232,7 @@ GEM
     net-smtp (0.4.0)
       net-protocol
     net-ssh (7.1.0)
-    nio4r (2.6.0)
+    nio4r (2.7.0)
     nokogiri (1.15.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -304,7 +304,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    stripe (10.1.0)
+    stripe (10.2.0)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
     thor (1.3.0)

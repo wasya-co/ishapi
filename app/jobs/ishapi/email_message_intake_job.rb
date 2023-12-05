@@ -11,7 +11,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
 =begin
 
-  object_key = 'k96moravpgg4f976vusakqdaoki97u11i2i3c201'
+  object_key = '3c7mvhfual9n8g7b9uhidi00nleeom3gahoe5n01'
   MsgStub.where({ object_key: object_key }).delete
 
   stub = MsgStub.create!({ object_key: object_key })
@@ -113,46 +113,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
 
       ## Attachments
       the_mail.attachments.each do |att|
-        content_type = att.content_type.split(';')[0]
-        if content_type.include? 'image'
-          photo = Photo.new({
-            content_type:      content_type,
-            original_filename: att.content_type_parameters[:name],
-            image_data:        att.body.encoded,
-            email_message_id: @message.id,
-          })
-          photo.decode_base64_image
-          photo.save
-        elsif att.filename
-          filename = CGI.escape( att.filename )
-
-          attachment = Office::EmailAttachment.new({
-            content:       att.body.decoded,
-            content_type:  att.content_type,
-            email_message: @message,
-            filename:      filename,
-          })
-          begin
-            attachment.save
-          rescue Encoding::UndefinedConversionError
-            @message.logs.push "Could not save an attachment"
-          end
-
-          sio = StringIO.new att.body.decoded
-          File.open("/tmp/#{filename}", 'w:UTF-8:ASCII-8BIT') do |f|
-            f.puts(sio.read)
-          end
-          asset3d = ::Gameui::Asset3d.new({
-            object: File.open("/tmp/#{filename}"),
-            email_message: @message,
-          })
-          if !asset3d.save
-            @message.logs.push "Could not save an asset3d"
-          end
-
-        else
-          @message.logs.push "Has an attachment with no filename?"
-        end
+        @message.save_attachment( att )
       end
 
       if !@message.save
