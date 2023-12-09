@@ -14,8 +14,7 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
   ## Mongo::Error::MaxBSONSize: The document exceeds maximum allowed BSON object size after serialization (on 10.138.2.145)
   object_key = 'k9n9qo03fii2in3ocj977nac0vj5djn07e110bg1'
 
-  ## Aws::S3::Errors::AccessDenied: Access Denied
-  object_key = '65599493689a51e44df5d9ad'
+  object_key = 'hlbg24s1ov5k7irgmqsrjp0kl95vpik8t1esvs81'
   MsgStub.where({ object_key: object_key }).delete
 
   stub = MsgStub.create!({ object_key: object_key })
@@ -70,6 +69,10 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       end
 
       @message   = ::Office::EmailMessage.where( message_id: message_id ).first
+      if !@message.from || '<no-from@gmail.com>' == @message.from
+        @message.update_attributes({ message_id: "+++no+from+#{@message.message_id}" })
+        @message = nil
+      end
       @message ||= ::Office::EmailMessage.create({
         # raw: raw,
         email_conversation_id: conv.id,
