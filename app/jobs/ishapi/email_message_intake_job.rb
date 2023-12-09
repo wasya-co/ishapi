@@ -69,10 +69,6 @@ class Ishapi::EmailMessageIntakeJob < Ishapi::ApplicationJob
       end
 
       @message   = ::Office::EmailMessage.where( message_id: message_id ).first
-      if !@message.from || '<no-from@gmail.com>' == @message.from
-        @message.update_attributes({ message_id: "+++no+from+#{@message.message_id}" })
-        @message = nil
-      end
       @message ||= ::Office::EmailMessage.create({
         # raw: raw,
         email_conversation_id: conv.id,
