@@ -1,4 +1,4 @@
-module Ishapi3
+module Ishapi
   class ApplicationJob < ActiveJob::Base
   end
 end

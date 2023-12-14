@@ -1,2 +1,7 @@
-Ishapi3::Engine.routes.draw do
+
+Ishapi::Engine.routes.draw do
+
+  root to: 'application#home'
+
 end
+

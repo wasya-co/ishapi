@@ -1,3 +1,3 @@
-module Ishapi3
+module Ishapi
   VERSION = '0.1.0'
 end

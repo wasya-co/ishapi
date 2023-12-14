@@ -1,10 +1,10 @@
-require_relative "lib/ishapi3/version"
+require_relative "lib/ishapi/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "ishapi3"
-  spec.version     = Ishapi3::VERSION
-  spec.authors     = ["mac_a2141"]
-  spec.email       = ["victor@piousbox.com"]
+  spec.name        = "ishapi"
+  spec.version     = Ishapi::VERSION
+  spec.authors     = ["Victor Pudeyev"]
+  spec.email       = ["victor@wasya.co"]
   spec.homepage    = "https://wasya.co"
   spec.summary     = "https://wasya.co"
   spec.description = "https://wasya.co"

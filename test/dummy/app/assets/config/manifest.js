@@ -1,3 +1,3 @@
 //= link_tree ../images
 //= link_directory ../stylesheets .css
-//= link ishapi3_manifest.js
+//= link ishapi_manifest.js
